@@ -4,7 +4,6 @@ import './Styles/App.css';
 
 const App: React.FC = function App() {
 
-
   return (
     <div className="App">
       <header className="App-header">

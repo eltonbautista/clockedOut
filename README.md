@@ -1,3 +1,20 @@
+# clockedOut
+
+### About:
+- A personal project that replicates the idea and structure/design of the popular business and employment-oriented online service: LinkedIn.
+
+- clockedOut is an application that focuses on the social aspects of gaming. It is a one-stop destination for creating lifetime companions, and remembering the nostalgia of our childhoods.
+
+- If you're tired of joining several different Discord servers, scouring through several game forums, or always playing with different individuals, then clockedOut might be worth checkingOn! (LOL)
+
+### Features:
+- The ability to create a personal profile that allows users to build their social network through posts (clocks // It's like tweets but different name), share media, and follow others.
+- Wonderfully laid out design that focuses on UX/UI.
+- A chat system that allows its users to simultaneously have conversations with one another.
+- Customizable themes.
+- Customizable user profile which allows the user to add the games they currently play, other activities they may enjoy, their timezone and what times they usually play (I should try to automatically convert this for users in different timezones), etc. 
+- // In LinkedIn there's a "Job" Link, I think for clockedOut I'll make it something like "Fireteams", when users click there they can type or direct themselves to a game's "forum", and in there there could be posts about other users who are trying to start a game or looking for companions to play with.
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
