@@ -28,6 +28,7 @@ const SOHeroContainer: React.FC<PropsHero> = () => {
           <p>This is where my description will go</p>
         </div>
         <div data-sohero-button-container>
+          {/* wrap SOButtons in a <Link /> which routes to SignUp and Login views */}
           <SOButtons size={'24px'} >Sign Up</SOButtons>
           <SOButtons color="white" bgColor="black" >Login</SOButtons>
         </div>
