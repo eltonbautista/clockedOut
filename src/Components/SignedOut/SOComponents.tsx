@@ -1,17 +1,10 @@
 import React from "react";
 import styled from "styled-components";
-
+import { SOButtons } from "../Buttons";
 const StyledProjectName = styled.h1`
 color: blue;
 font-size: 16px;
 `
-
-interface PropsDesc {
-  imgSrc?: string,
-  imgAlt?: string,
-  hText?: string,
-  pText?: string
-}
 
 interface PropsHero {
 
@@ -29,7 +22,7 @@ const SOHeroContainer: React.FC<PropsHero> = () => {
         </div>
         <div data-sohero-button-container>
           {/* wrap SOButtons in a <Link /> which routes to SignUp and Login views */}
-          <SOButtons size={'24px'} >Sign Up</SOButtons>
+          <SOButtons fontSize={'24px'} >Sign Up</SOButtons>
           <SOButtons color="white" bgColor="black" >Login</SOButtons>
         </div>
       </div>
@@ -40,13 +33,20 @@ const SOHeroContainer: React.FC<PropsHero> = () => {
   )
 }
 
+interface PropsDesc {
+  imgSrc?: string,
+  imgAlt?: string,
+  hText?: string,
+  pText?: string,
+}
+
 const SODescriptionContainers: React.FC<PropsDesc> = ({
-  hText, imgAlt, imgSrc, pText
+  hText, imgAlt, imgSrc, pText,
 }) => {
 
   return (
     <div data-signed-out data-description-container>
-      <div data-description-first>
+      <div data-description-first >
         {/* can change position of img/description using css*/}
         <img src={imgSrc} alt={imgAlt} ></img>
         <div>
@@ -58,17 +58,4 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
   );
 };
 
-interface iSOButton {
-  bgColor?: string,
-  color?: string,
-  size?: string,
-
-}
-
-const SOButtons = styled.button<iSOButton>`
-      background-color: ${props => props.bgColor};
-      color: ${props => props.color};
-      font-size: ${props => props.size ? props.size : '16px'};
-    `
-
-export { SOHeroContainer, SODescriptionContainers, SOButtons }
+export { SOHeroContainer, SODescriptionContainers, }

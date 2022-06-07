@@ -5,7 +5,8 @@ import userEvent from "@testing-library/user-event";
 
 import SignedOut from "../../Views/SignedOut";
 
-import { SODescriptionContainers, SOButtons } from "../../Components/SignedOut/SOComponents";
+import { SODescriptionContainers, } from "../../Components/SignedOut/SOComponents";
+import { SOButtons } from "../../Components/Buttons";
 
 describe('Tests for my SignedOut component', () => {
   it('Making sure SignedOut renders properly', () => {
@@ -26,7 +27,7 @@ describe('Tests for my SignedOut component', () => {
   });
 
   it('should render SOButtons with dynamic props', () => {
-    render(<SOButtons bgColor="black" color="white" size="12px">login</SOButtons>)
+    render(<SOButtons bgColor="black" color="white" fontSize="12px">login</SOButtons>)
 
     const SOButton = screen.getByText(/login/i);
     expect(SOButton).toBeInTheDocument();

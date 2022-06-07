@@ -1,6 +1,6 @@
 import React from "react"
 import styled from "styled-components";
-import { SODescriptionContainers, SOButtons, SOHeroContainer } from "../Components/SignedOut/SOComponents";
+import { SODescriptionContainers, SOHeroContainer } from "../Components/SignedOut/SOComponents";
 
 
 interface Props {
