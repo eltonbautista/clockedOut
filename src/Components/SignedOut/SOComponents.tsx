@@ -1,14 +1,45 @@
 import React from "react";
 import styled from "styled-components";
 
-interface Props {
+const StyledProjectName = styled.h1`
+color: blue;
+font-size: 16px;
+`
+
+interface PropsDesc {
   imgSrc?: string,
   imgAlt?: string,
   hText?: string,
   pText?: string
 }
 
-const SODescriptionContainers: React.FC<Props> = ({
+interface PropsHero {
+
+}
+
+const SOHeroContainer: React.FC<PropsHero> = () => {
+  return (
+    <div data-signed-out data-sohero-background>
+      <div data-signed-out data-sohero-body>
+        <div data-sohero-text>
+          <StyledProjectName>
+            Hello World
+          </StyledProjectName>
+          <p>This is where my description will go</p>
+        </div>
+        <div data-sohero-button-container>
+          <SOButtons size={'24px'} >Sign Up</SOButtons>
+          <SOButtons color="white" bgColor="black" >Login</SOButtons>
+        </div>
+      </div>
+      <div>
+        <img src="" alt=""></img>
+      </div>
+    </div>
+  )
+}
+
+const SODescriptionContainers: React.FC<PropsDesc> = ({
   hText, imgAlt, imgSrc, pText
 }) => {
 
@@ -39,4 +70,4 @@ const SOButtons = styled.button<iSOButton>`
       font-size: ${props => props.size ? props.size : '16px'};
     `
 
-export { SODescriptionContainers, SOButtons }
+export { SOHeroContainer, SODescriptionContainers, SOButtons }
