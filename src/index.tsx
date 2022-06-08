@@ -1,26 +1,14 @@
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './Styles/index.css';
-import App from './App';
 import reportWebVitals from './reportWebVitals';
-import {
-  BrowserRouter,
-  Routes,
-  Route
-} from "react-router-dom";
-
+import RouteSwitch from './RouteSwitch';
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
-    <BrowserRouter>
-      <Routes>
-        <Route path="/" element={<App />} >
-          {/* { VIEWS } */}
-        </Route>
-      </Routes>
-    </BrowserRouter>
+    <RouteSwitch />
   </React.StrictMode>
 );
 
