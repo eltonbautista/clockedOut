@@ -1,10 +1,12 @@
 import * as React from 'react';
 import LPInputDiv from '../Components/Forms';
-import { SOButtons } from '../Components/Buttons';
+import { SOButtons, ButtonHeader } from '../Components/Buttons';
 
 
 
 export interface ILoginProps {
+  nav?: Function,
+
 }
 
 export default function Login(props: ILoginProps) {
@@ -24,7 +26,10 @@ export default function Login(props: ILoginProps) {
           <div>
             <SOButtons bgColor="red" color="wheat" >Login</SOButtons>
             {/* TODO: add link to register page */}
-            <h5>Don't have an account? Link:register </h5>
+            {/*  */}
+            <SOButtons type='button' noStyle={true} onClick={() => props.nav?.('sign-up')} >
+              <ButtonHeader>Don't have an account?</ButtonHeader>
+            </SOButtons>
           </div>
         </div>
 

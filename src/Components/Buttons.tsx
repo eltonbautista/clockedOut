@@ -2,6 +2,7 @@ import * as React from 'react';
 import styled from 'styled-components';
 
 interface ISOButton {
+  noStyle?: boolean,
   formCheck?: boolean,
   bgColor?: string,
   color?: string,
@@ -11,17 +12,6 @@ interface ISOButton {
   padding?: string,
 }
 
-
-// const SOButtons = styled.button<ISOButton>`
-//   ${props => props.customStyle ? props.customStyle :
-//     `background-color: ${props.bgColor ? props.bgColor : 'red'}
-//      color: ${props.color ? props.color : 'wheat'};
-//      font-size: ${props.fontSize ? props.fontSize : '16px'};
-//      width: ${props.width ? props.width : 'fit-content'};
-//      height: ${props.height ? props.height : 'fit-content'};
-//      padding: ${props.padding ? props.padding : '7px'};
-//     `} `
-
 const SOButtons = styled.button<ISOButton>`
   background-color: ${props => props.formCheck ? 'red' : 'black'};
   color: ${props => props.formCheck ? 'wheat' : 'blue'};
@@ -29,5 +19,28 @@ const SOButtons = styled.button<ISOButton>`
   width: ${props => props.formCheck ? '100%' : 'max(100%, 120px)'};
   height: ${props => props.formCheck ? '100%' : 'max(100%, 100px)'};
   padding: ${props => props.formCheck ? '8px' : 'max(7px, 5px)'};
+  ${props => props.noStyle ?
+    `
+      background: none;
+      font-size: max(1.5vh, 14px);
+      border: none;
+      width: fit-content;
+      height: fit-content;
+      cursor: crosshair;
+      padding: 0;
+    ` : null}
 `;
-export { SOButtons }; 
+
+interface IButtonHeader {
+
+}
+
+const ButtonHeader = styled.h5`
+  margin: 0;
+  &:hover {
+    text-decoration: underline;
+    color: black;
+  }
+`;
+
+export { SOButtons, ButtonHeader }; 

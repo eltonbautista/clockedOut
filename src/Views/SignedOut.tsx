@@ -4,16 +4,16 @@ import { SODescriptionContainers, SOHeroContainer } from "../Components/SignedOu
 
 
 interface Props {
-
+  nav?: Function,
 }
 
-const SignedOut: React.FC<Props> = () => {
+const SignedOut: React.FC<Props> = (props) => {
 
 
   return (
     // FIRST SCROLLED VIEW
     <div>
-      <SOHeroContainer />
+      <SOHeroContainer nav={props.nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
         <SODescriptionContainers hText="" imgAlt="" imgSrc="" pText="" />      <SODescriptionContainers hText="" imgAlt="" imgSrc="" pText="" />
