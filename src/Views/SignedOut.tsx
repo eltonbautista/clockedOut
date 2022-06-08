@@ -7,20 +7,28 @@ interface Props {
   nav?: Function,
 }
 
+const StyledSignedOut = styled.div`
+  display: grid;
+  background-color: wheat;
+  /* min-height: 100vh; */
+  min-height: 100vh;
+`;
+
 const SignedOut: React.FC<Props> = (props) => {
 
 
   return (
     // FIRST SCROLLED VIEW
-    <div>
+    <StyledSignedOut>
       <SOHeroContainer nav={props.nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
-        <SODescriptionContainers hText="" imgAlt="" imgSrc="" pText="" />      <SODescriptionContainers hText="" imgAlt="" imgSrc="" pText="" />
-        <SODescriptionContainers hText="" imgAlt="" imgSrc="" pText="" />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="one" pText="" />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="two" pText="" />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="three" pText="" />
       </div>
 
-    </div>
+    </StyledSignedOut>
   );
 };
 

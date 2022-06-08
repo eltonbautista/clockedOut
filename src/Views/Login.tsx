@@ -25,8 +25,6 @@ export default function Login(props: ILoginProps) {
           </div>
           <div>
             <SOButtons bgColor="red" color="wheat" >Login</SOButtons>
-            {/* TODO: add link to register page */}
-            {/*  */}
             <SOButtons type='button' noStyle={true} onClick={() => props.nav?.('sign-up')} >
               <ButtonHeader>Don't have an account?</ButtonHeader>
             </SOButtons>

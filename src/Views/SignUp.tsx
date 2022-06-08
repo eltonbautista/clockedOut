@@ -23,13 +23,11 @@ export default function SignUp(props: ISignUpProps) {
               <LPInputDiv hContent='Username' />
               <LPInputDiv hContent='Password' />
               <SOButtons type='submit' formCheck={true} >Create Account</SOButtons>
-              {/* TODO: <Link /> to Login page */}
               <SOButtons type='button' onClick={() => props.nav?.('login')} noStyle={true} >
                 <ButtonHeader>
                   Already have an account?
                 </ButtonHeader>
               </SOButtons>
-              {/* <button onClick={() => props.nav?.('login')}>Already have an account?</button> */}
             </div>
           </div>
         </form>

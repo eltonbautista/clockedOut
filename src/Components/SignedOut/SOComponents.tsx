@@ -1,7 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import { SOButtons, } from "../Buttons";
-import { useNavigate, useHref, To } from "react-router-dom";
+import stylesModule from '../../Styles/SignedOut.module.css';
+
+
 const StyledProjectName = styled.h1`
 color: blue;
 font-size: 16px;
@@ -11,11 +13,20 @@ interface PropsHero {
   nav?: Function,
 }
 
+const StyledHeroContainer = styled.div`
+  display: grid;
+
+
+  div:last-of-type {
+    background-color: blue;
+  }
+`;
+
 const SOHeroContainer: React.FC<PropsHero> = (props) => {
   // const nav = useNavigate();
 
   return (
-    <div data-signed-out data-sohero-background>
+    <StyledHeroContainer data-signed-out data-sohero-background>
       <div data-signed-out data-sohero-body>
         <div data-sohero-text>
           <StyledProjectName>
@@ -31,7 +42,7 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
       <div>
         <img src="" alt=""></img>
       </div>
-    </div>
+    </StyledHeroContainer>
   );
 };
 
