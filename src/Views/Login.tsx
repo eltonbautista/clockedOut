@@ -22,7 +22,7 @@ export default function Login(props: ILoginProps) {
             <LPInputDiv hContent="Password" />
           </div>
           <div>
-            <SOButtons bgColor="red" color="wheat" />
+            <SOButtons bgColor="red" color="wheat" >Login</SOButtons>
             {/* TODO: add link to register page */}
             <h5>Don't have an account? Link:register </h5>
           </div>

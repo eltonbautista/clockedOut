@@ -27,13 +27,13 @@ describe('Tests for my SignedOut component', () => {
   });
 
   it('should render SOButtons with dynamic props', () => {
-    render(<SOButtons bgColor="black" color="white" fontSize="12px">login</SOButtons>)
+    render(<SOButtons >login</SOButtons>)
 
     const SOButton = screen.getByText(/login/i);
     expect(SOButton).toBeInTheDocument();
-    expect(SOButton).toHaveStyle('color: white');
+    expect(SOButton).toHaveStyle('color: blue');
     expect(SOButton).toHaveStyle('background-color: black');
-    expect(SOButton).toHaveStyle('font-size: 12px');
+    expect(SOButton).toHaveStyle('font-size: max(1.5vh,16px)');
 
   });
 
