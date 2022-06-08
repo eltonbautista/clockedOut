@@ -7,17 +7,22 @@ import SignedOut from "../../Views/SignedOut";
 
 import { SODescriptionContainers, } from "../../Components/SignedOut/SOComponents";
 import { SOButtons } from "../../Components/Buttons";
+import { BrowserRouter } from "react-router-dom";
 
 describe('Tests for my SignedOut component', () => {
   it('Making sure SignedOut renders properly', () => {
-    render(<SignedOut />);
+    render(
+      <BrowserRouter>
+        <SignedOut />
+      </BrowserRouter>
+    );
     const text = screen.getByText(/hello world/i);
 
     expect(text).toBeInTheDocument();
   });
 
   it('SODescriptionContainers should render a div and img with correct properties', () => {
-    render(<SODescriptionContainers hText="header" imgAlt="img alt" imgSrc="img src" pText="Paragraph" />)
+    render(<SODescriptionContainers hText="header" imgAlt="img alt" imgSrc="img src" pText="Paragraph" />);
 
     const descriptionH = screen.getByText('header');
     const imgSrc = screen.getByRole('img');
@@ -27,7 +32,7 @@ describe('Tests for my SignedOut component', () => {
   });
 
   it('should render SOButtons with dynamic props', () => {
-    render(<SOButtons >login</SOButtons>)
+    render(<SOButtons >login</SOButtons>);
 
     const SOButton = screen.getByText(/login/i);
     expect(SOButton).toBeInTheDocument();

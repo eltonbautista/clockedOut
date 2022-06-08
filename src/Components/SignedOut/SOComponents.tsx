@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 import { SOButtons } from "../Buttons";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useHref, To } from "react-router-dom";
 const StyledProjectName = styled.h1`
 color: blue;
 font-size: 16px;
@@ -24,7 +24,6 @@ const SOHeroContainer: React.FC<PropsHero> = () => {
           <p>This is where my description will go</p>
         </div>
         <div data-sohero-button-container>
-          {/* wrap SOButtons in a <Link /> which routes to SignUp and Login views */}
           <SOButtons onClick={((e) => { nav('login'); })} color="white" bgColor="black" >Login</SOButtons>
           <SOButtons onClick={((e) => { nav('sign-up'); })} fontSize={'24px'} >Sign Up</SOButtons>
         </div>
