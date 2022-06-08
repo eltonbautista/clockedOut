@@ -1,16 +1,19 @@
 import React from "react";
 import styled from "styled-components";
 import { SOButtons } from "../Buttons";
+import { useNavigate } from "react-router-dom";
 const StyledProjectName = styled.h1`
 color: blue;
 font-size: 16px;
-`
+`;
 
 interface PropsHero {
 
 }
 
 const SOHeroContainer: React.FC<PropsHero> = () => {
+  const nav = useNavigate();
+
   return (
     <div data-signed-out data-sohero-background>
       <div data-signed-out data-sohero-body>
@@ -22,16 +25,16 @@ const SOHeroContainer: React.FC<PropsHero> = () => {
         </div>
         <div data-sohero-button-container>
           {/* wrap SOButtons in a <Link /> which routes to SignUp and Login views */}
-          <SOButtons fontSize={'24px'} >Sign Up</SOButtons>
-          <SOButtons color="white" bgColor="black" >Login</SOButtons>
+          <SOButtons onClick={((e) => { nav('login'); })} color="white" bgColor="black" >Login</SOButtons>
+          <SOButtons onClick={((e) => { nav('sign-up'); })} fontSize={'24px'} >Sign Up</SOButtons>
         </div>
       </div>
       <div>
         <img src="" alt=""></img>
       </div>
     </div>
-  )
-}
+  );
+};
 
 interface PropsDesc {
   imgSrc?: string,
@@ -58,4 +61,4 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
   );
 };
 
-export { SOHeroContainer, SODescriptionContainers, }
+export { SOHeroContainer, SODescriptionContainers, };
