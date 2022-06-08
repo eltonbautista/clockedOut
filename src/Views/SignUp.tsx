@@ -4,7 +4,6 @@ import { SOButtons } from '../Components/Buttons';
 
 
 export interface ISignUpProps {
-
 }
 
 export default function SignUp(props: ISignUpProps) {
