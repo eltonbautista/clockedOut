@@ -28,7 +28,7 @@ const StyledHeroContainer = styled.div`
     display: grid;
     width: 100%;
     grid-template-rows: 0.3fr 0.3fr;
-
+    margin-top: 5%;
     justify-content: center;
     justify-items: center;
     box-sizing: border-box;
@@ -43,14 +43,14 @@ const StyledHeroContainer = styled.div`
   div[data-sohero-text] > p {
     width: min(800px, 60%);
     justify-self: center;
-    font-size: min(2.5vh, 26px);
+    font-size: clamp(14px, 2.5vh, 26px);
     color: wheat;
     z-index: 1;
   }
 
   div[data-sohero-button-container] {
     display: grid;
-    grid-template-rows: repeat(2, 1fr);
+    grid-template-rows: repeat(2, 0.4fr);
     width: min(300px, 30vw);
     height: 100%;
     justify-items: center;

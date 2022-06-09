@@ -54,6 +54,10 @@ h6 {
   isolation: isolate;
 }
 
+#root {
+  height: 100%;
+}
+
 @font-face {
   font-family: ostrichSans;
   src: url('./assets/ostrich-sans-master/OstrichSans-Bold.otf');

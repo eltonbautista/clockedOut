@@ -12,7 +12,7 @@ const fillerText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mo
 
 const StyledSignedOut = styled.div`
   display: grid;
-  /* background-color: wheat; */
+  /* background-color: #f5b3f3; */
   height: 100%;
   
   >div:nth-child(2) {

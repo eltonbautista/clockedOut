@@ -1,21 +1,26 @@
 import * as React from 'react';
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
-
+import { StyledLoginPage, StyledForm, StyledFormContainers } from './Login';
+import styled from 'styled-components';
 
 export interface ISignUpProps {
   nav?: Function,
 
 }
 
-export default function SignUp(props: ISignUpProps) {
+const StyledSUForm = styled(StyledForm)`
+  margin-top: 30%;
+  padding: 35px;
+`;
 
+export default function SignUp(props: ISignUpProps) {
 
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes
-    <div id='sign-up-body'>
+    <StyledLoginPage id='sign-up-body'>
       <div id='su-form-container'>
-        <form id='su-form'>
+        <StyledSUForm id='su-form'>
           <div>
             <h3>Create an account</h3>
             <div>
@@ -30,8 +35,8 @@ export default function SignUp(props: ISignUpProps) {
               </SOButtons>
             </div>
           </div>
-        </form>
+        </StyledSUForm>
       </div>
-    </div>
+    </StyledLoginPage>
   );
 }

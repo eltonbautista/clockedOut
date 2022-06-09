@@ -17,11 +17,16 @@
 - // In LinkedIn there's a "Job" Link, I think for clockedOut I'll make it something like "Fireteams", when users click there they can type or direct themselves to a game's "forum", and in there there could be posts about other users who are trying to start a game or looking for companions to play with.
 
 
-Assets used: 
+__Assets used: 
+
+Vectors:
+- https://www.vecteezy.com/vector-art/1933357-game-on-neon-signs-style-text-vector
 
 - https://www.vecteezy.com/vector-art/2304430-game-room-interior-night-stream-play-video-games-on-the-console-big-tv-screen-two-armchairs-battle-start-vector-illustration
 
 - https://www.vecteezy.com/vector-art/2267618-lets-play-neon-signs-style-text-vector
+
+Fonts:
 
 - Grenze font: https://www.omnibus-type.com/fonts/grenze/
 
