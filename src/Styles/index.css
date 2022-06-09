@@ -58,3 +58,13 @@ h6 {
   font-family: ostrichSans;
   src: url('./assets/ostrich-sans-master/OstrichSans-Bold.otf');
 }
+
+@font-face {
+  font-family: ostrichSansHeavy;
+  src: url('./assets/ostrich-sans-master/OstrichSansRounded-Medium.otf');
+}
+
+@font-face {
+  font-family: grenze;
+  src: url('./assets/Grenze-Thin.otf');
+}

@@ -1,5 +1,6 @@
 # clockedOut
 
+
 ### About:
 - A personal project that replicates the idea and structure/design of the popular business and employment-oriented online service: LinkedIn.
 
@@ -14,6 +15,15 @@
 - Customizable themes.
 - Customizable user profile which allows the user to add the games they currently play, other activities they may enjoy, their timezone and what times they usually play (I should try to automatically convert this for users in different timezones), etc. 
 - // In LinkedIn there's a "Job" Link, I think for clockedOut I'll make it something like "Fireteams", when users click there they can type or direct themselves to a game's "forum", and in there there could be posts about other users who are trying to start a game or looking for companions to play with.
+
+
+Assets used: 
+
+- https://www.vecteezy.com/vector-art/2304430-game-room-interior-night-stream-play-video-games-on-the-console-big-tv-screen-two-armchairs-battle-start-vector-illustration
+
+- https://www.vecteezy.com/vector-art/2267618-lets-play-neon-signs-style-text-vector
+
+- Grenze font: https://www.omnibus-type.com/fonts/grenze/
 
 # Getting Started with Create React App
 
