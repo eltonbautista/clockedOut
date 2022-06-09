@@ -14,11 +14,11 @@ const App: React.FC = function App() {
   return (
     <div className="App">
       <h1 onClick={() => navigate('/')}>clockedOut</h1>
-      <nav id='navbar'>
+      {/* <nav id='navbar'>
         <Link to={'/'} >Home</Link>
         <Link to={'/login'} >Login</Link>
         <Link to={'/sign-up'} >Sign Up</Link>
-      </nav>
+      </nav> */}
       <Routes>
         <Route path='/' element={<SignedOut nav={navigate} />}></Route>
         <Route path='/login' element={<Login nav={navigate} />}></Route>

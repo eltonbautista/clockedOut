@@ -7,11 +7,12 @@ interface Props {
   nav?: Function,
 }
 
+const fillerText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias ab corporis beatae eveniet aliquam at ea sequi quasi minima saepe! Hic saepe aut ipsum aliquam eos delectus, quo ab dolor?';
+
 const StyledSignedOut = styled.div`
   display: grid;
   background-color: wheat;
-  /* min-height: 100vh; */
-  min-height: 100vh;
+  height: 100%;
 `;
 
 const SignedOut: React.FC<Props> = (props) => {
@@ -23,9 +24,9 @@ const SignedOut: React.FC<Props> = (props) => {
       <SOHeroContainer nav={props.nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
-        <SODescriptionContainers imgAlt="" imgSrc="" hText="one" pText="" />
-        <SODescriptionContainers imgAlt="" imgSrc="" hText="two" pText="" />
-        <SODescriptionContainers imgAlt="" imgSrc="" hText="three" pText="" />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="one" pText={fillerText} />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="two" pText={fillerText} />
+        <SODescriptionContainers imgAlt="" imgSrc="" hText="three" pText={fillerText} />
       </div>
 
     </StyledSignedOut>

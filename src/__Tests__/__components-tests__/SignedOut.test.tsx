@@ -16,7 +16,7 @@ describe('Tests for my SignedOut component', () => {
         <SignedOut />
       </BrowserRouter>
     );
-    const text = screen.getByText(/hello world/i);
+    const text = screen.getByText(/create connections/i);
 
     expect(text).toBeInTheDocument();
   });

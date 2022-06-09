@@ -15,7 +15,7 @@ describe('Global App testing', () => {
         </BrowserRouter>);
     });
 
-    const text = screen.getByText(/Hello World/i);
+    const text = screen.getByText(/clockedOut/i);
     expect(text).toBeInTheDocument();
   });
 
@@ -26,14 +26,13 @@ describe('Global App testing', () => {
           <App />
         </BrowserRouter>);
     });
-    const [home, login, signUp] = screen.getAllByRole('link');
+    const login = screen.getByText('Login');
 
     userEvent.click(login);
     expect(screen.getByText(/welcome back!/i)).toBeInTheDocument();
+    const signUp = screen.getByText(/don't have an account?/i);
     userEvent.click(signUp);
     expect(screen.getByText(/create an account/i)).toBeInTheDocument();
-    userEvent.click(home);
-    expect(screen.getByText(/Hello world/i)).toBeInTheDocument();
   });
 
 });
