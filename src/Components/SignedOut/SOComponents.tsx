@@ -114,7 +114,7 @@ interface PropsDesc {
 
 const StyledDescContainer = styled.div<PropsDesc>`
   background-color: ${props => props.imgRight ? '#5b3864' : '#74527d'};
-  ${props => props.last ? `background-color: #91679d` : null};
+  ${props => props.last ? `background-color: #5b3864` : null};
   
   > div[data-description-first] {
     display: grid;
@@ -135,7 +135,7 @@ const StyledDescContainer = styled.div<PropsDesc>`
     grid-area: text;
     font-family: ostrichSansHeavy;
     color: ${props => props.imgRight ? 'wheat' : 'red'};
-    ${props => props.last ? `color: black` : null};
+    ${props => props.last ? `color: #d39a9a` : null};
     font-size: ${props => props.imgRight ? 'min(2.4vh, 24px)' : 'min(2.5vh, 26px)'};
     letter-spacing: 1px;
 
@@ -153,7 +153,6 @@ const StyledDescContainer = styled.div<PropsDesc>`
 const SODescriptionContainers: React.FC<PropsDesc> = ({
   hText, imgAlt, imgSrc, pText, imgRight, last
 }) => {
-  console.log(imgRight);
   return (
     <StyledDescContainer last={last} imgRight={imgRight} >
       <div data-description-first >

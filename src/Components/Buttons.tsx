@@ -33,6 +33,7 @@ const SOButtons = styled.button<ISOButton>`
 
   &:hover {
     color: pink;
+    cursor: crosshair;
   }
 `;
 

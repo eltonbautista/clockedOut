@@ -16,11 +16,9 @@ export const StyledForm = styled.form`
   border-radius: 8%;
   display: grid;
   box-shadow: 0 0 2px #fff, 0 0 10px #fff, 0 0 20px #ff69fa, 0 0 20px #ff69fa,
-  0 0 30px #ff69fa, 0 0 20px #ff69fa, 0 0 2px  inset #fff, 0 0 10px inset  #fff, 0 0 20px inset  #ff69fa, 0 0 20px inset  #ff69fa,
-  0 0 30px inset  #ff69fa, 0 0 20px inset  #ff69fa;
+  0 0 40px #ff69fa, 0 0 20px #ff69fa, 0 0 2px  inset #fff, 0 0 10px inset  #fff, 0 0 20px inset  #ff69fa, 0 0 20px inset  #ff69fa,
+  0 0 40px inset  #ff69fa, 0 0 20px inset  #ff69fa;
   > div {
-    /* display: grid; */
-    /* width: 97%; */
     justify-self: center;
   }
 `;
