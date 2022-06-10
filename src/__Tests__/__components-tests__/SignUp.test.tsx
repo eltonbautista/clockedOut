@@ -7,7 +7,7 @@ import userEvent from "@testing-library/user-event";
 
 describe('SignUp component tests', () => {
   it('should render SignUp elements with appropriate props', () => {
-    render(<SignUp />);
+    render(<SignUp inputInfo={{}} />);
 
     const emailInput = screen.getByText(/email/i);
     const submitButton = screen.getByText(/create account/i);

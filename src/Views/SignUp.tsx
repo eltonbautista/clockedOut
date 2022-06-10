@@ -1,20 +1,27 @@
-import * as React from 'react';
+import React, { createContext, useContext } from "react";
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import { StyledLoginPage, StyledForm, StyledFormContainers } from './Login';
 import styled from 'styled-components';
+import { UserContext } from '../Helpers/Contexts';
 
-export interface ISignUpProps {
-  nav?: Function,
-
-}
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
   padding: 35px;
 `;
 
+export interface ISignUpProps {
+  nav?: Function,
+  inputInfo: object,
+}
+
+
 export default function SignUp(props: ISignUpProps) {
+  // const { nav, inputInfo } = props;
+  console.log(props.inputInfo);
+  const userInformation = useContext(UserContext);
+  console.log(userInformation.userData);
 
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes

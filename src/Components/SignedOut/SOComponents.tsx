@@ -156,7 +156,6 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
   return (
     <StyledDescContainer last={last} imgRight={imgRight} >
       <div data-description-first >
-        {/* can change position of img/description using css*/}
         <img src={imgSrc} alt={imgAlt} ></img>
         <div>
           <h2>{hText}</h2>

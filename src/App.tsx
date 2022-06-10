@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Styles/App.css';
 import SignedOut from './Views/SignedOut';
 import SignUp from './Views/SignUp';
@@ -6,6 +6,7 @@ import Login from './Views/Login';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
+import { UserContext } from './Helpers/Contexts';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -30,9 +31,16 @@ const StyledAppContainer = styled.div`
 `;
 
 const App: React.FC = function App() {
-  // Have navbar, mainpage displays SignedOut, links route to others
 
+  // HOOKS & STATES
   const navigate = useNavigate();
+  const [userData, setUserData] = useState({
+    email: '',
+    username: '',
+    password: '',
+  });
+
+  const UCProviderVal = useMemo(() => ({ userData, setUserData }), [userData, setUserData]);
 
   return (
     <StyledAppContainer className="App">
@@ -45,11 +53,15 @@ const App: React.FC = function App() {
         <Link to={'/login'} >Login</Link>
         <Link to={'/sign-up'} >Sign Up</Link>
       </nav> */}
-      <Routes>
-        <Route path='/' element={<SignedOut nav={navigate} />}></Route>
-        <Route path='/login' element={<Login nav={navigate} />}></Route>
-        <Route path='/sign-up' element={<SignUp nav={navigate} />}></Route>
-      </Routes>
+      <UserContext.Provider value={UCProviderVal}>
+
+        <Routes>
+          <Route path='/' element={<SignedOut nav={navigate} />}></Route>
+          <Route path='/login' element={<Login nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputInfo={UCProviderVal} nav={navigate} />}></Route>
+        </Routes>
+
+      </UserContext.Provider>
       <div id='app-child-container'>
         <Outlet />
       </div>

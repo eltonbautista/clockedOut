@@ -1,6 +1,8 @@
-import * as React from 'react';
+import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StyledFormContainers } from '../Views/Login';
+import { UserContext } from '../Helpers/Contexts';
+
 
 const StyledH5 = styled.h5`
   font-family: ostrichSansHeavy;
@@ -10,10 +12,6 @@ const StyledH5 = styled.h5`
   width: 100%;
 `;
 
-export interface ILPInputDivProps {
-  dataAttr?: string,
-  hContent?: string,
-}
 
 const StyledInput = styled.input`
   margin-top: 5px;
@@ -30,9 +28,16 @@ const FooContainer = styled.div`
   width: 100%;
 `;
 
+export interface ILPInputDivProps {
+  hContent?: string,
+  inputVal?: string,
+  inputHandler?: Function,
+}
 
 export default function LPInputDiv(props: ILPInputDivProps) {
   const { hContent } = props;
+  // const UserInformation = useContext(UserContext);
+
   return (
     <TestContainer>
       <StyledH5>
