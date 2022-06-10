@@ -33,14 +33,42 @@ const StyledAppContainer = styled.div`
 const App: React.FC = function App() {
 
   // HOOKS & STATES
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState({
+  const initVal: object = {
     email: '',
     username: '',
     password: '',
-  });
+  };
+  type foobar = {
+    email?: string,
+    username?: string,
+    password?: string,
+    [key: string]: any;
+  };
+  const navigate = useNavigate();
+  const [userData, setUserData] = useState({} as foobar);
 
   const UCProviderVal = useMemo(() => ({ userData, setUserData }), [userData, setUserData]);
+
+  const inputHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const inputValue = e.target.value;
+    console.log(e.target.attributes);
+    // TODO: Figure out a way to do bracket notation on foo so that we can dynamically choose which prevState property is being changed.
+    interface ipro {
+      email: string,
+      username: string,
+      password: string,
+    }
+    interface test {
+      [key: string]: any;
+    }
+    setUserData((prevState: ipro) => {
+      const foo: test = { ...prevState };
+      // 
+      // foo[key] = inputValue;
+      return { ...foo };
+    });
+  };
+
 
   return (
     <StyledAppContainer className="App">
@@ -58,7 +86,7 @@ const App: React.FC = function App() {
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
           <Route path='/login' element={<Login nav={navigate} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputInfo={UCProviderVal} nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputHandler={inputHandler} inputInfo={userData} nav={navigate} />}></Route>
         </Routes>
 
       </UserContext.Provider>

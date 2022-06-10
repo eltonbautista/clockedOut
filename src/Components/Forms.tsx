@@ -31,7 +31,7 @@ const FooContainer = styled.div`
 export interface ILPInputDivProps {
   hContent?: string,
   inputVal?: string,
-  inputHandler?: Function,
+  inputHandler?: React.ChangeEventHandler<HTMLInputElement>,
 }
 
 export default function LPInputDiv(props: ILPInputDivProps) {
@@ -44,7 +44,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput type={'text'}></StyledInput>
+        <StyledInput onChange={props.inputHandler} value={props.inputVal} type={'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

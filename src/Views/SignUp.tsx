@@ -14,14 +14,34 @@ const StyledSUForm = styled(StyledForm)`
 export interface ISignUpProps {
   nav?: Function,
   inputInfo: object,
+  inputHandler?: React.ChangeEventHandler<HTMLInputElement>,
 }
 
 
 export default function SignUp(props: ISignUpProps) {
   // const { nav, inputInfo } = props;
-  console.log(props.inputInfo);
-  const userInformation = useContext(UserContext);
-  console.log(userInformation.userData);
+
+  // const { userData, setUserData } = useContext<{ userData: object, setUserData: Function; }>(UserContext);
+  // const userInformation: {
+  //   email?: string,
+  //   username?: string,
+  //   password?: string,
+  // } = userData;
+
+  // const inputHandler = (e: any) => {
+  //   const val = e.target.value;
+  //   setUserData({ userData, ...val });
+  // };
+  type userInfo = {
+    email: string,
+    username: string,
+    password: string,
+  };
+  const userInformation: {
+    email?: string,
+    username?: string,
+    password?: string,
+  } = props.inputInfo;
 
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes
@@ -31,7 +51,7 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv hContent='Email' />
+              <LPInputDiv inputHandler={props.inputHandler} hContent='Email' inputVal={userInformation.email} />
               <LPInputDiv hContent='Username' />
               <LPInputDiv hContent='Password' />
               <SOButtons type='submit' formCheck={true} >Create Account</SOButtons>
