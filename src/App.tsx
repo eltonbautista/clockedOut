@@ -7,7 +7,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData } from './Helpers/interface';
+import { IData, ITest } from './Helpers/interface';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -35,25 +35,38 @@ const App: React.FC = function App() {
 
   // HOOKS & STATES
 
-  const initData: IData = {
+  const initSignUpData: IData = {
     email: '',
     username: '',
     password: '',
   };
 
-  const navigate = useNavigate();
-  const [userData, setUserData] = useState(initData);
-
-  const UCProviderVal = useMemo(() => ({ userData, setUserData }), [userData, setUserData]);
-
-  const inputHandler = (e: any, key: keyof IData) => {
-
-    userData[key] = e.target.value;
-    setUserData({ ...userData });
-    console.log(userData);
+  const initLoginData: ITest = {
+    email: '',
+    password: ''
   };
 
-  console.log(userData);
+  // const initLoginData = 
+
+  const navigate = useNavigate();
+  const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
+  const [userLoginData, setUserLoginData] = useState(initLoginData);
+
+  const UCProviderVal = useMemo(() => ({ userData: userSignUpData, setUserData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
+
+  const signUpInputHandler = (e: any, key: keyof IData): void => {
+    userSignUpData[key] = e.target.value;
+    setUserSignUpData({ ...userSignUpData });
+    console.log(userSignUpData);
+  };
+
+  const loginInputHandler = (e: any, key: keyof IData): void => {
+    userLoginData[key] = e.target.value;
+    setUserLoginData({ ...userLoginData });
+    console.log(userLoginData);
+    console.log(userSignUpData);
+  };
+  console.log(userLoginData);
 
   return (
     <StyledAppContainer className="App">
@@ -70,8 +83,8 @@ const App: React.FC = function App() {
 
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
-          <Route path='/login' element={<Login nav={navigate} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputHandler={inputHandler} inputInfo={userData} nav={navigate} />}></Route>
+          <Route path='/login' element={<Login inputHandler={loginInputHandler} inputInfo={userLoginData} nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputHandler={signUpInputHandler} inputInfo={userSignUpData} nav={navigate} />}></Route>
         </Routes>
 
       </UserContext.Provider>

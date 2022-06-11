@@ -17,6 +17,7 @@ const StyledH5 = styled.h5`
 const StyledInput = styled.input`
   margin-top: 5px;
   width: 100%;
+  font-family: grenze;
 `;
 
 const TestContainer = styled.div`
@@ -38,6 +39,7 @@ export interface ILPInputDivProps {
 
 export default function LPInputDiv(props: ILPInputDivProps) {
   const { hContent, forIdentifier, inputVal, inputHandler } = props;
+
   // const UserInformation = useContext(UserContext);
 
   return (
@@ -46,7 +48,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput onChange={(e) => inputHandler?.(e, forIdentifier)} value={inputVal} type={'text'}></StyledInput>
+        <StyledInput onChange={(e) => inputHandler?.(e, forIdentifier)} type={'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

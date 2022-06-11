@@ -3,7 +3,7 @@ import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import backgroundImage from '../Styles/assets/31.jpg';
-
+import { IData } from "../Helpers/interface";
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -44,7 +44,8 @@ export const StyledLoginPage = styled.div`
 
 export interface ILoginProps {
   nav?: Function,
-
+  inputInfo: object;
+  inputHandler?: (e: any, key: keyof IData) => void;
 }
 
 export default function Login(props: ILoginProps) {
@@ -59,8 +60,8 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div data-lp-inputs-container>
-            <LPInputDiv forIdentifier='email' hContent="Email or Username" />
-            <LPInputDiv forIdentifier='username' hContent="Password" />
+            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent="Email" />
+            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent="Password" />
           </div>
           <div>
             <SOButtons formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
