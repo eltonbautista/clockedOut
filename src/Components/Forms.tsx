@@ -30,13 +30,14 @@ const FooContainer = styled.div`
 `;
 
 export interface ILPInputDivProps {
-  hContent?: string,
-  inputVal?: string,
-  inputHandler?: (e: any, key: keyof IData) => void,
+  hContent?: string;
+  forIdentifier: "email" | "username" | "password";
+  inputVal?: string;
+  inputHandler?: (e: any, key: keyof IData) => void;
 }
 
 export default function LPInputDiv(props: ILPInputDivProps) {
-  const { hContent } = props;
+  const { hContent, forIdentifier, inputVal, inputHandler } = props;
   // const UserInformation = useContext(UserContext);
 
   return (
@@ -45,7 +46,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput onChange={(e) => props.inputHandler?.(e, '')} value={props.inputVal} type={'text'}></StyledInput>
+        <StyledInput onChange={(e) => inputHandler?.(e, forIdentifier)} value={inputVal} type={'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

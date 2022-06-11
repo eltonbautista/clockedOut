@@ -59,8 +59,8 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div data-lp-inputs-container>
-            <LPInputDiv hContent="Email or Username" />
-            <LPInputDiv hContent="Password" />
+            <LPInputDiv forIdentifier='email' hContent="Email or Username" />
+            <LPInputDiv forIdentifier='username' hContent="Password" />
           </div>
           <div>
             <SOButtons formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>

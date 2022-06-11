@@ -28,9 +28,9 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} hContent='email' />
-              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'username')} hContent='username' />
-              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} hContent='password' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent='Email' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent='Username' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
               <SOButtons type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('login')} noStyle={true} >
                 <ButtonHeader>
