@@ -1,7 +1,8 @@
 import React, { useContext } from 'react';
 import styled from 'styled-components';
 import { StyledFormContainers } from '../Views/Login';
-import { UserContext } from '../Helpers/Contexts';
+import { UserContext } from '../Helpers/contexts';
+import { IData } from '../Helpers/interface';
 
 
 const StyledH5 = styled.h5`
@@ -31,7 +32,7 @@ const FooContainer = styled.div`
 export interface ILPInputDivProps {
   hContent?: string,
   inputVal?: string,
-  inputHandler?: React.ChangeEventHandler<HTMLInputElement>,
+  inputHandler?: (e: any, key: keyof IData) => void,
 }
 
 export default function LPInputDiv(props: ILPInputDivProps) {
@@ -44,7 +45,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput onChange={props.inputHandler} value={props.inputVal} type={'text'}></StyledInput>
+        <StyledInput onChange={(e) => props.inputHandler?.(e, '')} value={props.inputVal} type={'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

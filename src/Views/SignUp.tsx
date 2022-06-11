@@ -3,8 +3,8 @@ import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import { StyledLoginPage, StyledForm, StyledFormContainers } from './Login';
 import styled from 'styled-components';
-import { UserContext } from '../Helpers/Contexts';
-
+import { UserContext } from '../Helpers/contexts';
+import { IData } from "../Helpers/interface";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
@@ -14,34 +14,11 @@ const StyledSUForm = styled(StyledForm)`
 export interface ISignUpProps {
   nav?: Function,
   inputInfo: object,
-  inputHandler?: React.ChangeEventHandler<HTMLInputElement>,
+  inputHandler?: (e: any, key: keyof IData) => void,
 }
 
 
 export default function SignUp(props: ISignUpProps) {
-  // const { nav, inputInfo } = props;
-
-  // const { userData, setUserData } = useContext<{ userData: object, setUserData: Function; }>(UserContext);
-  // const userInformation: {
-  //   email?: string,
-  //   username?: string,
-  //   password?: string,
-  // } = userData;
-
-  // const inputHandler = (e: any) => {
-  //   const val = e.target.value;
-  //   setUserData({ userData, ...val });
-  // };
-  type userInfo = {
-    email: string,
-    username: string,
-    password: string,
-  };
-  const userInformation: {
-    email?: string,
-    username?: string,
-    password?: string,
-  } = props.inputInfo;
 
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes
@@ -51,9 +28,9 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv inputHandler={props.inputHandler} hContent='Email' inputVal={userInformation.email} />
-              <LPInputDiv hContent='Username' />
-              <LPInputDiv hContent='Password' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} hContent='email' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'username')} hContent='username' />
+              <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} hContent='password' />
               <SOButtons type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('login')} noStyle={true} >
                 <ButtonHeader>
