@@ -13,7 +13,6 @@ const StyledSUForm = styled(StyledForm)`
 
 export interface ISignUpProps {
   nav?: Function,
-  inputInfo: object,
   inputHandler?: (e: any, key: keyof IData) => void,
 }
 

@@ -4,8 +4,8 @@ export interface IData {
   password: string;
 };
 
-export interface ITest {
-  email: string;
+export interface ILoginInput {
+  username: string;
   password: string;
   [key: string]: any;
 }

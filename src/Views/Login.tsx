@@ -44,7 +44,6 @@ export const StyledLoginPage = styled.div`
 
 export interface ILoginProps {
   nav?: Function,
-  inputInfo: object;
   inputHandler?: (e: any, key: keyof IData) => void;
 }
 
@@ -60,7 +59,7 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div data-lp-inputs-container>
-            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent="Email" />
+            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent="Username" />
             <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent="Password" />
           </div>
           <div>

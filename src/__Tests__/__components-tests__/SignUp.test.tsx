@@ -7,7 +7,7 @@ import userEvent from "@testing-library/user-event";
 
 describe('SignUp component tests', () => {
   it('should render SignUp elements with appropriate props', () => {
-    render(<SignUp inputInfo={{}} />);
+    render(<SignUp />);
 
     const emailInput = screen.getByText(/email/i);
     const submitButton = screen.getByText(/create account/i);
@@ -28,6 +28,20 @@ describe('SignUp component tests', () => {
     userEvent.click(loginRedirect);
     expect(screen.getByText(/welcome back!/i)).toBeInTheDocument();
 
+  });
+
+  it('typing in input should yield proper input textbox value', () => {
+    render(<SignUp />);
+    const [username, email, password] = screen.getAllByRole('textbox');
+
+    userEvent.type(username, 'xphailedx');
+    expect(username).toHaveValue('xphailedx');
+
+    userEvent.type(email, 'magnum@magnum.com');
+    expect(email).toHaveValue('magnum@magnum.com');
+
+    userEvent.type(password, '******');
+    expect(password).toHaveValue('******');
   });
 
 

@@ -7,7 +7,7 @@ import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData, ITest } from './Helpers/interface';
+import { IData, ILoginInput } from './Helpers/interface';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -41,12 +41,10 @@ const App: React.FC = function App() {
     password: '',
   };
 
-  const initLoginData: ITest = {
-    email: '',
+  const initLoginData: ILoginInput = {
+    username: '',
     password: ''
   };
-
-  // const initLoginData = 
 
   const navigate = useNavigate();
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
@@ -57,16 +55,12 @@ const App: React.FC = function App() {
   const signUpInputHandler = (e: any, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
     setUserSignUpData({ ...userSignUpData });
-    console.log(userSignUpData);
   };
 
   const loginInputHandler = (e: any, key: keyof IData): void => {
     userLoginData[key] = e.target.value;
     setUserLoginData({ ...userLoginData });
-    console.log(userLoginData);
-    console.log(userSignUpData);
   };
-  console.log(userLoginData);
 
   return (
     <StyledAppContainer className="App">
@@ -83,8 +77,8 @@ const App: React.FC = function App() {
 
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
-          <Route path='/login' element={<Login inputHandler={loginInputHandler} inputInfo={userLoginData} nav={navigate} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputHandler={signUpInputHandler} inputInfo={userSignUpData} nav={navigate} />}></Route>
+          <Route path='/login' element={<Login inputHandler={loginInputHandler} nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputHandler={signUpInputHandler} nav={navigate} />}></Route>
         </Routes>
 
       </UserContext.Provider>
