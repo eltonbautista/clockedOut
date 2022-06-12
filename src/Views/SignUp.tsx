@@ -5,26 +5,34 @@ import { StyledLoginPage, StyledForm, StyledFormContainers } from './Login';
 import styled from 'styled-components';
 import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
+import { createUserInformation } from "../firebase-config";
+
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
   padding: 35px;
 `;
+let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
   const context = useContext(UserContext);
 
 
-  function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
+  async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();
-    info.email = '';
-    info.password = '';
-    info.username = '';
+    buttonSwitch = true;
+    // TODO: 
+    // Store information onto LocalStorage so that refreshing doesn't remove user info
+    await createUserInformation(info.email, info.password);
+
+    // info.email = '';
+    // info.password = '';
+    // info.username = '';
 
     context.setUserSignUpData({ ...info });
 
   }
-
+  console.log(buttonSwitch);
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes
     <StyledLoginPage id='sign-up-body'>
@@ -36,7 +44,7 @@ export default function SignUp(props: ISignUpProps) {
               <LPInputDiv inputVal={props.inputFields.email} inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent='Email' />
               <LPInputDiv inputVal={props.inputFields.username} inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent='Username' />
               <LPInputDiv inputVal={props.inputFields.password} inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
-              <SOButtons type='submit' formCheck={true} >Create Account</SOButtons>
+              <SOButtons disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('login')} noStyle={true} >
                 <ButtonHeader>
                   Already have an account?

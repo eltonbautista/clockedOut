@@ -49,7 +49,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={'text'}></StyledInput>
+        <StyledInput data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={forIdentifier === 'password' ? 'password' : 'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

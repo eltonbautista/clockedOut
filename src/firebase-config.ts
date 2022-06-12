@@ -8,6 +8,8 @@ import {
   addDoc,
   doc,
 } from 'firebase/firestore';
+import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, Auth } from "firebase/auth";
+
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
 
@@ -26,3 +28,14 @@ const app = initializeApp(firebaseConfig);
 
 // Initialize services
 const db = getFirestore(app);
+const auth = getAuth();
+
+export const createUserInformation = async (email: string, password: string) => {
+  try {
+    const createdInfo = await createUserWithEmailAndPassword(auth, email, password);
+    const user = createdInfo.user;
+  } catch {
+    console.log('an error has occurred');
+  };
+
+};
