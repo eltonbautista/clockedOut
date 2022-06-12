@@ -3,7 +3,7 @@ import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import backgroundImage from '../Styles/assets/31.jpg';
-import { IData } from "../Helpers/interface";
+import { IData, ILoginProps } from "../Helpers/interface";
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -42,10 +42,7 @@ export const StyledLoginPage = styled.div`
   }
 `;
 
-export interface ILoginProps {
-  nav?: Function,
-  inputHandler?: (e: any, key: keyof IData) => void;
-}
+
 
 export default function Login(props: ILoginProps) {
   return (

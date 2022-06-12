@@ -43,24 +43,25 @@ const App: React.FC = function App() {
 
   const initLoginData: ILoginInput = {
     username: '',
-    password: ''
+    password: '',
   };
 
   const navigate = useNavigate();
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
 
-  const UCProviderVal = useMemo(() => ({ userData: userSignUpData, setUserData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
+  const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
-  const signUpInputHandler = (e: any, key: keyof IData): void => {
+  const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
     setUserSignUpData({ ...userSignUpData });
   };
 
-  const loginInputHandler = (e: any, key: keyof IData): void => {
+  const loginInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput): void => {
     userLoginData[key] = e.target.value;
     setUserLoginData({ ...userLoginData });
   };
+
 
   return (
     <StyledAppContainer className="App">
@@ -77,8 +78,8 @@ const App: React.FC = function App() {
 
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
-          <Route path='/login' element={<Login inputHandler={loginInputHandler} nav={navigate} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputHandler={signUpInputHandler} nav={navigate} />}></Route>
+          <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
         </Routes>
 
       </UserContext.Provider>
