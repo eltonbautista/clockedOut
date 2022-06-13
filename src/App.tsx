@@ -3,6 +3,7 @@ import './Styles/App.css';
 import SignedOut from './Views/SignedOut';
 import SignUp from './Views/SignUp';
 import Login from './Views/Login';
+import Feed from './Views/Feed';
 import { Link, Outlet, useNavigate } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
@@ -22,7 +23,7 @@ const StyledH1 = styled.h1`
   background-color: black;
   /* letter-spacing: 2px; */
   font-weight: 0;
-  position: absolute;
+  position: fixed;
   z-index: 1;
 `;
 
@@ -66,20 +67,25 @@ const App: React.FC = function App() {
   return (
     <StyledAppContainer className="App">
       <header>
-        <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1>
+
+        {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
+
+        <nav id='navbar' >
+          clockedOut {' '}
+          <Link to={'/'} >Home</Link>
+          <Link to={'/login'} >Login</Link>
+          <Link to={'/sign-up'} >Sign Up</Link>
+          <Link to={'/feed'} >Feed</Link>
+        </nav>
       </header>
 
-      {/* <nav id='navbar'>
-        <Link to={'/'} >Home</Link>
-        <Link to={'/login'} >Login</Link>
-        <Link to={'/sign-up'} >Sign Up</Link>
-      </nav> */}
       <UserContext.Provider value={UCProviderVal}>
 
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
           <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} nav={navigate} />}></Route>
           <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
+          <Route path='/feed' element={<Feed />}></Route>
         </Routes>
 
       </UserContext.Provider>
