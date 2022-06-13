@@ -25,3 +25,7 @@ export interface ILoginProps {
 export interface IFeedProps {
 
 }
+
+export interface IPostProps {
+  media: boolean;
+}
