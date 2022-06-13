@@ -12,7 +12,11 @@ const StyledPost = styled.div`
 `;
 
 const StyledUserInfo = styled.div`
-  
+  grid-template-columns: 0.2fr 0.8fr;
+
+  > div {
+    
+  }
 `;
 const StyledUserPost = styled.div`
   
@@ -23,7 +27,7 @@ const StyledPostLikesComments = styled.div`
 const StyledLCS = styled.div`
 
 `;
-
+// Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
 
   return (
@@ -32,10 +36,10 @@ const Post: React.FC<IPostProps> = (props) => {
       <StyledUserInfo className="user-info">
         <img src="personal image" alt="pfp"></img>
         <div>
-          <h3>Person's name</h3>
+          <h3>User's name</h3>
+          <p>User's @</p>
           <p>Most active game and timezone</p>
           <p>Time posted</p>
-          <button type="button">Follow button</button>
         </div>
       </StyledUserInfo>
 
@@ -55,7 +59,9 @@ const Post: React.FC<IPostProps> = (props) => {
             </ButtonHeader>
           </SOButtons>
         </span>
-        <div>This will be conditionally displayed, it will contain comments
+
+        {/* A CONDITIONALLY RENDERED CONTAINER: */}
+        <div className="post-comment-container">This will be conditionally displayed, it will contain comments
           <p>paragraph that has overflow: ellipses</p>
         </div>
       </StyledPostLikesComments>
@@ -64,13 +70,14 @@ const Post: React.FC<IPostProps> = (props) => {
 
         <SOButtons>
           <ButtonHeader>
-            Like, has event that increases like count
+            Like, has event that increases like count on post
           </ButtonHeader>
         </SOButtons>
 
         <SOButtons>
           <ButtonHeader>
-            Comment, has event that lets user comment
+            Comment, has event that lets user comment on post
+            {/* Writing a comment conditionally renders comment container */}
           </ButtonHeader>
         </SOButtons>
 
@@ -81,6 +88,7 @@ const Post: React.FC<IPostProps> = (props) => {
         </SOButtons>
 
       </StyledLCS>
+
     </StyledPost>
   );
 };

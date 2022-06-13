@@ -26,9 +26,9 @@ describe('Global App testing', () => {
           <App />
         </BrowserRouter>);
     });
-    const login = screen.getByText('Login');
+    const login = screen.getAllByText('Login');
 
-    userEvent.click(login);
+    userEvent.click(login[1]);
     expect(screen.getByText(/welcome back!/i)).toBeInTheDocument();
     const signUp = screen.getByText(/don't have an account?/i);
     userEvent.click(signUp);

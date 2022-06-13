@@ -6,6 +6,7 @@ import { SOButtons, ButtonHeader } from "../Components/Buttons";
 const StyledFeedContainer = styled.div`
   display: grid;
   grid-template-areas: "sidebar main aside";
+  grid-template-columns: 0.2fr 0.6fr 0.2fr;
 `;
 
 const StyledSidebar = styled.div`
@@ -40,8 +41,15 @@ const Feed: React.FC<IFeedProps> = () => {
 
           <div className="feed-sidebar-upper">
             <div></div>
-            <a href="asd.com">Username or User's name</a>
+            <img src="user pfp" alt="pfp"></img>
+            <a href="asd.com">User's name</a>
             <p>Small profile description about 50 words long</p>
+            <ul>
+              {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
+              <li>Valorant // waves#6666</li>
+              <li>Bloodhunt // PsychToTech</li>
+              <li>VSC // PsychToTech</li>
+            </ul>
           </div>
 
           <div className="feed-sidebar-lower">
