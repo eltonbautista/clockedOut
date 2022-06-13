@@ -21,3 +21,7 @@ export interface ILoginProps {
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput) => void;
   inputFields: ILoginInput;
 }
+
+export interface IFeedProps {
+
+}

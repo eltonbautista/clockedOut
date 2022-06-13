@@ -5,7 +5,7 @@ import userEvent from "@testing-library/user-event";
 
 import SignedOut from "../../Views/SignedOut";
 
-import { SODescriptionContainers, } from "../../Components/SignedOut/SOComponents";
+import { SODescriptionContainers, } from "../../Components/SOComponents";
 import { SOButtons } from "../../Components/Buttons";
 import { BrowserRouter } from "react-router-dom";
 

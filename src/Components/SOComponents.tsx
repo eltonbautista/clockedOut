@@ -1,8 +1,8 @@
 import React from "react";
 import styled from "styled-components";
-import { SOButtons, } from "../Buttons";
+import { SOButtons, } from "./Buttons";
 import stylesModule from '../../Styles/SignedOut.module.css';
-import test from '../../Styles/assets/78_generated.jpg';
+import test from '../Styles/assets/78_generated.jpg';
 
 const StyledHeroHeader = styled.h1`
 color: red;

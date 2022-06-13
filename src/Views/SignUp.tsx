@@ -32,7 +32,6 @@ export default function SignUp(props: ISignUpProps) {
     context.setUserSignUpData({ ...info });
 
   }
-  console.log(buttonSwitch);
   return (
     // TODO: body used for background? Or can keep the same background image for performance purposes
     <StyledLoginPage id='sign-up-body'>

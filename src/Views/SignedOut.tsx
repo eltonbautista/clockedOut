@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { SODescriptionContainers, SOHeroContainer } from "../Components/SignedOut/SOComponents";
+import { SODescriptionContainers, SOHeroContainer } from "../Components/SOComponents";
 import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import background from '../Styles/assets/78_generated.jpg';
 
