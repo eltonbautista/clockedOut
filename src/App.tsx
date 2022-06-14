@@ -11,6 +11,7 @@ import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
 import { signingIn, IUser, signingOut, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
+import { current } from '@reduxjs/toolkit';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -51,16 +52,10 @@ const App: React.FC = function App() {
     password: '',
   };
 
-  useEffect(() => {
-    const userToken = localStorage.getItem('loginInfo');
-
-    if (userToken && location.pathname === '/') {
-      navigate('feed');
-    }
-  }, [location.pathname, navigate]);
+  // Checks if user is currently authenticated/logged in, also sets loggedInData if authState detects user as logged in.
 
   // useEffect(() => {
-
+  // THIS useEffect MAKES AN API CALL FOR USER AUTHENTICATION. THE NEW ONE I CONFIGURED USES LOCALSTORAGE AND SAVES THE USER'S AUTHID TOKEN WHEN THEY LOGIN. THIS WAY THEIR AUTH TOKEN IS STORED IN LOCALSTORAGE AND THE PROGRAM DOESN'T NEED TO MAKE A CALL TO FIREBASE EVERY TIME THEY GO TO '/' PATH!
   //   onAuthStateChanged(auth, async (user) => {
   //     if (user && location.pathname === '/') {
   //       setLoggedInData(user);
@@ -76,7 +71,38 @@ const App: React.FC = function App() {
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
 
-  // Sets loggedInData if authState detects user as logged in.
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        setLoggedInData(user);
+      }
+    });
+  });
+
+
+  // An effect that checks if the storedToken is === to Firebase's current token. Since Firebase adds expiration times on their authentication token for security purposes, I added this effect so that the user would get signed out if the tokens don't match.
+  useEffect(() => {
+
+    if (!loggedInData || loggedInData === null) {
+      return;
+    } else {
+      const tokenChecker = async () => {
+        const storedToken = localStorage.getItem('loginInfo');
+        const currentToken: string = await loggedInData!.getIdToken();
+        console.log(storedToken);
+        console.log(currentToken);
+        if (currentToken !== storedToken) {
+          signingOut();
+        }
+
+        if (storedToken && location.pathname === '/') {
+          navigate('feed');
+        }
+      };
+      tokenChecker();
+    }
+
+  }, [location.pathname, loggedInData, navigate]);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -90,6 +116,9 @@ const App: React.FC = function App() {
     setUserLoginData({ ...userLoginData });
   };
 
+
+  // Used for handling user's login request. When a user logs in, the currently stored loginInformation is deleted, and a new signedIn call to Firebase is called - and saves the current user's ID token onto localStorage.
+  // TODO: Add error pop-ups to notify users what is preventing them from logging in: wrong password/email, request timed out, etc.
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currUser = await signingIn(userLoginData.email, userLoginData.password);
@@ -101,13 +130,12 @@ const App: React.FC = function App() {
     localStorage.removeItem('loginInfo');
 
     localStorage.setItem('loginInfo', myToken);
-
     if (currUser?.email === userLoginData.email) {
       navigate('feed');
     }
     return;
   };
-
+  console.log(loggedInData);
   return (
     <StyledAppContainer className="App">
       <header>
