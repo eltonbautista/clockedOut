@@ -1,15 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useMemo, useCallback } from 'react';
 import './Styles/App.css';
 import SignedOut from './Views/SignedOut';
 import SignUp from './Views/SignUp';
 import Login from './Views/Login';
 import Feed from './Views/Feed';
-import { Link, Outlet, useNavigate } from 'react-router-dom';
+import { Link, Navigate, Outlet, useLocation, useNavigate, useParams, } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
-import { signingIn, IUser, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
+import { signingIn, IUser, signingOut, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 
 const StyledH1 = styled.h1`
@@ -36,6 +36,9 @@ const StyledAppContainer = styled.div`
 const App: React.FC = function App() {
 
   // HOOKS & STATES
+  const navigate = useNavigate();
+  const location = useLocation();
+  const urlParams = useParams();
 
   const initSignUpData: IData = {
     email: '',
@@ -48,21 +51,25 @@ const App: React.FC = function App() {
     password: '',
   };
 
-  const navigate = useNavigate();
+  useEffect(() => {
+
+    onAuthStateChanged(auth, async (user) => {
+      if (user && location.pathname === '/') {
+        setLoggedInData(user);
+        navigate('feed');
+        // trigger sign out: 
+        // await signingOut();
+      }
+    });
+
+  }, [location.pathname, navigate]);
+
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
 
   // Sets loggedInData if authState detects user as logged in.
-  useEffect(() => {
-    onAuthStateChanged(auth, (user) => {
-      if (user) {
-        setLoggedInData(user);
-      }
-    });
-    // initFirebaseAuth(IUser);
 
-  }, []);
   console.log(loggedInData);
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -82,7 +89,7 @@ const App: React.FC = function App() {
 
     setLoggedInData(currUser);
     if (currUser?.email === userLoginData.email) {
-      navigate('Feed');
+      navigate('feed');
     }
     return;
   };
@@ -90,7 +97,7 @@ const App: React.FC = function App() {
   return (
     <StyledAppContainer className="App">
       <header>
-
+        {/* LEAVE FOR NOW */}
         {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
 
         <nav id='navbar' >
