@@ -20,6 +20,7 @@ export interface ILoginProps {
   nav?: Function,
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput) => void;
   inputFields: ILoginInput;
+  submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void;
 }
 
 export interface IFeedProps {

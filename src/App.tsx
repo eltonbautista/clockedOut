@@ -9,6 +9,7 @@ import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
+import { signingIn, IUser } from './firebase-config';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -31,7 +32,6 @@ const StyledAppContainer = styled.div`
   height: 100%;
   position: relative;
 `;
-
 const App: React.FC = function App() {
 
   // HOOKS & STATES
@@ -50,6 +50,7 @@ const App: React.FC = function App() {
   const navigate = useNavigate();
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
+  const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -63,6 +64,15 @@ const App: React.FC = function App() {
     setUserLoginData({ ...userLoginData });
   };
 
+  const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const currUser = await signingIn(userLoginData.email, userLoginData.password);
+    setLoggedInData(currUser);
+    if (currUser?.email === userLoginData.email) {
+      navigate('Feed');
+    }
+    return;
+  };
 
   return (
     <StyledAppContainer className="App">
@@ -83,7 +93,7 @@ const App: React.FC = function App() {
 
         <Routes>
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
-          <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} nav={navigate} />}></Route>
+          <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} />}></Route>
           <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
           <Route path='/feed' element={<Feed />}></Route>
         </Routes>

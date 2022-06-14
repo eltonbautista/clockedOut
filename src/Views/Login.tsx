@@ -51,15 +51,7 @@ export default function Login(props: ILoginProps) {
   return (
     <StyledLoginPage>
 
-      <StyledForm onSubmit={async (e) => {
-        e.preventDefault();
-        let currUser = await signingIn(email, password);
-        console.log(currUser?.email);
-        if (currUser?.email === email) {
-          props.nav?.('feed');
-        }
-        return;
-      }} data-login-page data-lp-form>
+      <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>
 
         <div data-lp-main-container >
           <div>
