@@ -1,4 +1,4 @@
-import React, { useContext } from 'react';
+import React, { useContext, useRef } from 'react';
 import styled from 'styled-components';
 import { StyledFormContainers } from '../Views/Login';
 import { UserContext } from '../Helpers/contexts';

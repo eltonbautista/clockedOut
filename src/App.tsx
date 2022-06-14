@@ -43,7 +43,7 @@ const App: React.FC = function App() {
   };
 
   const initLoginData: ILoginInput = {
-    username: '',
+    email: '',
     password: '',
   };
 

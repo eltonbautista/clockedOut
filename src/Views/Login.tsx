@@ -4,6 +4,8 @@ import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import backgroundImage from '../Styles/assets/31.jpg';
 import { IData, ILoginProps } from "../Helpers/interface";
+import { signingIn } from '../firebase-config';
+
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -45,10 +47,19 @@ export const StyledLoginPage = styled.div`
 
 
 export default function Login(props: ILoginProps) {
+  const { email, password } = props.inputFields;
   return (
     <StyledLoginPage>
 
-      <StyledForm data-login-page data-lp-form>
+      <StyledForm onSubmit={async (e) => {
+        e.preventDefault();
+        let currUser = await signingIn(email, password);
+        console.log(currUser?.email);
+        if (currUser?.email === email) {
+          props.nav?.('feed');
+        }
+        return;
+      }} data-login-page data-lp-form>
 
         <div data-lp-main-container >
           <div>
@@ -56,11 +67,11 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div data-lp-inputs-container>
-            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent="Username" />
+            <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent="Email" />
             <LPInputDiv inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent="Password" />
           </div>
           <div>
-            <SOButtons formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
+            <SOButtons type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
             <SOButtons type='button' noStyle={true} onClick={() => props.nav?.('sign-up')} >
               <ButtonHeader>Don't have an account?</ButtonHeader>
             </SOButtons>

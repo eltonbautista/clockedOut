@@ -1,4 +1,4 @@
-import { render, screen, fireEvent } from "@testing-library/react";
+import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
 import React from "react";
 import SignUp from "../../Views/SignUp";
 import Login from "../../Views/Login";
@@ -6,6 +6,9 @@ import App from "../../App";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { IData, ILoginInput } from "../../Helpers/interface";
+import { act } from "react-dom/test-utils";
+
+
 
 const signUpObj: IData = {
   email: '',
@@ -14,9 +17,10 @@ const signUpObj: IData = {
 };
 
 const loginObj: ILoginInput = {
-  username: '',
+  email: '',
   password: '',
 };
+
 
 describe('SignUp component tests', () => {
   it('should render SignUp elements with appropriate props', () => {
@@ -69,8 +73,8 @@ describe('Tests for SignUp component', () => {
 
   it('should render SignUp', () => {
     render(<Login inputFields={loginObj} />);
-    const firstInputHeader = screen.getByText(/username/i);
-    const firstLabel = screen.getByText(/Username/i);
+    const firstInputHeader = screen.getByText(/email/i);
+    const firstLabel = screen.getByText(/email/i);
 
     expect(firstInputHeader).toBeInTheDocument();
     expect(firstLabel).toBeInTheDocument();
@@ -79,14 +83,16 @@ describe('Tests for SignUp component', () => {
 
   it('typing in input should yield proper input textbox value', () => {
     render(<Login inputFields={loginObj} />);
-    const [username, password] = screen.getAllByRole('textbox');
-    userEvent.type(username, 'xphailedx');
-    expect(username).toHaveValue('xphailedx');
+    const [email, password] = screen.getAllByRole('textbox');
+    userEvent.type(email, 'xphailedx');
+    expect(email).toHaveValue('xphailedx');
 
     // TODO: FIGURE OUT TEST FOR PASSWORD
 
     // userEvent.type(password, '******');
     // expect(password).toHaveValue('******');
+
   });
+
 
 });

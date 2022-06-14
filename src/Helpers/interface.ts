@@ -5,7 +5,7 @@ export interface IData {
 };
 
 export interface ILoginInput {
-  username: string;
+  email: string;
   password: string;
   [key: string]: any;
 }

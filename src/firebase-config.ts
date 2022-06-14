@@ -13,7 +13,9 @@ import {
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
   onAuthStateChanged,
-  signInWithRedirect
+  signInWithRedirect,
+  signOut,
+  updateProfile
 } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -36,21 +38,47 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
-export const createUserInformation = async (email: string, password: string,) => {
+export const createUserInformation = async (email: string, password: string, username: string) => {
   try {
     const createdInfo = await createUserWithEmailAndPassword(auth, email, password);
     const user = createdInfo.user;
-    console.log('user created:', user);
 
+    updateProfile(user, {
+      displayName: username
+    });
+
+    console.log('user created:', user);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
     //     signInWithRedirect(auth, )
     //   }
     // });
     return true;
-  } catch {
+  } catch (error) {
+    console.log(error);
     console.log('an error has occurred');
     return false;
   };
 
 };
+
+export const signingOut = async () => {
+  try {
+    await signOut(auth);
+  } catch {
+    console.log('There was an error logging out');
+  }
+};
+
+export const signingIn = async (email: string, password: string) => {
+  try {
+    await signInWithEmailAndPassword(auth, email, password);
+    const currentUser = auth.currentUser?.displayName;
+    console.log(currentUser + ' has logged in');
+    return auth.currentUser;
+  } catch (error) {
+    console.log("There was an error logging in");
+    console.log(error);
+  }
+};
+

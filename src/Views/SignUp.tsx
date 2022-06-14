@@ -33,7 +33,7 @@ export default function SignUp(props: ISignUpProps) {
 
     // TODO: 
     // Store information onto LocalStorage so that refreshing doesn't remove user info
-    buttonSwitch = await createUserInformation(info.email, info.password);
+    buttonSwitch = await createUserInformation(info.email, info.password, info.username);
 
     // info.email = '';
     // info.password = '';
