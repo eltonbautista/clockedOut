@@ -52,17 +52,25 @@ const App: React.FC = function App() {
   };
 
   useEffect(() => {
+    const userToken = localStorage.getItem('loginInfo');
 
-    onAuthStateChanged(auth, async (user) => {
-      if (user && location.pathname === '/') {
-        setLoggedInData(user);
-        navigate('feed');
-        // trigger sign out: 
-        // await signingOut();
-      }
-    });
-
+    if (userToken && location.pathname === '/') {
+      navigate('feed');
+    }
   }, [location.pathname, navigate]);
+
+  // useEffect(() => {
+
+  //   onAuthStateChanged(auth, async (user) => {
+  //     if (user && location.pathname === '/') {
+  //       setLoggedInData(user);
+  //       navigate('feed');
+  //       // trigger sign out: 
+  //       await signingOut();
+  //     }
+  //   });
+
+  // }, [location.pathname, navigate]);
 
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
@@ -70,7 +78,6 @@ const App: React.FC = function App() {
 
   // Sets loggedInData if authState detects user as logged in.
 
-  console.log(loggedInData);
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
@@ -88,6 +95,13 @@ const App: React.FC = function App() {
     const currUser = await signingIn(userLoginData.email, userLoginData.password);
 
     setLoggedInData(currUser);
+
+    const myToken: string = await currUser!.getIdToken();
+
+    localStorage.removeItem('loginInfo');
+
+    localStorage.setItem('loginInfo', myToken);
+
     if (currUser?.email === userLoginData.email) {
       navigate('feed');
     }

@@ -12,6 +12,7 @@ import {
   getAuth,
   createUserWithEmailAndPassword,
   signInWithEmailAndPassword,
+  signInWithCustomToken,
   onAuthStateChanged,
   signInWithRedirect,
   signOut,
@@ -67,6 +68,7 @@ export const createUserInformation = async (email: string, password: string, use
 export const signingOut = async () => {
   try {
     await signOut(auth);
+    localStorage.removeItem('loginInfo');
   } catch {
     console.log('There was an error logging out');
   }
@@ -101,10 +103,6 @@ export function initFirebaseAuth(user: User | null) {
     }
   });
 };
-
-
-
-
 
 
 export { IUser, auth, onAuthStateChanged };
