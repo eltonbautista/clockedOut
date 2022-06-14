@@ -9,7 +9,8 @@ import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
-import { signingIn, IUser } from './firebase-config';
+import { signingIn, IUser, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
+import { onAuthStateChanged } from 'firebase/auth';
 
 const StyledH1 = styled.h1`
   color: red;
@@ -52,6 +53,17 @@ const App: React.FC = function App() {
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
 
+  // Sets loggedInData if authState detects user as logged in.
+  useEffect(() => {
+    onAuthStateChanged(auth, (user) => {
+      if (user) {
+        setLoggedInData(user);
+      }
+    });
+    // initFirebaseAuth(IUser);
+
+  }, []);
+  console.log(loggedInData);
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
@@ -67,6 +79,7 @@ const App: React.FC = function App() {
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currUser = await signingIn(userLoginData.email, userLoginData.password);
+
     setLoggedInData(currUser);
     if (currUser?.email === userLoginData.email) {
       navigate('Feed');

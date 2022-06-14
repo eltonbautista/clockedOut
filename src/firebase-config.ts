@@ -16,7 +16,8 @@ import {
   signInWithRedirect,
   signOut,
   updateProfile,
-  User
+  User,
+
 } from "firebase/auth";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -84,5 +85,26 @@ export const signingIn = async (email: string, password: string) => {
 };
 
 let IUser: User;
+export const currentUserInfo = auth.currentUser;
+console.log(currentUserInfo);
+// function authStateObserver(user: User | null) {
+//   if(user) {
 
-export { IUser };
+
+//   }
+// }
+
+export function initFirebaseAuth(user: User | null) {
+  onAuthStateChanged(auth, (user) => {
+    if (user) {
+      // console.log('user status:', user);
+    }
+  });
+};
+
+
+
+
+
+
+export { IUser, auth, onAuthStateChanged };
