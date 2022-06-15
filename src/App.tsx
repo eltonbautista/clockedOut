@@ -11,7 +11,8 @@ import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
 import { signingIn, IUser, signingOut, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
-import { current } from '@reduxjs/toolkit';
+import PrivateRoute from './Views/PrivateRoute';
+
 
 const StyledH1 = styled.h1`
   color: red;
@@ -52,12 +53,12 @@ const App: React.FC = function App() {
     password: '',
   };
 
-  useEffect(() => {
-    const storedToken = localStorage.getItem('loginInfo');
-    if (storedToken && location.pathname === '/') {
-      navigate('feed');
-    }
-  });
+  // useEffect(() => {
+  //   const storedToken = localStorage.getItem('loginInfo');
+  //   if (storedToken && location.pathname === '/') {
+  //     navigate('feed');
+  //   }
+  // });
 
   // Checks if user is currently authenticated/logged in, also sets loggedInData if authState detects user as logged in.
 
@@ -85,26 +86,26 @@ const App: React.FC = function App() {
       }
     });
   }, []);
-  signingOut();
+  // signingOut();
   // An effect that checks if the storedToken is === to Firebase's current token. Since Firebase adds expiration times on their authentication token for security purposes, I added this effect so that the user would get signed out if the tokens don't match.
-  useEffect(() => {
+  // useEffect(() => {
 
-    if (!loggedInData || loggedInData === null) {
-      return;
-    } else {
-      const tokenChecker = async () => {
-        const storedToken = localStorage.getItem('loginInfo');
-        const currentToken: string = await loggedInData!.getIdToken();
-        console.log(storedToken);
-        console.log(currentToken);
-        if (currentToken !== storedToken) {
-          signingOut();
-        }
-      };
-      tokenChecker();
-    }
+  //   if (!loggedInData || loggedInData === null) {
+  //     return;
+  //   } else {
+  //     const tokenChecker = async () => {
+  //       const storedToken = localStorage.getItem('loginInfo');
+  //       const currentToken: string = await loggedInData!.getIdToken();
+  //       console.log(storedToken);
+  //       console.log(currentToken);
+  //       if (currentToken !== storedToken) {
+  //         signingOut();
+  //       }
+  //     };
+  //     tokenChecker();
+  //   }
 
-  }, [location.pathname, loggedInData]);
+  // }, [location.pathname, loggedInData]);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -156,10 +157,12 @@ const App: React.FC = function App() {
       <UserContext.Provider value={UCProviderVal}>
 
         <Routes>
+
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
           <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} />}></Route>
           <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
-          <Route path='/feed' element={<Feed />}></Route>
+          {/* <Route path='/feed' element={<Feed />}></Route> */}
+          <Route path='/feed' element={<PrivateRoute children={<Feed />}></PrivateRoute>} />
         </Routes>
 
       </UserContext.Provider>

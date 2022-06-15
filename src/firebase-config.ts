@@ -88,7 +88,6 @@ export const signingIn = async (email: string, password: string) => {
 
 let IUser: User;
 export const currentUserInfo = auth.currentUser;
-console.log(currentUserInfo);
 // function authStateObserver(user: User | null) {
 //   if(user) {
 

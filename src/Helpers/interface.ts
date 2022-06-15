@@ -30,3 +30,8 @@ export interface IFeedProps {
 export interface IPostProps {
   media: boolean;
 }
+
+export interface IPrivateRouteProps {
+  // path: string;
+  children: React.ReactElement;
+}

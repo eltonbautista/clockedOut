@@ -3,6 +3,8 @@ import styled from "styled-components";
 import { SODescriptionContainers, SOHeroContainer } from "../Components/SOComponents";
 import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import background from '../Styles/assets/78_generated.jpg';
+import { auth } from "../firebase-config";
+import { Navigate } from "react-router-dom";
 
 interface Props {
   nav?: Function,
@@ -23,9 +25,10 @@ const StyledSignedOut = styled.div`
 `;
 
 const SignedOut: React.FC<Props> = (props) => {
+  const authorization = auth.currentUser;
+  const loggedInformation = localStorage.getItem('loginInfo');
 
-
-  return (
+  return !loggedInformation ? (
     // FIRST SCROLLED VIEW
     <StyledSignedOut>
       <SOHeroContainer nav={props.nav} />
@@ -37,7 +40,7 @@ const SignedOut: React.FC<Props> = (props) => {
       </div>
       <div></div>
     </StyledSignedOut>
-  );
+  ) : <Navigate to='/feed' />;
 };
 
 export default SignedOut;
