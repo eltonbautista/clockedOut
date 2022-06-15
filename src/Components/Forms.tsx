@@ -35,10 +35,11 @@ export interface ILPInputDivProps {
   forIdentifier: "email" | "username" | "password";
   inputVal?: string;
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData) => void;
+  inputPattern?: string | undefined;
 }
 
 export default function LPInputDiv(props: ILPInputDivProps) {
-  const { hContent, forIdentifier, inputVal, inputHandler } = props;
+  const { hContent, forIdentifier, inputVal, inputHandler, inputPattern } = props;
 
   // const UserInformation = useContext(UserContext);
 
@@ -49,7 +50,7 @@ export default function LPInputDiv(props: ILPInputDivProps) {
         {hContent}
       </StyledH5>
       <FooContainer>
-        <StyledInput data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={forIdentifier === 'password' ? 'password' : 'text'}></StyledInput>
+        <StyledInput pattern={inputPattern} required data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={forIdentifier === 'password' ? 'password' : 'text'}></StyledInput>
       </FooContainer>
 
     </TestContainer>

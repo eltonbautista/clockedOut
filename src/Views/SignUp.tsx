@@ -7,7 +7,7 @@ import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
-
+import { filterBadWords, profanityList } from "../Helpers/utils";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
@@ -35,11 +35,6 @@ export default function SignUp(props: ISignUpProps) {
     // TODO: 
     // Store information onto LocalStorage so that refreshing doesn't remove user info
     buttonSwitch = await createUserInformation(info.email, info.password, info.username);
-
-    // info.email = '';
-    // info.password = '';
-    // info.username = '';
-
     context.setUserSignUpData({ ...info });
   };
   return !stateAuth ? (
@@ -50,7 +45,7 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv inputVal={props.inputFields.email} inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent='Email' />
+              <LPInputDiv inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" inputVal={props.inputFields.email} inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent='Email' />
               <LPInputDiv inputVal={props.inputFields.username} inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent='Username' />
               <LPInputDiv inputVal={props.inputFields.password} inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
 

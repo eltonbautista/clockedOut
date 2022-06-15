@@ -20,6 +20,7 @@ import {
   User,
 
 } from "firebase/auth";
+import { filterBadWords, profanityList } from "./Helpers/utils";
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -42,7 +43,13 @@ const db = getFirestore(app);
 const auth = getAuth();
 
 export const createUserInformation = async (email: string, password: string, username: string) => {
+
+  if (!filterBadWords(profanityList, username)) {
+    return false;
+  };
+
   try {
+
     const createdInfo = await createUserWithEmailAndPassword(auth, email, password);
     const user = createdInfo.user;
 
