@@ -49,12 +49,6 @@ export const createUserInformation = async (email: string, password: string, use
     updateProfile(user, {
       displayName: username
     });
-
-    // onAuthStateChanged(auth, (user) => {
-    //   if (user) {
-    //     signInWithRedirect(auth, )
-    //   }
-    // });
     return true;
   } catch (error) {
     console.log(error);
@@ -90,12 +84,6 @@ export const signingIn = async (email: string, password: string) => {
 
 let IUser: User;
 export const currentUserInfo = auth.currentUser;
-// function authStateObserver(user: User | null) {
-//   if(user) {
-
-
-//   }
-// }
 
 export function initFirebaseAuth(user: User | null) {
   onAuthStateChanged(auth, (user) => {
