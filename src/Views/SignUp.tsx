@@ -25,7 +25,7 @@ export default function SignUp(props: ISignUpProps) {
       });
     }
     // buttonSwitch = false;
-  });
+  }, []);
 
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {

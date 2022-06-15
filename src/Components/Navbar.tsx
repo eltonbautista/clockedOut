@@ -1,13 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { Link } from "react-router-dom";
 import { INavProps } from "../Helpers/interface";
 import { SOButtons } from "./Buttons";
 import { signingOut } from "../firebase-config";
+import { localLoginInfo } from "../Helpers/utils";
 
 const Navbar: React.FC<INavProps> = (props: INavProps) => {
-  const { authorized, nav } = props;
+  const { authorized, nav, stateAuth } = props;
 
-  return (!authorized ?
+  return (!stateAuth ?
     <nav id="navbar">
       clockedOut {' '}
       <Link to={'/'} >Home</Link>
@@ -19,8 +20,8 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
       clockedOut {' '}
       <Link to="/feed" >Feed</Link>
       <SOButtons onClick={() => {
-        nav?.('login');
         signingOut();
+        nav?.('login');
       }} >Sign Out</SOButtons>
     </nav>);
 };

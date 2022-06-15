@@ -48,9 +48,9 @@ export const StyledLoginPage = styled.div`
 
 
 export default function Login(props: ILoginProps) {
-  const { nav } = props;
+  const { nav, stateAuth } = props;
   const { email, password, } = props.inputFields;
-  return !localLoginInfo ? (
+  return !stateAuth ? (
     <StyledLoginPage>
 
       <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>

@@ -1,3 +1,5 @@
+import { User } from "firebase/auth";
+
 export interface IData {
   email: string;
   username: string;
@@ -21,6 +23,7 @@ export interface ILoginProps {
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput) => void;
   inputFields: ILoginInput;
   submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void;
+  stateAuth?: User | null | undefined;
 }
 
 export interface IFeedProps {
@@ -34,9 +37,11 @@ export interface IPostProps {
 export interface IPrivateRouteProps {
   // path: string;
   children: React.ReactElement;
+  stateAuth: User | null | undefined;
 }
 
 export interface INavProps {
   authorized: boolean;
   nav?: Function;
+  stateAuth: User | null | undefined;
 }

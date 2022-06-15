@@ -64,11 +64,13 @@ export const createUserInformation = async (email: string, password: string, use
 
 };
 
-export const signingOut = async () => {
+export const signingOut = async (stateAuth?: User | null | undefined, navTo?: Function) => {
   try {
     await signOut(auth);
     localStorage.removeItem('loginInfo');
-
+    if (!stateAuth) {
+      navTo?.('login');
+    }
   } catch {
     console.log('There was an error logging out');
   }
