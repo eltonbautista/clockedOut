@@ -35,3 +35,8 @@ export interface IPrivateRouteProps {
   // path: string;
   children: React.ReactElement;
 }
+
+export interface INavProps {
+  authorized: boolean;
+  nav?: Function;
+}

@@ -50,7 +50,6 @@ export const createUserInformation = async (email: string, password: string, use
       displayName: username
     });
 
-    console.log('user created:', user);
     // onAuthStateChanged(auth, (user) => {
     //   if (user) {
     //     signInWithRedirect(auth, )
@@ -69,6 +68,7 @@ export const signingOut = async () => {
   try {
     await signOut(auth);
     localStorage.removeItem('loginInfo');
+
   } catch {
     console.log('There was an error logging out');
   }

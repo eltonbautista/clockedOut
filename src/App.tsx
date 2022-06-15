@@ -12,6 +12,8 @@ import { IData, ILoginInput } from './Helpers/interface';
 import { signingIn, IUser, signingOut, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import PrivateRoute from './Views/PrivateRoute';
+import Navbar from './Components/Navbar';
+import { createLocalInfo, localLoginInfo } from './Helpers/utils';
 
 
 const StyledH1 = styled.h1`
@@ -53,28 +55,6 @@ const App: React.FC = function App() {
     password: '',
   };
 
-  // useEffect(() => {
-  //   const storedToken = localStorage.getItem('loginInfo');
-  //   if (storedToken && location.pathname === '/') {
-  //     navigate('feed');
-  //   }
-  // });
-
-  // Checks if user is currently authenticated/logged in, also sets loggedInData if authState detects user as logged in.
-
-  // useEffect(() => {
-  // THIS useEffect MAKES AN API CALL FOR USER AUTHENTICATION. THE NEW ONE I CONFIGURED USES LOCALSTORAGE AND SAVES THE USER'S AUTHID TOKEN WHEN THEY LOGIN. THIS WAY THEIR AUTH TOKEN IS STORED IN LOCALSTORAGE AND THE PROGRAM DOESN'T NEED TO MAKE A CALL TO FIREBASE EVERY TIME THEY GO TO '/' PATH!
-  //   onAuthStateChanged(auth, async (user) => {
-  //     if (user && location.pathname === '/') {
-  //       setLoggedInData(user);
-  //       navigate('feed');
-  //       // trigger sign out: 
-  //       await signingOut();
-  //     }
-  //   });
-
-  // }, [location.pathname, navigate]);
-
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
@@ -83,29 +63,11 @@ const App: React.FC = function App() {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setLoggedInData(user);
+        await createLocalInfo(user);
       }
     });
   }, []);
   // signingOut();
-  // An effect that checks if the storedToken is === to Firebase's current token. Since Firebase adds expiration times on their authentication token for security purposes, I added this effect so that the user would get signed out if the tokens don't match.
-  // useEffect(() => {
-
-  //   if (!loggedInData || loggedInData === null) {
-  //     return;
-  //   } else {
-  //     const tokenChecker = async () => {
-  //       const storedToken = localStorage.getItem('loginInfo');
-  //       const currentToken: string = await loggedInData!.getIdToken();
-  //       console.log(storedToken);
-  //       console.log(currentToken);
-  //       if (currentToken !== storedToken) {
-  //         signingOut();
-  //       }
-  //     };
-  //     tokenChecker();
-  //   }
-
-  // }, [location.pathname, loggedInData]);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -127,31 +89,18 @@ const App: React.FC = function App() {
     const currUser = await signingIn(userLoginData.email, userLoginData.password);
 
     setLoggedInData(currUser);
-
-    const myToken: string = await currUser!.getIdToken();
-
-    localStorage.removeItem('loginInfo');
-
-    localStorage.setItem('loginInfo', myToken);
-    if (currUser?.email === userLoginData.email) {
-      navigate('feed');
-    }
-    return;
+    await createLocalInfo(currUser);
+    console.log(currUser!.email);
+    console.log(userLoginData.email);
+    navigate('feed');
   };
-  console.log(loggedInData);
+
   return (
     <StyledAppContainer className="App">
       <header>
         {/* LEAVE FOR NOW */}
         {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
-
-        <nav id='navbar' >
-          clockedOut {' '}
-          <Link to={'/'} >Home</Link>
-          <Link to={'/login'} >Login</Link>
-          <Link to={'/sign-up'} >Sign Up</Link>
-          <Link to={'/feed'} >Feed</Link>
-        </nav>
+        {!localLoginInfo ? <Navbar nav={navigate} authorized={false} /> : <Navbar nav={navigate} authorized={true} />}
       </header>
 
       <UserContext.Provider value={UCProviderVal}>
@@ -161,8 +110,11 @@ const App: React.FC = function App() {
           <Route path='/' element={<SignedOut nav={navigate} />}></Route>
           <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} />}></Route>
           <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
-          {/* <Route path='/feed' element={<Feed />}></Route> */}
-          <Route path='/feed' element={<PrivateRoute children={<Feed />}></PrivateRoute>} />
+
+          <Route path='/feed'
+            element={
+              <PrivateRoute children={<Feed />}></PrivateRoute>} />
+
         </Routes>
 
       </UserContext.Provider>

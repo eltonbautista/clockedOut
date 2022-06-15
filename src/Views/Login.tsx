@@ -5,7 +5,8 @@ import styled from 'styled-components';
 import backgroundImage from '../Styles/assets/31.jpg';
 import { IData, ILoginProps } from "../Helpers/interface";
 import { signingIn } from '../firebase-config';
-
+import { localLoginInfo } from '../Helpers/utils';
+import { Navigate } from 'react-router-dom';
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -47,8 +48,9 @@ export const StyledLoginPage = styled.div`
 
 
 export default function Login(props: ILoginProps) {
-  const { email, password } = props.inputFields;
-  return (
+  const { nav } = props;
+  const { email, password, } = props.inputFields;
+  return !localLoginInfo ? (
     <StyledLoginPage>
 
       <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>
@@ -74,5 +76,5 @@ export default function Login(props: ILoginProps) {
 
     </StyledLoginPage>
 
-  );
+  ) : <Navigate to="/feed" />;
 }
