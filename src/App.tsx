@@ -40,9 +40,7 @@ const StyledAppContainer = styled.div`
 const App: React.FC = function App() {
 
   // HOOKS & STATES
-  const navigate = useNavigate();
-  const location = useLocation();
-  const urlParams = useParams();
+  const navigate: Function = useNavigate();
 
   const initSignUpData: IData = {
     email: '',
@@ -58,21 +56,18 @@ const App: React.FC = function App() {
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
-  const [localData, setLocalData] = useState<string | undefined | null>('');
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setLoggedInData(user);
         createLocalInfo(user);
-        setLocalData(localLoginInfo);
       } else if (!user) {
         setLoggedInData(null);
         localStorage.removeItem('localInfo');
       }
     });
   }, []);
-  // signingOut();
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
@@ -97,7 +92,7 @@ const App: React.FC = function App() {
     await createLocalInfo(currUser);
 
     if (currUser?.email) {
-      navigate('feed');
+      navigate('feed', { replace: true });
     }
     return;
   };
@@ -114,13 +109,15 @@ const App: React.FC = function App() {
 
         <Routes>
 
-          <Route path='/' element={<SignedOut nav={navigate} />}></Route>
+          <Route path='/' element={<SignedOut nav={navigate} stateAuth={loggedInData} />}></Route>
           <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} />}></Route>
+          <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
 
           <Route path='/feed'
             element={
-              <PrivateRoute stateAuth={loggedInData} children={<Feed />}></PrivateRoute>} ></Route>
+              <PrivateRoute stateAuth={loggedInData} children={<Feed />} />} >
+
+          </Route>
         </Routes>
 
       </UserContext.Provider>

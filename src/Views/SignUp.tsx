@@ -6,6 +6,7 @@ import styled from 'styled-components';
 import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
+import { Navigate } from "react-router-dom";
 
 
 const StyledSUForm = styled(StyledForm)`
@@ -15,8 +16,8 @@ const StyledSUForm = styled(StyledForm)`
 let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
+  const { stateAuth } = props;
   const context = useContext(UserContext);
-
   useEffect(() => {
     const inputs = document.querySelectorAll('input');
     if (buttonSwitch === true) {
@@ -41,7 +42,7 @@ export default function SignUp(props: ISignUpProps) {
 
     context.setUserSignUpData({ ...info });
   };
-  return (
+  return !stateAuth ? (
     // TODO: body used for background? Or can keep the same background image for performance purposes
     <StyledLoginPage id='sign-up-body'>
       <div id='su-form-container'>
@@ -54,7 +55,7 @@ export default function SignUp(props: ISignUpProps) {
               <LPInputDiv inputVal={props.inputFields.password} inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
 
               <SOButtons disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
-              <SOButtons type='button' onClick={() => props.nav?.('login')} noStyle={true} >
+              <SOButtons type='button' onClick={() => props.nav?.('/login', { replace: true })} noStyle={true} >
                 <ButtonHeader>
                   Already have an account?
                 </ButtonHeader>
@@ -64,5 +65,5 @@ export default function SignUp(props: ISignUpProps) {
         </StyledSUForm>
       </div>
     </StyledLoginPage>
-  );
+  ) : <Navigate to="/feed" replace />;
 }

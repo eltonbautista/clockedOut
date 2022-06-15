@@ -6,8 +6,10 @@ import { localLoginInfo } from "../Helpers/utils";
 
 const PrivateRoute: React.FC<IPrivateRouteProps> = (props: IPrivateRouteProps) => {
   const { children, stateAuth } = props;
-  console.log(auth);
-  return auth.currentUser ? children : <Navigate to="/login" />;
+  // LEAVE FOR NOW: 
+  // const routeAuth = auth.currentUser;
+
+  return stateAuth ? children : <Navigate replace to="/login" />;
 };
 
 export default PrivateRoute;

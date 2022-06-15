@@ -80,7 +80,7 @@ const StyledHeroContainer = styled.div`
 `;
 
 const SOHeroContainer: React.FC<PropsHero> = (props) => {
-  // const nav = useNavigate();
+  const { nav } = props;
 
   return (
     <StyledHeroContainer data-signed-out data-sohero-background>
@@ -92,8 +92,8 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis?</p>
         </div>
         <div data-sohero-button-container>
-          <SOButtons onClick={(() => { props.nav?.('login'); })} color="white" bgColor="black" >Login</SOButtons>
-          <SOButtons onClick={(() => { props.nav?.('sign-up'); })} fontSize={'24px'} >Sign Up</SOButtons>
+          <SOButtons onClick={(() => { nav?.('login'); })} color="white" bgColor="black" >Login</SOButtons>
+          <SOButtons onClick={(() => { nav?.('sign-up'); })} fontSize={'24px'} >Sign Up</SOButtons>
         </div>
       </div>
       <div>

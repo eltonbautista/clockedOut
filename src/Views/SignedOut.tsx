@@ -5,9 +5,11 @@ import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import background from '../Styles/assets/78_generated.jpg';
 import { auth } from "../firebase-config";
 import { Navigate } from "react-router-dom";
+import { User } from "firebase/auth";
 
 interface Props {
   nav?: Function,
+  stateAuth?: User | string | null | undefined;
 }
 
 const fillerText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias ab corporis beatae eveniet aliquam at ea sequi quasi minima saepe! Hic saepe aut ipsum aliquam eos delectus, quo ab dolor? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis?';
@@ -25,13 +27,12 @@ const StyledSignedOut = styled.div`
 `;
 
 const SignedOut: React.FC<Props> = (props) => {
-  const authorization = auth.currentUser;
-  const loggedInformation = localStorage.getItem('loginInfo');
+  const { stateAuth, nav } = props;
 
-  return !loggedInformation ? (
+  return !stateAuth ? (
     // FIRST SCROLLED VIEW
     <StyledSignedOut>
-      <SOHeroContainer nav={props.nav} />
+      <SOHeroContainer nav={nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
         <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="one" pText={fillerText} />
@@ -40,7 +41,7 @@ const SignedOut: React.FC<Props> = (props) => {
       </div>
       <div></div>
     </StyledSignedOut>
-  ) : <Navigate to='/feed' />;
+  ) : <Navigate replace to='/feed' />;
 };
 
 export default SignedOut;

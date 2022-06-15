@@ -66,7 +66,7 @@ export default function Login(props: ILoginProps) {
           </div>
           <div>
             <SOButtons type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
-            <SOButtons type='button' noStyle={true} onClick={() => props.nav?.('sign-up')} >
+            <SOButtons type='button' noStyle={true} onClick={() => nav?.('sign-up', { replace: true })} >
               <ButtonHeader>Don't have an account?</ButtonHeader>
             </SOButtons>
           </div>
@@ -76,5 +76,5 @@ export default function Login(props: ILoginProps) {
 
     </StyledLoginPage>
 
-  ) : <Navigate to="/feed" />;
+  ) : <Navigate replace to="/feed" />;
 }

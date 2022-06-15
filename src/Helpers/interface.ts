@@ -16,6 +16,7 @@ export interface ISignUpProps {
   nav?: Function,
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData) => void,
   inputFields: IData;
+  stateAuth?: User | string | null | undefined;
 }
 
 export interface ILoginProps {
@@ -23,7 +24,7 @@ export interface ILoginProps {
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput) => void;
   inputFields: ILoginInput;
   submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void;
-  stateAuth?: User | null | undefined;
+  stateAuth?: User | string | null | undefined;
 }
 
 export interface IFeedProps {
@@ -37,11 +38,11 @@ export interface IPostProps {
 export interface IPrivateRouteProps {
   // path: string;
   children: React.ReactElement;
-  stateAuth: User | null | undefined;
+  stateAuth: User | string | null | undefined;
 }
 
 export interface INavProps {
   authorized: boolean;
   nav?: Function;
-  stateAuth: User | null | undefined;
+  stateAuth: User | string | null | undefined;
 }
