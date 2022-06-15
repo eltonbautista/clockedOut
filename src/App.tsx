@@ -52,6 +52,13 @@ const App: React.FC = function App() {
     password: '',
   };
 
+  useEffect(() => {
+    const storedToken = localStorage.getItem('loginInfo');
+    if (storedToken && location.pathname === '/') {
+      navigate('feed');
+    }
+  });
+
   // Checks if user is currently authenticated/logged in, also sets loggedInData if authState detects user as logged in.
 
   // useEffect(() => {
@@ -77,9 +84,8 @@ const App: React.FC = function App() {
         setLoggedInData(user);
       }
     });
-  });
-
-
+  }, []);
+  signingOut();
   // An effect that checks if the storedToken is === to Firebase's current token. Since Firebase adds expiration times on their authentication token for security purposes, I added this effect so that the user would get signed out if the tokens don't match.
   useEffect(() => {
 
@@ -94,15 +100,11 @@ const App: React.FC = function App() {
         if (currentToken !== storedToken) {
           signingOut();
         }
-
-        if (storedToken && location.pathname === '/') {
-          navigate('feed');
-        }
       };
       tokenChecker();
     }
 
-  }, [location.pathname, loggedInData, navigate]);
+  }, [location.pathname, loggedInData]);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
 
