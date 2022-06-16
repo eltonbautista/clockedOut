@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { IFeedProps, ICircularPictureProps } from "../Helpers/interface";
+import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp from "../Styles/assets/testpfp.jpeg";
 import testpfp1 from "../Styles/assets/testpfp1.jpg";
@@ -10,6 +10,12 @@ import testpfp2 from "../Styles/assets/testpfp2.jpg";
 const StyledFeed = styled.div`
   display: grid;
   min-height: 100%;
+
+  * {
+    font-family: grenze, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+  }
 `;
 
 const StyledScaffoldContainer = styled.div`
@@ -40,43 +46,65 @@ const StyledSidebar = styled.div`
     display: grid;
     justify-items: center;
     position: relative;
-    /* grid-template-rows: repeat(4, 1fr); */
+    grid-template-rows: 0.35fr 0.1fr 0.18fr ;
   }
 
-  > div:first-of-type > div:first-of-type {
+  /* > div:first-of-type > div:first-of-type {
     background-color: wheat;
     position: absolute;
     width: 100%;
-    height: 15%;
-  };
-
-  /* > div:first-of-type > div:last-of-type {
-    z-index: 1;
-    position: absolute;
-    width: min(30%, 80px);
-    height: min(50%, 80px);
-    overflow: hidden;
-    justify-items: center;
-    position: sticky;
-    margin-top: 15%;
-    border-radius: 50%;
+    height: 16%;
   }; */
-
-  > div:first-of-type > div:last-of-type > img{
-    /* width: 100%; */
-    /* height: 100%; */
-    /* margin-left: 10px; */
-    /* border-radius: 50%; */
-  }
 
   > div:first-of-type > p {
     font-size: clamp(14px, 1.5vh, 18px);
     font-family: grenze;
   }
 
+  > div:first-of-type > div:nth-child(3) {
+    position: relative;
+    display: grid;
+    width: 100%;
+  }
+
+  > div:first-of-type > div:nth-child(3) > a {
+    color: black;
+    position: absolute;
+    font-family: grenze, Arial, Helvetica, sans-serif;
+    font-weight: 600;
+    letter-spacing: 0.3px;
+    text-decoration: none;
+    width: 100px;
+    justify-self: center;
+    /* top: min(-80%, -45px); */
+    top: -45px;
+    font-size: clamp(16px, 2vh, 20px);
+  }
+
+  > div:first-of-type > div:nth-child(3) > p {
+    color: black;
+    font-family: grenze, sans-serif;
+    font-weight: 600;
+    font-size: clamp(16px, 2vh, 20px);
+    position: absolute;
+    overflow: hidden;
+    width: 100%;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    justify-self: start;
+    :hover {
+      white-space: normal;
+      text-overflow: clip;
+      overflow: visible;
+      height: fit-content;
+      width: 100%;
+      background-color: white;
+    }
+  }
+
+
   >div:last-of-type {
     display: grid;
-    
   }
 `;
 
@@ -102,7 +130,14 @@ const CircularPicture: React.FC<ICircularPictureProps> = (props) => {
   );
 };
 
-
+const BackgroundCanvas = styled.div<IBackgroundCanvas>`
+  ${props => props.sidebar ? `width: 100%; height: 17%; background-color: #000000cd; position: absolute; ` :
+    `width: ${props.width};
+    height: ${props.height};
+    background-color: ${props.backgroundColor};
+    position: absolute;` }
+`;
+// To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
 const Feed: React.FC<IFeedProps> = () => {
   return (
@@ -112,14 +147,12 @@ const Feed: React.FC<IFeedProps> = () => {
         <StyledSidebar id="feed-sidebar">
 
           <div className="feed-sidebar-upper">
-            <div></div>
-            <CircularPicture zIndex="0" marginTop="15%" imgSrc={testpfp2} height="min(50%, 80px)" width="min(30%, 80px)" />
-            {/* <div>
-              <img src={testpfp1} alt="pfp"></img>
-            </div> */}
-
-            <a href="asd.com">User's name</a>
-            <p>Small profile description about 50 words long</p>
+            <BackgroundCanvas sidebar></BackgroundCanvas>
+            <CircularPicture zIndex="0" marginTop="15%" imgSrc={testpfp2} height="max(50%, 80px)" width="max(30%, 80px)" />
+            <div>
+              <a href="asd.com">Robert Kugler</a>
+              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus qui odio mollitia earum deserunt veritatis, necessitatibus saepe delectus sequi iure.</p>
+            </div>
             <ul>
               {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
               <li>Valorant // waves#6666</li>

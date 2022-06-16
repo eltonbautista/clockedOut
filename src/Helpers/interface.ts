@@ -59,9 +59,10 @@ export interface ICircularPictureProps {
   // imgAlt?: string;
 }
 
-interface ICircularDiv {
-  zIndex: string;
-  width: string;
-  height: string;
-  marginTop: string;
+export interface IBackgroundCanvas {
+  sidebar?: boolean;
+  width?: string;
+  height?: string;
+  backgroundColor?: string;
+  position?: string;
 }
