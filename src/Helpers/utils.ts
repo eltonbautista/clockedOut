@@ -1,6 +1,7 @@
 import React from "react";
 import { User } from "firebase/auth";
-import { profanities } from 'profanities';
+// import { profanities } from 'profanities';
+
 export const createLocalInfo = async (userInfo: User | null | undefined) => {
   const myToken: string = await userInfo!.getIdToken();
   localStorage.removeItem('loginInfo');
@@ -9,8 +10,7 @@ export const createLocalInfo = async (userInfo: User | null | undefined) => {
 
 export const localLoginInfo = localStorage.getItem('loginInfo');
 
-console.log(profanities);
-export const profanityList = [...profanities];
+export const profanityList = [];
 
 export const filterBadWords = (arr: string[], input: string) => {
   // First "build" the input so that it can be checked against the arr

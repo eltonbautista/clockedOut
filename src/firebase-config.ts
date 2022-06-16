@@ -1,3 +1,4 @@
+import { profanities } from 'profanities';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import {
@@ -42,13 +43,32 @@ const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth();
 
+// Collection references
+const collections =
+{
+  profanitiesRef: collection(db, 'profanities')
+};
+
+// const list = [...profanities];
+
+// const addToDocs = async () => {
+//   await addDoc(collection(db, "profanities"), { profanities: list });
+// };
+// addToDocs();
+
 export const createUserInformation = async (email: string, password: string, username: string) => {
 
-  if (!filterBadWords(profanityList, username)) {
-    return false;
-  };
 
   try {
+    const profanityList: any = [];
+    const profanityQuerySnapshot = await getDocs(collections.profanitiesRef);
+    profanityQuerySnapshot.forEach((doc) => {
+      profanityList.push({ ...doc.data(), id: doc.id });
+    });
+    console.log(profanityList[0].profanities);
+    if (!filterBadWords(profanityList[0].profanities, username)) {
+      return false;
+    };
 
     const createdInfo = await createUserWithEmailAndPassword(auth, email, password);
     const user = createdInfo.user;
@@ -69,9 +89,9 @@ export const signingOut = async (stateAuth?: User | null | undefined, navTo?: Fu
   try {
     await signOut(auth);
     localStorage.removeItem('loginInfo');
-    if (!stateAuth) {
-      navTo?.('login');
-    }
+
+    navTo?.('login');
+
   } catch {
     console.log('There was an error logging out');
   }
