@@ -10,6 +10,7 @@ import testpfp2 from "../Styles/assets/testpfp2.jpg";
 const StyledFeed = styled.div`
   display: grid;
   min-height: 100%;
+  background-color: black;
 
   * {
     font-family: grenze, sans-serif;
@@ -32,15 +33,16 @@ const StyledScaffoldContainer = styled.div`
 const StyledMain = styled.main`
   grid-area: main;
   display: grid;
-  background-color: purple;
+  background-color: #6a5454;
 `;
 const StyledAside = styled.aside`
   grid-area: aside;
+  background-color: wheat;
 `;
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
-  /* position: relative; */
+  background-color: wheat;
   
   > div:first-of-type {
     display: grid;
@@ -48,13 +50,6 @@ const StyledSidebar = styled.div`
     position: relative;
     grid-template-rows: 0.35fr 0.1fr 0.18fr ;
   }
-
-  /* > div:first-of-type > div:first-of-type {
-    background-color: wheat;
-    position: absolute;
-    width: 100%;
-    height: 16%;
-  }; */
 
   > div:first-of-type > p {
     font-size: clamp(14px, 1.5vh, 18px);
