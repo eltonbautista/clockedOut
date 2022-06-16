@@ -38,7 +38,6 @@ const StyledAppContainer = styled.div`
   position: relative;
 `;
 const App: React.FC = function App() {
-
   // HOOKS & STATES
   const navigate: Function = useNavigate();
 
