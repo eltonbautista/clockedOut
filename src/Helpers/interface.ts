@@ -49,3 +49,19 @@ export interface INavProps {
   stateAuth: User | string | null | undefined;
   setLocalInfo?: Function;
 }
+
+export interface ICircularPictureProps {
+  zIndex?: string;
+  width?: string;
+  height?: string;
+  marginTop?: string;
+  imgSrc?: string;
+  // imgAlt?: string;
+}
+
+interface ICircularDiv {
+  zIndex: string;
+  width: string;
+  height: string;
+  marginTop: string;
+}
