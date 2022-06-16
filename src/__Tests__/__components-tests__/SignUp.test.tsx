@@ -94,9 +94,9 @@ describe('Tests for SignUp component', () => {
     };
     const { testEmail, testPassword } = testData;
 
-    act(() => {
-      render(<Login inputFields={loginObj} />);
-    });
+
+    render(<Login inputFields={loginObj} />);
+
     const [email, password] = screen.getAllByTestId('input');
 
     const loginBtn = screen.getByRole('button', { name: 'Login' });

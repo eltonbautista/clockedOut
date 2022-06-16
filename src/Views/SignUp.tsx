@@ -34,9 +34,6 @@ export default function SignUp(props: ISignUpProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();
-
-    // TODO: 
-    // Store information onto LocalStorage so that refreshing doesn't remove user info
     buttonSwitch = await createUserInformation(info.email, info.password, info.username);
     context.setUserSignUpData({ ...info });
   };

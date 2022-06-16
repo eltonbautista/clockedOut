@@ -49,13 +49,6 @@ const collections =
   profanitiesRef: collection(db, 'profanities')
 };
 
-// const list = [...profanities];
-
-// const addToDocs = async () => {
-//   await addDoc(collection(db, "profanities"), { profanities: list });
-// };
-// addToDocs();
-
 export const createUserInformation = async (email: string, password: string, username: string) => {
 
 
