@@ -6,6 +6,7 @@ import background from '../Styles/assets/78_generated.jpg';
 import { auth } from "../firebase-config";
 import { Navigate } from "react-router-dom";
 import { User } from "firebase/auth";
+import { localLoginInfo } from "../Helpers/utils";
 
 interface Props {
   nav?: Function,
@@ -28,6 +29,10 @@ const StyledSignedOut = styled.div`
 
 const SignedOut: React.FC<Props> = (props) => {
   const { stateAuth, nav } = props;
+
+  if (localLoginInfo && !stateAuth) {
+    return <div>loading assets..</div>;
+  }
 
   return !stateAuth ? (
     // FIRST SCROLLED VIEW

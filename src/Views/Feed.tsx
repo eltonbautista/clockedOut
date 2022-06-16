@@ -28,10 +28,6 @@ const StyledSidebar = styled.div`
   }
 `;
 
-
-
-
-
 const Feed: React.FC<IFeedProps> = () => {
   return (
     <StyledFeedContainer id="feed-container">

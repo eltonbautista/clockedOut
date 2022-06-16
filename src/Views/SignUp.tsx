@@ -7,7 +7,7 @@ import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
-import { filterBadWords, profanityList } from "../Helpers/utils";
+import { filterBadWords, localLoginInfo, profanityList } from "../Helpers/utils";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
@@ -18,6 +18,7 @@ let buttonSwitch: boolean = false;
 export default function SignUp(props: ISignUpProps) {
   const { stateAuth } = props;
   const context = useContext(UserContext);
+
   useEffect(() => {
     const inputs = document.querySelectorAll('input');
     if (buttonSwitch === true) {
@@ -28,6 +29,9 @@ export default function SignUp(props: ISignUpProps) {
     // buttonSwitch = false;
   }, []);
 
+  if (localLoginInfo && !stateAuth) {
+    return <div>loading assets..</div>;
+  }
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();

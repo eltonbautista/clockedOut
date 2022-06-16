@@ -30,3 +30,4 @@ export const filterBadWords = (arr: string[], input: string) => {
 
   return filteredInput;
 };
+

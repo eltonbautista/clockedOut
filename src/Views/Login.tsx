@@ -7,7 +7,7 @@ import { IData, ILoginProps } from "../Helpers/interface";
 import { signingIn } from '../firebase-config';
 import { localLoginInfo } from '../Helpers/utils';
 import { Navigate } from 'react-router-dom';
-
+import Feed from './Feed';
 export const StyledForm = styled.form`
   height: fit-content;
   padding: 50px;
@@ -45,12 +45,15 @@ export const StyledLoginPage = styled.div`
   }
 `;
 
-
-
 export default function Login(props: ILoginProps) {
   const { nav, stateAuth } = props;
   const { email, password, } = props.inputFields;
-  return !stateAuth ? (
+
+  if (localLoginInfo && !stateAuth) {
+    return <div>loading assets..</div>;
+  }
+
+  return stateAuth ? <Navigate to="/feed" /> : (
     <StyledLoginPage>
 
       <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>
@@ -76,5 +79,5 @@ export default function Login(props: ILoginProps) {
 
     </StyledLoginPage>
 
-  ) : <Navigate replace to="/feed" />;
+  );
 }

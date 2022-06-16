@@ -21,6 +21,7 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
       <Link to="/feed" >Feed</Link>
       <SOButtons onClick={() => {
         signingOut();
+        localStorage.removeItem('loginInfo');
         nav?.('login', { replace: true });
       }} >Sign Out</SOButtons>
     </nav>);
