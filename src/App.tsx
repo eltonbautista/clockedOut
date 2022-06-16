@@ -1,19 +1,19 @@
-import React, { useState, useEffect, useMemo, useCallback } from 'react';
+import React, { useState, useEffect, useMemo } from 'react';
 import './Styles/App.css';
 import SignedOut from './Views/SignedOut';
 import SignUp from './Views/SignUp';
 import Login from './Views/Login';
 import Feed from './Views/Feed';
-import { Link, Navigate, Outlet, useLocation, useNavigate, useParams, } from 'react-router-dom';
+import { Outlet, useNavigate, } from 'react-router-dom';
 import { Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, ILoginInput } from './Helpers/interface';
-import { signingIn, IUser, signingOut, initFirebaseAuth, currentUserInfo, auth } from './firebase-config';
+import { signingIn, IUser, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import PrivateRoute from './Views/PrivateRoute';
 import Navbar from './Components/Navbar';
-import { createLocalInfo, localLoginInfo } from './Helpers/utils';
+import { createLocalInfo } from './Helpers/utils';
 
 
 const StyledH1 = styled.h1`

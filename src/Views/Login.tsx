@@ -1,13 +1,9 @@
-import React, { useEffect, useRef } from 'react';
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import backgroundImage from '../Styles/assets/31.jpg';
-import { IData, ILoginProps } from "../Helpers/interface";
-import { signingIn } from '../firebase-config';
-import { localLoginInfo } from '../Helpers/utils';
+import { ILoginProps } from "../Helpers/interface";
 import { Navigate } from 'react-router-dom';
-import Feed from './Feed';
 export const StyledForm = styled.form`
   height: fit-content;
   padding: 50px;
@@ -47,7 +43,7 @@ export const StyledLoginPage = styled.div`
 
 export default function Login(props: ILoginProps) {
   const { nav, stateAuth, localAuth } = props;
-  const { email, password, } = props.inputFields;
+  // const { email, password, } = props.inputFields;
 
   if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;

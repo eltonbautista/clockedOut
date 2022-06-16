@@ -1,13 +1,12 @@
-import React, { createContext, useContext, useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
-import { StyledLoginPage, StyledForm, StyledFormContainers } from './Login';
+import { StyledLoginPage, StyledForm } from './Login';
 import styled from 'styled-components';
 import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
-import { filterBadWords, localLoginInfo, profanityList } from "../Helpers/utils";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;

@@ -3,10 +3,8 @@ import styled from "styled-components";
 import { SODescriptionContainers, SOHeroContainer } from "../Components/SOComponents";
 import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import background from '../Styles/assets/78_generated.jpg';
-import { auth } from "../firebase-config";
 import { Navigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import { localLoginInfo } from "../Helpers/utils";
 
 interface Props {
   nav?: Function,
