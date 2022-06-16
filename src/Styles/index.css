@@ -72,3 +72,13 @@ h6 {
   font-family: grenze;
   src: url('./assets/Grenze-Thin.otf');
 }
+
+@font-face {
+  font-family: grenzeMedium;
+  src: url(./assets//Grenze-Medium.otf);
+}
+
+@font-face {
+  font-family: robotoLight;
+  src: url('./assets/Roboto-Light.ttf');
+}

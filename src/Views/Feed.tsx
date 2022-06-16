@@ -5,17 +5,19 @@ import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp from "../Styles/assets/testpfp.jpeg";
 import testpfp1 from "../Styles/assets/testpfp1.jpg";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
-
+import { ButtonGroup } from "react-bootstrap";
+import { palette } from "../Helpers/utils";
 
 const StyledFeed = styled.div`
   display: grid;
   min-height: 100%;
-  background-color: black;
+  background-color: ${palette.black};
 
   * {
-    font-family: grenze, sans-serif;
-    font-weight: 600;
+    font-family: grenzeMedium, sans-serif;
+    font-weight: 300;
     letter-spacing: 0.3px;
+    color: ${palette.black};
   }
 `;
 
@@ -26,34 +28,34 @@ const StyledScaffoldContainer = styled.div`
   max-width: 85vw;
   min-width: 80vw;
   justify-self: center;
-  background: cyan;
+  /* background: cyan; */
   /* min-height: 90%; */
 `;
 
 const StyledMain = styled.main`
   grid-area: main;
   display: grid;
-  background-color: #6a5454;
+  background-color: ${palette.black};
 `;
 const StyledAside = styled.aside`
   grid-area: aside;
-  background-color: wheat;
+  background-color: ${palette.red};
+
+  button {
+    color: ${palette.purple};
+    width: 50%;
+  }
 `;
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
-  background-color: wheat;
-  
+  background-color: ${palette.red};
+
   > div:first-of-type {
     display: grid;
     justify-items: center;
     position: relative;
-    grid-template-rows: 0.35fr 0.1fr 0.18fr ;
-  }
-
-  > div:first-of-type > p {
-    font-size: clamp(14px, 1.5vh, 18px);
-    font-family: grenze;
+    grid-template-rows: 0.35fr 0.1fr 0.5fr;
   }
 
   > div:first-of-type > div:nth-child(3) {
@@ -63,10 +65,8 @@ const StyledSidebar = styled.div`
   }
 
   > div:first-of-type > div:nth-child(3) > a {
-    color: black;
+    color: ${palette.black};
     position: absolute;
-    font-family: grenze, Arial, Helvetica, sans-serif;
-    font-weight: 600;
     letter-spacing: 0.3px;
     text-decoration: none;
     width: 100px;
@@ -77,9 +77,9 @@ const StyledSidebar = styled.div`
   }
 
   > div:first-of-type > div:nth-child(3) > p {
-    color: black;
-    font-family: grenze, sans-serif;
-    font-weight: 600;
+    color: ${palette.black};
+    /* font-family: grenzeMedium, Arial, Helvetica, sans-serif; */
+    font-weight: 100;
     font-size: clamp(16px, 2vh, 20px);
     position: absolute;
     overflow: hidden;
@@ -97,9 +97,31 @@ const StyledSidebar = styled.div`
     }
   }
 
+  ul {
+    display: grid;
+    align-items: center;
+    list-style: none;
+    justify-items: center;
+    padding: 0;
+    font-size: clamp(16px, 2vh, 26px);
+  }
+
+  ul a {
+    text-decoration: none;
+  }
 
   >div:last-of-type {
     display: grid;
+    height: 40%;
+    align-items: center;
+  }
+
+  >div:last-of-type > div > button > h5 {
+    /* letter-spacing: 1.5px; */
+    font-size: clamp(23px, 2vh, 26px);
+    font-family: ostrichSansHeavy;
+
+    font-weight: 900;
   }
 `;
 
@@ -150,9 +172,12 @@ const Feed: React.FC<IFeedProps> = () => {
             </div>
             <ul>
               {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
+              {/* allow users to add links and I can add the corresponding icons */}
               <li>Valorant // waves#6666</li>
               <li>Bloodhunt // PsychToTech</li>
-              <li>VSC // PsychToTech</li>
+              <li><a href="test" >Steam</a></li>
+              <li><a href="test" >Github</a></li>
+              <li><a href="test" >Twitter</a></li>
             </ul>
           </div>
 

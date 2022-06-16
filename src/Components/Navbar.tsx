@@ -5,14 +5,14 @@ import { SOButtons } from "./Buttons";
 import { signingOut } from "../firebase-config";
 import { localLoginInfo } from "../Helpers/utils";
 import styled from "styled-components";
-
+import { palette } from "../Helpers/utils";
 
 const FeedNav = styled.nav`
   display: grid;
   /* grid-auto-flow: column; */
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
-  background-color: wheat;
+  background-color: ${[palette.purple]};
   > div {
     display: grid;
   }

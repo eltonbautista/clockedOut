@@ -9,7 +9,7 @@ import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
 import { createLocalInfo } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
-
+// import 'bootstrap/dist/css/bootstrap.min.css';
 
 const StyledH1 = styled.h1`
   color: red;

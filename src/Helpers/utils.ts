@@ -31,3 +31,11 @@ export const filterBadWords = (arr: string[], input: string) => {
   return filteredInput;
 };
 
+
+export const palette =
+{
+  red: "#FA4753",
+  black: "#17181C",
+  white: "#FFFFFF",
+  purple: "#9BA5C9"
+};
