@@ -6,7 +6,7 @@ import { signingOut } from "../firebase-config";
 import { localLoginInfo } from "../Helpers/utils";
 
 const Navbar: React.FC<INavProps> = (props: INavProps) => {
-  const { authorized, nav, stateAuth } = props;
+  const { authorized, nav, stateAuth, setLocalInfo } = props;
 
   return (!stateAuth ?
     <nav id="navbar">
@@ -21,7 +21,8 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
       <Link to="/feed" >Feed</Link>
       <SOButtons onClick={() => {
         signingOut();
-        localStorage.removeItem('loginInfo');
+        setLocalInfo?.(null);
+        // localStorage.removeItem('loginInfo');
         nav?.('login', { replace: true });
       }} >Sign Out</SOButtons>
     </nav>);

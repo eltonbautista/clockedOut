@@ -56,8 +56,13 @@ const App: React.FC = function App() {
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
+  const [localInfo, setLocalInfo] = useState<string | null>(null);
+
 
   useEffect(() => {
+    const info = localStorage.getItem('loginInfo');
+    setLocalInfo(info);
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setLoggedInData(user);
@@ -70,7 +75,6 @@ const App: React.FC = function App() {
   }, []);
 
   const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
-
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
     setUserSignUpData({ ...userSignUpData });
@@ -87,10 +91,10 @@ const App: React.FC = function App() {
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     const currUser = await signingIn(userLoginData.email, userLoginData.password);
-
     setLoggedInData(currUser);
     await createLocalInfo(currUser);
 
+    // setLocalInfo(localStorage.getItem('loginInfo'));
     if (currUser?.email) {
       navigate('feed', { replace: true });
     }
@@ -102,16 +106,16 @@ const App: React.FC = function App() {
       <header>
         {/* LEAVE FOR NOW */}
         {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
-        {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar stateAuth={loggedInData} nav={navigate} authorized={true} />}
+        {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
       </header>
 
       <UserContext.Provider value={UCProviderVal}>
 
         <Routes>
 
-          <Route path='/' element={<SignedOut nav={navigate} stateAuth={loggedInData} />}></Route>
-          <Route path='/login' element={<Login inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
-          <Route path='/sign-up' element={<SignUp inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+          <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
+          <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+          <Route path='/sign-up' element={<SignUp localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
 
           <Route path='/feed'
             element={

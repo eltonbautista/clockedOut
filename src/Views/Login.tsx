@@ -1,4 +1,4 @@
-import * as React from 'react';
+import React, { useEffect, useRef } from 'react';
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
@@ -46,10 +46,10 @@ export const StyledLoginPage = styled.div`
 `;
 
 export default function Login(props: ILoginProps) {
-  const { nav, stateAuth } = props;
+  const { nav, stateAuth, localAuth } = props;
   const { email, password, } = props.inputFields;
 
-  if (localLoginInfo && !stateAuth) {
+  if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;
   }
 

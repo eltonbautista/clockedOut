@@ -17,6 +17,7 @@ export interface ISignUpProps {
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData) => void,
   inputFields: IData;
   stateAuth?: User | string | null | undefined;
+  localAuth?: string | null;
 }
 
 export interface ILoginProps {
@@ -25,6 +26,7 @@ export interface ILoginProps {
   inputFields: ILoginInput;
   submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void;
   stateAuth?: User | string | null | undefined;
+  localAuth?: string | null;
 }
 
 export interface IFeedProps {
@@ -45,4 +47,5 @@ export interface INavProps {
   authorized: boolean;
   nav?: Function;
   stateAuth: User | string | null | undefined;
+  setLocalInfo?: Function;
 }

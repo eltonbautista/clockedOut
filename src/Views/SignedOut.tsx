@@ -11,6 +11,7 @@ import { localLoginInfo } from "../Helpers/utils";
 interface Props {
   nav?: Function,
   stateAuth?: User | string | null | undefined;
+  localAuth?: string | null;
 }
 
 const fillerText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias ab corporis beatae eveniet aliquam at ea sequi quasi minima saepe! Hic saepe aut ipsum aliquam eos delectus, quo ab dolor? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis? Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis?';
@@ -28,11 +29,11 @@ const StyledSignedOut = styled.div`
 `;
 
 const SignedOut: React.FC<Props> = (props) => {
-  const { stateAuth, nav } = props;
+  const { stateAuth, nav, localAuth } = props;
 
-  if (localLoginInfo && !stateAuth) {
+  if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;
-  }
+  };
 
   return !stateAuth ? (
     // FIRST SCROLLED VIEW
@@ -49,4 +50,4 @@ const SignedOut: React.FC<Props> = (props) => {
   ) : <Navigate replace to='/feed' />;
 };
 
-export default SignedOut;
+export default React.memo(SignedOut);

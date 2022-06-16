@@ -16,7 +16,7 @@ const StyledSUForm = styled(StyledForm)`
 let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
-  const { stateAuth } = props;
+  const { stateAuth, localAuth } = props;
   const context = useContext(UserContext);
 
   useEffect(() => {
@@ -29,7 +29,7 @@ export default function SignUp(props: ISignUpProps) {
     // buttonSwitch = false;
   }, []);
 
-  if (localLoginInfo && !stateAuth) {
+  if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;
   }
 
