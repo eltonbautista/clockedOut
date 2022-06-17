@@ -191,6 +191,12 @@ const StyledDescContainer = styled.div<PropsDesc>`
     border: 20px solid ${palette.black};
     /* height: 60%; */
     grid-area: image;
+
+    :hover {
+      ::before {
+        content: "Donda(4K) - https://www.youtube.com/watch?v=_jwWlpype9g&ab_channel=DestructEdits";
+      }
+    }
   }
 
   
