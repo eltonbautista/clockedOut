@@ -5,7 +5,7 @@ import stylesModule from '../../Styles/SignedOut.module.css';
 import test from '../Styles/assets/78_generated.jpg';
 import { palette } from "../Helpers/utils";
 import valoImg from '../Styles/assets/valResized.jpg';
-
+import donda from '../Styles/assets/Donda.mp4';
 
 const StyledHeroHeader = styled.h1`
 color: ${palette.black};
@@ -188,7 +188,8 @@ const StyledDescContainer = styled.div<PropsDesc>`
   > div > div[data-not-div] {
     /* background-color: black; */
     width: 80%;
-    height: 60%;
+    border: 20px solid ${palette.black};
+    /* height: 60%; */
     grid-area: image;
   }
 
@@ -231,7 +232,12 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
         </div> : null}
 
       <div data-description-first >
-        {!last && !imgRight && <div data-not-div></div>}
+        {!last && !imgRight &&
+          <div data-not-div>
+            <video autoPlay loop>
+              <source src={donda} type="video/mp4"></source>
+            </video>
+          </div>}
         {!last && imgRight && <img src={imgSrc} alt={imgAlt} ></img>}
         {last && null}
         <div>
