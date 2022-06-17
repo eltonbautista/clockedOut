@@ -5,6 +5,7 @@ import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import background from '../Styles/assets/78_generated.jpg';
 import { Navigate } from "react-router-dom";
 import { User } from "firebase/auth";
+import sFImg from "../Styles/assets/fighter.svg";
 
 interface Props {
   nav?: Function,
@@ -37,7 +38,7 @@ const SignedOut: React.FC<Props> = (props) => {
       <SOHeroContainer nav={nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
-        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="compete" pText={fillerText} />
+        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${sFImg}`} hText="compete" pText={fillerText} />
         <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="improvise" pText={fillerText} />
         <SODescriptionContainers last="true" imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="experience" pText={fillerText} />
       </div>

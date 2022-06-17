@@ -19,6 +19,11 @@
 
 __Assets used: 
 
+Images:
+- https://www.citypng.com/show_download/stock/12051
+
+- https://wall.alphacoders.com/big.php?i=1149330
+
 Vectors:
 - https://www.vecteezy.com/vector-art/1933357-game-on-neon-signs-style-text-vector
 

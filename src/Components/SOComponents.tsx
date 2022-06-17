@@ -4,6 +4,8 @@ import { SOButtons, } from "./Buttons";
 import stylesModule from '../../Styles/SignedOut.module.css';
 import test from '../Styles/assets/78_generated.jpg';
 import { palette } from "../Helpers/utils";
+import valoImg from '../Styles/assets/valResized.jpg';
+
 
 const StyledHeroHeader = styled.h1`
 color: ${palette.black};
@@ -38,6 +40,8 @@ const StyledHeroContainer = styled.div`
     justify-items: center;
     box-sizing: border-box;
     height: max(400px, 40vh);
+
+    margin-bottom: max(150px, 7%);
   }
 
   div[data-sohero-text] {
@@ -58,7 +62,7 @@ const StyledHeroContainer = styled.div`
     margin-top: max(10px, 0.8vh);
     padding-bottom: 10px;
     z-index: 1;
-    border-bottom: 2px solid ${palette.black};
+    border-bottom: 1px solid ${palette.black};
   }
 
   div[data-sohero-button-container] {
@@ -97,7 +101,6 @@ const StyledHeroContainer = styled.div`
   width: 100%;
   height: 100%;
   position: absolute;
-  border-bottom: 2px solid ${palette.white};
   }
 `;
 
@@ -106,6 +109,7 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
 
   return (
     <StyledHeroContainer data-signed-out data-sohero-background>
+
       <div data-signed-out data-sohero-body>
         <div data-sohero-text>
           <StyledHeroHeader>
@@ -118,9 +122,16 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
           <SOButtons onClick={(() => { nav?.('sign-up'); })} fontSize={'24px'} >Sign-Up</SOButtons>
         </div>
       </div>
+
       <div>
-        <img src="" alt=""></img>
+        {/* <img src="" alt=""></img> */}
+        <div className="custom-shape-divider-bottom-1655480482">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 120" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
+          </svg>
+        </div>
       </div>
+
     </StyledHeroContainer>
   );
 };
@@ -142,43 +153,65 @@ const StyledDescContainer = styled.div<PropsDesc>`
   background-color: ${props => props.imgRight ? `#fc9a9a` : `${palette.red}`};
   border-bottom: ${props => props.imgRight ? `2px solid ${palette.black}` : ` 2px solid ${palette.white}`};
   font-family: jostLight, grenze, Arial, Helvetica, sans-serif;
-  /* ${props => props.last ? `background-color: #dd8b82` : null}; */
+  ${props => props.last ?
+    `
+   background-image: url(${valoImg}); 
+   background-size: cover;
+   background-attachment: fixed;
+   background-position: 0 300px;
+   color: white;
+   height: 30%;
+   display: grid; 
+   align-items: center;
+   @media screen and (max-height: 460px) 
+  { background-position: 0 100px; }` : null};
   
   > div[data-description-first] {
     display: grid;
-    grid-template-columns: 1fr 1fr;
+    ${props => !props.imgRight && !props.last ? "padding: 50px 0 50px 0;" : null}
+    grid-template-columns: 1fr 0.5fr;
     grid-template-areas: ${props => props.imgRight ? '"text image"' : '"image text"'};
     align-items: center;
     justify-items: center;
-
+    /* height: 80%; */
     > div > h2 {
-      
+      font-size: clamp(32px, 2.5vh, 36px);
       text-align: ${props => props.imgRight ? "left" : "center"};
       border-bottom: ${props => props.imgRight ? `2px solid ${palette.white}` : `2px solid ${palette.black}`};
       margin-bottom: 12px;
       padding-bottom: 2px;
+      ${props => props.last ? "color: white;" : null}
     }
+
   }
 
-  > div[data-description-first] > img {
-    width: ${props => props.imgRight ? '80%' : '70%'};;
-    height: ${props => props.imgRight ? '80%' : '70%'};;
+  > div > div[data-not-div] {
+    /* background-color: black; */
+    width: 80%;
+    height: 60%;
     grid-area: image;
   }
 
-  > div[data-description-first] > div {
-    width: 80%;
-    grid-area: text;
-    /* font-family: ostrichSansHeavy; */
-    color: ${props => props.imgRight ? `${palette.black}` : "#e9dede"};
-    font-size: ${props => props.imgRight ? 'min(2vh, 20px)' : 'min(2.2vh, 22px)'};
-    letter-spacing: 1px;
-
+  
+  > div[data-description-first] > img {
+    width: ${props => props.imgRight ? '70%' : '60%'};
+    height: ${props => props.imgRight ? '70%' : '60%'};
+    ${props => !props.imgRight && !props.last ? "grid-area: null;" : "grid-area: image;"}
+    /* grid-area: image; */
+    /* opacity: ${props => props.last ? "0" : null}; */
+    /* opacity: 0; */
+    padding: 0;
+    margin: 0;
   }
 
-  > div[data-description-first] > div > p {
-    /* font-family: ostrichSansHeavy; */
-    /* font-weight: 900; */
+  > div[data-description-first] > div:last-of-type {
+    width: 80%;
+    grid-area: text;
+    color: ${props => props.imgRight ? `${palette.black}` : "#ffffff"};
+    color: ${props => props.last ? "#ffffff" : `${palette.black}`};
+    font-size: ${props => props.imgRight ? 'min(2vh, 20px)' : 'min(2.2vh, 22px)'};
+    letter-spacing: 1px;
+    ${props => props.imgRight ? "margin-right: 100px; padding-right: 150px;" : null}
   }
 
 `;
@@ -190,8 +223,17 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
 }) => {
   return (
     <StyledDescContainer last={last} imgRight={imgRight} >
+      {imgRight && !last ?
+        <div className="custom-shape-divider-top-1655480231">
+          <svg data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 900 68" preserveAspectRatio="none">
+            <path d="M321.39,56.44c58-10.79,114.16-30.13,172-41.86,82.39-16.72,168.19-17.73,250.45-.39C823.78,31,906.67,72,985.66,92.83c70.05,18.48,146.53,26.09,214.34,3V0H0V27.35A600.21,600.21,0,0,0,321.39,56.44Z" className="shape-fill"></path>
+          </svg>
+        </div> : null}
+
       <div data-description-first >
-        <img src={imgSrc} alt={imgAlt} ></img>
+        {!last && !imgRight && <div data-not-div></div>}
+        {!last && imgRight && <img src={imgSrc} alt={imgAlt} ></img>}
+        {last && null}
         <div>
           <h2>{hText}</h2>
           <p>{pText}</p>

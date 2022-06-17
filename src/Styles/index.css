@@ -92,3 +92,30 @@ h6 {
   font-family: jostLight;
   src: url('./assets/Jost-300-Light.otf');
 }
+
+
+
+.custom-shape-divider-bottom-1655480482 {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  overflow: hidden;
+  line-height: 0;
+  transform: rotate(180deg);
+}
+
+.custom-shape-divider-bottom-1655480482 svg {
+  position: relative;
+  display: block;
+  width: calc(122% + 1.3px);
+  height: 74px;
+}
+
+.custom-shape-divider-bottom-1655480482 .shape-fill {
+  fill: #17181C;
+}
+
+.custom-shape-divider-top-1655480231 .shape-fill {
+  fill: #17181C;
+}
