@@ -16,11 +16,9 @@ const fillerText = 'Lorem ipsum dolor sit, amet consectetur adipisicing elit. Mo
 
 const StyledSignedOut = styled.div`
   display: grid;
-  /* background-color: #f5b3f3; */
   height: 100%;
   
   >div:nth-child(2) {
-    background-image: url(${background});
     background-position: center;
   }
 
@@ -39,9 +37,9 @@ const SignedOut: React.FC<Props> = (props) => {
       <SOHeroContainer nav={nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
-        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="one" pText={fillerText} />
-        <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="two" pText={fillerText} />
-        <SODescriptionContainers last="true" imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="three" pText={fillerText} />
+        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="compete" pText={fillerText} />
+        <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="improvise" pText={fillerText} />
+        <SODescriptionContainers last="true" imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="experience" pText={fillerText} />
       </div>
       <div></div>
     </StyledSignedOut>

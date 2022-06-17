@@ -1,5 +1,6 @@
 import * as React from 'react';
 import styled from 'styled-components';
+import { palette } from '../Helpers/utils';
 
 interface ISOButton {
   noStyle?: boolean,
@@ -13,11 +14,14 @@ interface ISOButton {
 }
 
 const SOButtons = styled.button<ISOButton>`
-  background-color: ${props => props.formCheck ? 'black' : 'black'};
-  color: ${props => props.formCheck ? '#ff69fa' : 'blue'};
-  font-size: ${props => props.formCheck ? 'clamp(10px, 2vw, 30px)' : 'clamp(10px, 2vw, 30px)'};
-  width: ${props => props.formCheck ? '100%' : 'max(100%, 100px)'};
-  height: ${props => props.formCheck ? '100%' : 'max(100%, 40px)'};
+  border: none;
+  display: grid;
+  align-content: center;
+  background-color: #2c2626;
+  color: ${props => props.formCheck ? '#ff69fa' : `${palette.red}`};
+  font-size: ${props => props.formCheck ? 'clamp(10px, 1.6vw, 30px)' : 'clamp(10px, 1.6vw, 30px)'};
+  width: ${props => props.formCheck ? '75%' : 'max(75%, 80px)'};
+  height: ${props => props.formCheck ? '75%' : 'max(75%, 30px)'};
   padding: ${props => props.formCheck ? '8px' : 'min(3px, 2px)'};
   margin-top: ${props => props.formCheck ? '10px' : null};
   ${props => props.noStyle ?
