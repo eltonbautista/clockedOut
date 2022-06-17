@@ -202,7 +202,10 @@ const StyledDescContainer = styled.div<PropsDesc>`
     }
   }
 
-  
+  svg {
+  filter: drop-shadow(3px 8px 2px rgb(0 0 0 / 0.4));
+}
+
   > div[data-description-first] > img {
     width: ${props => props.imgRight ? '70%' : '60%'};
     height: ${props => props.imgRight ? '70%' : '60%'};
@@ -212,6 +215,19 @@ const StyledDescContainer = styled.div<PropsDesc>`
     /* opacity: 0; */
     padding: 0;
     margin: 0;
+    visibility: visible;
+
+    :hover {
+        animation: mymove 2s 1, mymoveone 2s 1;
+    }
+    @keyframes mymove {
+    50% {filter: drop-shadow( 200px 0px 0px rgb(255 255 255 / 1));}
+    }; 
+
+  @keyframes mymoveone {
+    100% {filter: drop-shadow(-250px 0px 0px rgb(255 255 255 / 1))}
+    }; 
+
   }
 
   > div[data-description-first] > div:last-of-type {
@@ -243,7 +259,7 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
       <div data-description-first >
         {!last && !imgRight &&
           <div data-not-div>
-            <video id="my-video" onMouseOver={(e) => e.currentTarget.play()} controls autoPlay={true} loop>
+            <video id="my-video" onMouseLeave={(e) => e.currentTarget.pause()} onMouseOver={(e) => e.currentTarget.play()} controls autoPlay={true} loop>
               <source src={donda} type="video/mp4"></source>
             </video>
           </div>}
