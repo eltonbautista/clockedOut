@@ -39,7 +39,7 @@ const SignedOut: React.FC<Props> = (props) => {
       {/* SECOND SCROLLED VIEW */}
       <div>
         <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${sFImg}`} hText="compete" pText={fillerText} />
-        <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="improvise" pText={fillerText} />
+        <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="create" pText={fillerText} />
         <SODescriptionContainers last="true" imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="experience" pText={fillerText} />
       </div>
       <div></div>

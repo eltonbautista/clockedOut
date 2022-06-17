@@ -191,10 +191,13 @@ const StyledDescContainer = styled.div<PropsDesc>`
     border: 20px solid ${palette.black};
     /* height: 60%; */
     grid-area: image;
-
+    position: relative;
     :hover {
+      
       ::before {
-        content: "Donda(4K) - https://www.youtube.com/watch?v=_jwWlpype9g&ab_channel=DestructEdits";
+        position: absolute;
+        color: ${palette.red};
+        content: "Donda(4K) - by DestructEdits on YouTube";
       }
     }
   }
@@ -240,7 +243,7 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
       <div data-description-first >
         {!last && !imgRight &&
           <div data-not-div>
-            <video autoPlay loop>
+            <video id="my-video" onMouseOver={(e) => e.currentTarget.play()} controls autoPlay={true} loop>
               <source src={donda} type="video/mp4"></source>
             </video>
           </div>}
