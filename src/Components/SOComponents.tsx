@@ -80,8 +80,8 @@ const StyledHeroContainer = styled.div`
 
   div[data-sohero-button-container] > button {
     /* border & shadow for 3d look */
-    border: 2.4px ${palette.red} inset;
-    box-shadow: 5px -5px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 2.5px 10px #302c2c;
+    border: 2.4px ${palette.white} inset;
+    box-shadow: 3px -3px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 4px 10px #302c2c;
     border-radius: 100px;
     font-weight: 200;
     height: clamp(24px, 3vw, 50px);
