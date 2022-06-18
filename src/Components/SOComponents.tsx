@@ -4,7 +4,7 @@ import { SOButtons, } from "./Buttons";
 import stylesModule from '../../Styles/SignedOut.module.css';
 import test from '../Styles/assets/78_generated.jpg';
 import { palette } from "../Helpers/utils";
-import valoImg from '../Styles/assets/valResized.jpg';
+import { backgroundImages } from "../Helpers/utils";
 import donda from '../Styles/assets/Donda.mp4';
 
 const StyledHeroHeader = styled.h1`
@@ -154,7 +154,7 @@ const StyledDescContainer = styled.div<PropsDesc>`
   font-family: jostLight, Arial, Helvetica, sans-serif;
   ${props => props.last ?
     `
-   background-image: url(${valoImg}); 
+   background-image: url(${backgroundImages[0].src}); 
    background-size: cover;
    background-attachment: fixed;
    background-position: 0 300px;

@@ -1,11 +1,10 @@
 import React from "react";
 import { User } from "firebase/auth";
 
-// Background media:
+// Background images:
 import viper from '../Styles/assets/valResized.jpg';
-import ken from '../Styles/assets/fighter.png';
-import donda from '../Styles/assets/Donda.mp4';
-
+import ken from '../Styles/assets/fighter.svg';
+import animeGirl from '../Styles/assets/animeGirl.jpg';
 
 
 // import { profanities } from 'profanities';
@@ -54,7 +53,7 @@ export const palette =
 // -----------------------------------------------------------------------------
 
 // Lists of images categorized by use case 
-const backgroundImages: [] = [];
+const backgroundImages: HTMLImageElement[] = [];
 
 
 // Function used to preload images
@@ -65,5 +64,6 @@ export default function preload(images: string[], fillArr: HTMLImageElement[]) {
   }
 };
 
-preload([viper, ken, donda], backgroundImages);
-console.log(backgroundImages);
+preload([viper, ken, animeGirl], backgroundImages);
+
+export { backgroundImages };

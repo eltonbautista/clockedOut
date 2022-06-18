@@ -1,10 +1,11 @@
 import React from "react";
 import styled from "styled-components";
 import { SODescriptionContainers, SOHeroContainer } from "../Components/SOComponents";
-import img1 from '../Styles/assets/Nightgame_generated.jpg';
 import { Navigate } from "react-router-dom";
 import { User } from "firebase/auth";
-import sFImg from "../Styles/assets/fighter.svg";
+import { backgroundImages } from "../Helpers/utils";
+
+
 
 interface Props {
   nav?: Function,
@@ -37,7 +38,7 @@ const SignedOut: React.FC<Props> = (props) => {
       <SOHeroContainer nav={nav} />
       {/* SECOND SCROLLED VIEW */}
       <div>
-        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${sFImg}`} hText="compete" pText={fillerText} />
+        <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={backgroundImages[1].src} hText="compete" pText={fillerText} />
         <SODescriptionContainers hText="create" pText={fillerText} />
         <SODescriptionContainers last="true" imgRight="true" hText="experience" pText={fillerText} />
       </div>
