@@ -66,3 +66,7 @@ export interface IBackgroundCanvas {
   backgroundColor?: string;
   position?: string;
 }
+
+export interface IStyledLPProps {
+  bgImg?: string;
+}

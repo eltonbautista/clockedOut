@@ -5,6 +5,7 @@ import { User } from "firebase/auth";
 import viper from '../Styles/assets/valResized.jpg';
 import ken from '../Styles/assets/fighter.svg';
 import animeGirl from '../Styles/assets/animeGirl.jpg';
+import zed from '../Styles/assets/zed.jpg';
 
 
 // import { profanities } from 'profanities';
@@ -64,6 +65,6 @@ export default function preload(images: string[], fillArr: HTMLImageElement[]) {
   }
 };
 
-preload([viper, ken, animeGirl], backgroundImages);
+preload([viper, ken, animeGirl, zed], backgroundImages);
 
 export { backgroundImages };

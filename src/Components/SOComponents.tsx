@@ -164,7 +164,9 @@ const StyledDescContainer = styled.div<PropsDesc>`
    align-items: center;
    @media screen and (max-height: 460px) 
   { background-position: 0 100px; }` : null};
+
   
+
   > div[data-description-first] {
     display: grid;
     ${props => !props.imgRight && !props.last ? "padding: 50px 0 50px 0;" : null}

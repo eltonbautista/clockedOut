@@ -1,11 +1,11 @@
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
-import backgroundImage from '../Styles/assets/31.jpg';
 import { ILoginProps } from "../Helpers/interface";
 import { Navigate } from 'react-router-dom';
 import { palette } from '../Helpers/utils';
-
+import { backgroundImages } from '../Helpers/utils';
+import { IStyledLPProps } from '../Helpers/interface';
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -38,10 +38,15 @@ export const StyledFormContainers = styled.div`
   width: 100%;
 `;
 
-export const StyledLoginPage = styled.div`
+export const StyledLoginPage = styled.div<IStyledLPProps>`
   display: grid;
   justify-content: center;
-  background-color: ${palette.pink};
+  /* background-color: ${palette.pink}; */
+  background-image: ${props => props.bgImg === 'login' ? `url(${backgroundImages[2].src})` : `url(${backgroundImages[3].src})`};
+  background-size: fill;
+  background-attachment: fixed;
+  background-position: ${props => props.bgImg === 'login' ? "-50px -200px;" : "center"};
+
   height: 100%;
 
 
@@ -61,7 +66,7 @@ export default function Login(props: ILoginProps) {
   }
 
   return stateAuth ? <Navigate to="/feed" /> : (
-    <StyledLoginPage>
+    <StyledLoginPage bgImg='login'>
 
       <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>
 

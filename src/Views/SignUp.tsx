@@ -7,6 +7,7 @@ import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
+import { backgroundImages } from "../Helpers/utils";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
@@ -22,6 +23,12 @@ const StyledSUForm = styled(StyledForm)`
     margin-bottom: 10px;
   }
 
+  #sign-up-body {
+  background-image: url(${backgroundImages[3].src});
+  /* background-size: cover; */
+  background-attachment: fixed;
+  background-position: -50px -200px;
+  }
 `;
 let buttonSwitch: boolean = false;
 

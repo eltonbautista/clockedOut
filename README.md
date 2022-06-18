@@ -27,6 +27,10 @@ Images:
 
 - https://wall.alphacoders.com/big.php?i=1149330
 
+- https://wall.alphacoders.com/big.php?i=702226
+
+- https://wall.alphacoders.com/big.php?i=1235167
+
 Vectors:
 - https://www.vecteezy.com/vector-art/1933357-game-on-neon-signs-style-text-vector
 
