@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { SODescriptionContainers, SOHeroContainer } from "../Components/SOComponents";
 import img1 from '../Styles/assets/Nightgame_generated.jpg';
-import background from '../Styles/assets/78_generated.jpg';
 import { Navigate } from "react-router-dom";
 import { User } from "firebase/auth";
 import sFImg from "../Styles/assets/fighter.svg";
@@ -39,8 +38,8 @@ const SignedOut: React.FC<Props> = (props) => {
       {/* SECOND SCROLLED VIEW */}
       <div>
         <SODescriptionContainers imgRight="true" imgAlt="" imgSrc={`${sFImg}`} hText="compete" pText={fillerText} />
-        <SODescriptionContainers imgAlt="" imgSrc={`${img1}`} hText="create" pText={fillerText} />
-        <SODescriptionContainers last="true" imgRight="true" imgAlt="" imgSrc={`${img1}`} hText="experience" pText={fillerText} />
+        <SODescriptionContainers hText="create" pText={fillerText} />
+        <SODescriptionContainers last="true" imgRight="true" hText="experience" pText={fillerText} />
       </div>
       <div></div>
     </StyledSignedOut>

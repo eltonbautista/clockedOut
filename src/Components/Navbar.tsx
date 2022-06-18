@@ -50,7 +50,7 @@ const HomeNav = styled.nav`
     text-align: center;
   }
 
-  > h1 {
+  > a {
     font-family: jostLight, Arial, Helvetica, sans-serif;
     font-size: clamp(36px, 3vh, 40px);
     letter-spacing: 0.5px;
@@ -80,7 +80,7 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
 
   return (!stateAuth ?
     <HomeNav id="navbar">
-      <h1>clockedOut</h1>
+      <Link to='/'>clockedOut</Link>
       <div>
         <Link to={'/'} >Home</Link>
         <Link to={'/login'} >Login</Link>

@@ -1,5 +1,13 @@
 import React from "react";
 import { User } from "firebase/auth";
+
+// Background media:
+import viper from '../Styles/assets/valResized.jpg';
+import ken from '../Styles/assets/fighter.png';
+import donda from '../Styles/assets/Donda.mp4';
+
+
+
 // import { profanities } from 'profanities';
 
 export const createLocalInfo = async (userInfo: User | null | undefined) => {
@@ -40,3 +48,22 @@ export const palette =
   purple: "#9BA5C9",
   pink: "#FC9A9A"
 };
+
+// -----------------------------------------------------------------------------
+// Preloaded Images Collection:
+// -----------------------------------------------------------------------------
+
+// Lists of images categorized by use case 
+const backgroundImages: [] = [];
+
+
+// Function used to preload images
+export default function preload(images: string[], fillArr: HTMLImageElement[]) {
+  for (let i = 0; i < images.length; i += 1) {
+    fillArr[i] = new Image();
+    fillArr[i].src = images[i];
+  }
+};
+
+preload([viper, ken, donda], backgroundImages);
+console.log(backgroundImages);
