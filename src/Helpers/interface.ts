@@ -56,6 +56,7 @@ export interface ICircularPictureProps {
   height?: string;
   marginTop?: string;
   imgSrc?: string;
+  position?: string;
   // imgAlt?: string;
 }
 

@@ -46,7 +46,9 @@ export const palette =
   black: "#17181C",
   white: "#FFFFFF",
   purple: "#9BA5C9",
-  pink: "#FC9A9A"
+  pink: "#FC9A9A",
+
+  fpink: "#ffe0e0"
 };
 
 // -----------------------------------------------------------------------------

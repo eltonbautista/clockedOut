@@ -3,16 +3,19 @@ import { Link } from "react-router-dom";
 import { INavProps } from "../Helpers/interface";
 import { SOButtons } from "./Buttons";
 import { signingOut } from "../firebase-config";
-import { localLoginInfo } from "../Helpers/utils";
 import styled from "styled-components";
 import { palette } from "../Helpers/utils";
 
 const FeedNav = styled.nav`
   display: grid;
+  width: 100%;
+  justify-self: center;
+  padding: 0 150px 0 150px;
   /* grid-auto-flow: column; */
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
-  background-color: ${[palette.purple]};
+  background-color: ${palette.fpink};
+  border-bottom: 2px solid ${palette.red};
   > div {
     display: grid;
   }
@@ -28,13 +31,20 @@ const FeedNav = styled.nav`
 const NavButtonDropdown = styled.div`
 
   > button {
+    box-shadow: none;
+    color: ${palette.black};
     background: none;
     border: none;
     justify-self: end;
     align-self: center;
     width: fit-content;
     height: fit-content;
-    padding-right: min(5vw, 100px);
+    /* margin-right: 100px; */
+
+    :hover {
+      color: ${palette.red};
+      background: ${palette.black};
+    }
   }
 `;
 

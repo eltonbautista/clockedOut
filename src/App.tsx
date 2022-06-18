@@ -7,7 +7,7 @@ import { IData, ILoginInput } from './Helpers/interface';
 import { signingIn, IUser, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
-import { createLocalInfo } from './Helpers/utils';
+import { createLocalInfo, palette } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
@@ -26,6 +26,11 @@ const StyledH1 = styled.h1`
   font-weight: 0;
   position: fixed;
   z-index: 1;
+`;
+
+const StyledHeader = styled.header`
+  display: grid;
+  background-color: ${palette.red};
 `;
 
 const StyledAppContainer = styled.div`
@@ -97,11 +102,11 @@ const App: React.FC = function App() {
 
   return (
     <StyledAppContainer className="App">
-      <header>
+      <StyledHeader>
         {/* LEAVE FOR NOW */}
         {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
         {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
-      </header>
+      </StyledHeader>
 
       <UserContext.Provider value={UCProviderVal}>
 

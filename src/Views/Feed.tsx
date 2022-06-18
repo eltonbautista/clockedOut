@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
@@ -11,10 +11,10 @@ import { palette } from "../Helpers/utils";
 const StyledFeed = styled.div`
   display: grid;
   min-height: 100%;
-  background-color: ${palette.black};
-
+  background-color: #fff6f6;
+  text-align: center;
   * {
-    font-family: grenzeMedium, sans-serif;
+    font-family: jostLight, Arial, Helvetica, sans-serif;
     font-weight: 300;
     letter-spacing: 0.3px;
     color: ${palette.black};
@@ -25,21 +25,68 @@ const StyledScaffoldContainer = styled.div`
   display: grid;
   grid-template-areas: "sidebar main aside";
   grid-template-columns: 0.2fr 0.6fr 0.2fr;
-  max-width: 85vw;
-  min-width: 80vw;
+  max-width: 85%;
+  min-width: 80%;
   justify-self: center;
-  /* background: cyan; */
-  /* min-height: 90%; */
+  gap: 10px;
+  padding-top: 30px;
 `;
 
 const StyledMain = styled.main`
-  grid-area: main;
   display: grid;
-  background-color: ${palette.black};
+  grid-template-rows: 0.1fr auto;
+  grid-area: main;
+  border-radius: 8px;
+  background-color: ${palette.fpink};
+  gap: 15px;
 `;
+
+const StyledSharebox = styled.div`
+  display: grid;
+  border: 1px solid ${palette.red};
+  height: max(130px, 13vh);
+  border-radius: 8px;
+  > div {
+    display: grid;
+    grid-template-columns: 0.1fr 0.9fr;
+    justify-items: center;
+    align-items: center;
+    padding-left: 10px;
+  }
+
+  > div:first-of-type {
+    border-bottom: 1px solid ${palette.black};
+    margin-bottom: 10px;
+  }
+
+  > div:first-of-type > button {
+    width: 80%;
+    justify-self: start;
+    margin-left: 10px;
+    border: 1px solid ${palette.black};
+    box-shadow: none;
+    background-color: #fff6f6;
+    padding-left: 20px;
+
+    color: ${palette.black};
+    text-align: start;
+  }
+
+
+`;
+
+const StyledFeedContent = styled.div`
+  display: grid;
+  border: 1px solid ${palette.red};
+  border-radius: 8px;
+  /* border-top: none; */
+`;
+
+
 const StyledAside = styled.aside`
   grid-area: aside;
-  background-color: ${palette.red};
+  background-color: ${palette.fpink};
+  border-radius: 8px;
 
   button {
     color: ${palette.purple};
@@ -49,51 +96,43 @@ const StyledAside = styled.aside`
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
-  background-color: ${palette.red};
+  width: 90%;
+  height: 500px;
+  gap: 10px;
+
+  > div {
+    border-radius: 8px;
+  }
 
   > div:first-of-type {
     display: grid;
     justify-items: center;
+    gap: 10px;
     position: relative;
     grid-template-rows: 0.35fr 0.1fr 0.5fr;
+    background-color: ${palette.fpink};
   }
 
   > div:first-of-type > div:nth-child(3) {
     position: relative;
     display: grid;
     width: 100%;
+    justify-items: center;
+    padding: 0 10px 0 10px;
+    border-bottom: 1px solid ${palette.red};
+    padding-bottom: 5px;
   }
 
   > div:first-of-type > div:nth-child(3) > a {
     color: ${palette.black};
-    position: absolute;
+    /* position: absolute; */
     letter-spacing: 0.3px;
     text-decoration: none;
-    width: 100px;
+    width: min(100%, 125px);
     justify-self: center;
     /* top: min(-80%, -45px); */
-    top: -45px;
+    /* margin-top: 40px; */
     font-size: clamp(16px, 2vh, 20px);
-  }
-
-  > div:first-of-type > div:nth-child(3) > p {
-    color: ${palette.black};
-    font-weight: 100;
-    font-size: clamp(16px, 2vh, 20px);
-    position: absolute;
-    overflow: hidden;
-    width: 100%;
-    white-space: nowrap;
-    text-overflow: ellipsis;
-    justify-self: start;
-    :hover {
-      white-space: normal;
-      text-overflow: clip;
-      overflow: visible;
-      height: fit-content;
-      width: 100%;
-      background-color: white;
-    }
   }
 
   ul {
@@ -103,37 +142,73 @@ const StyledSidebar = styled.div`
     justify-items: center;
     padding: 0;
     font-size: clamp(16px, 2vh, 26px);
+    width: 100%;
+    gap: 20px;
+    grid-template-rows: 0.3fr 0.3fr 0.8fr;
+    padding-top: 10px;
   }
 
   ul a {
     text-decoration: none;
   }
 
-  >div:last-of-type {
+  ul > div {
     display: grid;
-    height: 40%;
-    align-items: center;
+    grid-auto-flow: column;
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr 1fr;
+    justify-content: space-evenly;
+    /* width: fit-content; */
+    align-items: end;
   }
 
-  >div:last-of-type > div > button > h5 {
+  ul > div > li > a{
+    text-overflow: ellipsis;
+  }
+
+  > div:last-of-type {
+    display: grid;
+    height: 100%;
+    align-items: center;
+    background-color: ${palette.fpink};
+  }
+
+  > div:last-of-type > div {
+    display: grid;
+    width: 100%;
+    /* border-bottom: 1px solid black; */
+    justify-items: center;
+    align-content: center;
+    height: 100%;
+  }
+
+  > div:last-of-type > div > button {
+    width: 100%;
+  }
+
+  > div:last-of-type > div > button > h5 {
     /* letter-spacing: 1.5px; */
     font-size: clamp(23px, 2vh, 26px);
-    font-family: ostrichSansHeavy;
-
     font-weight: 900;
+    width: 100%;
   }
+
+  > div:last-of-type > div:first-of-type {
+    border-bottom: 1px solid ${palette.red};
+  }
+
 `;
 
 const StyledCircularDiv = styled.div<ICircularPictureProps>`
 z-index: ${props => props.zIndex};
-position: absolute;
 width: ${props => props.width};
 height: ${props => props.height};
 overflow: hidden;
 justify-items: center;
-position: sticky;
+position: ${props => props.position};
 margin-top: ${props => props.marginTop};
 border-radius: 50%;
+
 `;
 
 const CircularPicture: React.FC<ICircularPictureProps> = (props) => {
@@ -147,15 +222,59 @@ const CircularPicture: React.FC<ICircularPictureProps> = (props) => {
 };
 
 const BackgroundCanvas = styled.div<IBackgroundCanvas>`
-  ${props => props.sidebar ? `width: 100%; height: 17%; background-color: #000000cd; position: absolute; ` :
+  ${props => props.sidebar ?
+    `width: 100%; 
+    height: 75px; 
+    background-color: #000000cd; 
+    position: absolute;
+    border-radius: 8px 8px 0 0;
+    ` :
+
     `width: ${props.width};
     height: ${props.height};
     background-color: ${props.backgroundColor};
     position: absolute;` }
 `;
+
+interface IStyledSidebarP {
+  clicked?: boolean;
+};
+
+const StyledSidebarP = styled.p<IStyledSidebarP>`
+  color: ${palette.black};
+  font-weight: 100;
+  font-size: clamp(16px, 2vh, 20px);
+  overflow: hidden;
+  width: 100%;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  justify-self: center;
+
+  :hover {
+    cursor: crosshair;
+    color: white;
+  }
+
+  ${props => props.clicked ?
+    `white-space: normal;
+  cursor: crosshair;
+  text-overflow: clip;
+  overflow: visible;
+  height: fit-content;
+  top: 100%;
+  width: 100%;
+  background-color: ${palette.red};
+  font-weight: 600
+  ` : null}
+`;
+
+const sidebarPContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus qui odio mollitia earum deserunt veritatis, necessitatibus saepe delectus sequi iure.";
+
 // To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
 const Feed: React.FC<IFeedProps> = () => {
+  const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
+
   return (
     <StyledFeed id="feed-container">
       <StyledScaffoldContainer>
@@ -164,19 +283,27 @@ const Feed: React.FC<IFeedProps> = () => {
 
           <div className="feed-sidebar-upper">
             <BackgroundCanvas sidebar></BackgroundCanvas>
-            <CircularPicture zIndex="0" marginTop="15%" imgSrc={testpfp2} height="max(50%, 80px)" width="max(30%, 80px)" />
+            <CircularPicture zIndex="0" marginTop="15%" imgSrc={testpfp2} height="85px" width="85px" />
             <div>
               <a href="asd.com">Robert Kugler</a>
-              <p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus qui odio mollitia earum deserunt veritatis, necessitatibus saepe delectus sequi iure.</p>
+              <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
+                return !prevState;
+              })} >
+                {sidebarPContent}
+              </StyledSidebarP>
             </div>
             <ul>
               {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
               {/* allow users to add links and I can add the corresponding icons */}
               <li>Valorant // waves#6666</li>
               <li>Bloodhunt // PsychToTech</li>
-              <li><a href="test" >Steam</a></li>
-              <li><a href="test" >Github</a></li>
-              <li><a href="test" >Twitter</a></li>
+              <div>
+                <li><a href="test" >Steam</a></li>
+                <li><a href="test" >Github</a></li>
+                <li><a href="test" >Twitter</a></li>
+                <li><a href="test" >Something</a></li>
+              </div>
+
             </ul>
           </div>
 
@@ -201,13 +328,13 @@ const Feed: React.FC<IFeedProps> = () => {
         </StyledSidebar>
 
         <StyledMain id="feed-main">
-          <div id="feed-sharebox">
+          <StyledSharebox id="feed-sharebox">
 
             <div>
-              <a href="link to personal profile page">pfp</a>
-              <button>
-                <span>Write a post</span>
-              </button>
+              <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
+              <SOButtons>
+                Write a post
+              </SOButtons>
             </div>
             <div>
               <button>
@@ -219,11 +346,11 @@ const Feed: React.FC<IFeedProps> = () => {
                 <span>Video</span>
               </button>
             </div>
-          </div>
+          </StyledSharebox>
 
-          <div id="feed-social-content">
+          <StyledFeedContent id="feed-social-content">
             {/* Need to figure out how to make posts flow down in here */}
-          </div>
+          </StyledFeedContent>
         </StyledMain>
 
         <StyledAside id="feed-aside">
@@ -231,11 +358,11 @@ const Feed: React.FC<IFeedProps> = () => {
           <div>
             PLACEHOLDER
           </div>
-          <div>
+          {/* <div>
             <SOButtons>Placeholder</SOButtons>
             <SOButtons>Placeholder</SOButtons>
             <SOButtons>Placeholder</SOButtons>
-          </div>
+          </div> */}
         </StyledAside>
 
       </StyledScaffoldContainer>
