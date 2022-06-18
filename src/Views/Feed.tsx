@@ -78,7 +78,6 @@ const StyledSidebar = styled.div`
 
   > div:first-of-type > div:nth-child(3) > p {
     color: ${palette.black};
-    /* font-family: grenzeMedium, Arial, Helvetica, sans-serif; */
     font-weight: 100;
     font-size: clamp(16px, 2vh, 20px);
     position: absolute;

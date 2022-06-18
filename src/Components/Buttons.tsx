@@ -14,16 +14,25 @@ interface ISOButton {
 }
 
 const SOButtons = styled.button<ISOButton>`
-  border: none;
   display: grid;
   align-content: center;
-  background-color: #2c2626;
-  color: ${props => props.formCheck ? '#ff69fa' : `${palette.red}`};
-  font-size: ${props => props.formCheck ? 'clamp(10px, 1.6vw, 30px)' : 'clamp(10px, 1.6vw, 30px)'};
-  width: ${props => props.formCheck ? '75%' : 'max(75%, 80px)'};
-  height: ${props => props.formCheck ? '75%' : 'max(75%, 30px)'};
-  padding: ${props => props.formCheck ? '8px' : 'min(3px, 2px)'};
+  height: clamp(24px, 3vw, 50px);
+  width: 90%;
   margin-top: ${props => props.formCheck ? '10px' : null};
+  border: 2.4px ${palette.white} inset;
+  box-shadow: ${props => props.noStyle ? null : "3px -3px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 4px 10px #302c2c"};
+  border-radius: 100px;
+  padding: min(8px, 1vh);
+
+  background-color: #2c2626;
+  color: ${palette.red};
+  font-size: ${props => props.formCheck ? 'clamp(10px, 1.6vw, 30px)' : 'clamp(10px, 1.6vw, 30px)'};
+  font-weight: 200;
+
+  :active {
+    transform: scale(0.98);
+    box-shadow: 0 -2px 3px #302c2c, 0 5px 4px #302c2c, 0 5px 4px #302c2c;
+  }
   ${props => props.noStyle ?
     `
       background: none;
@@ -54,5 +63,8 @@ const ButtonHeader = styled.h5`
     font-size: clamp(14px, 2vh, 18px);
   }
 `;
+
+
+
 
 export { SOButtons, ButtonHeader }; 

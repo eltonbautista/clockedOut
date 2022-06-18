@@ -11,6 +11,17 @@ import { Navigate } from "react-router-dom";
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
   padding: 35px;
+  > div > div {
+    justify-self: center;
+    display: grid;
+    justify-items: center;
+    gap: 7.5px;
+  }
+
+  button[data-form-submit] {
+    margin-bottom: 10px;
+  }
+
 `;
 let buttonSwitch: boolean = false;
 
@@ -49,7 +60,7 @@ export default function SignUp(props: ISignUpProps) {
               <LPInputDiv inputVal={props.inputFields.username} inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent='Username' />
               <LPInputDiv inputVal={props.inputFields.password} inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
 
-              <SOButtons disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
+              <SOButtons data-form-submit disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('/login', { replace: true })} noStyle={true} >
                 <ButtonHeader>
                   Already have an account?

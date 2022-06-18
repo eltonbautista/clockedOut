@@ -25,10 +25,8 @@ describe('Tests for my SignedOut component', () => {
     render(<SODescriptionContainers hText="header" imgAlt="img alt" imgSrc="img src" pText="Paragraph" />);
 
     const descriptionH = screen.getByText('header');
-    const imgSrc = screen.getByRole('img');
 
     expect(descriptionH).toBeInTheDocument();
-    expect(imgSrc).toHaveAttribute('src', 'img src');
   });
 
   it('should render SOButtons with dynamic props', () => {
@@ -36,8 +34,8 @@ describe('Tests for my SignedOut component', () => {
 
     const SOButton = screen.getByText(/login/i);
     expect(SOButton).toBeInTheDocument();
-    expect(SOButton).toHaveStyle('color: blue');
-    expect(SOButton).toHaveStyle('background-color: black');
+    expect(SOButton).toHaveStyle('color: rgb(250, 71, 83);');
+    expect(SOButton).toHaveStyle('background-color: rgb(44, 38, 38);');
     expect(SOButton).toHaveStyle('font-size: max(1.5vh,16px)');
 
   });

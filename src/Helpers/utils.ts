@@ -37,5 +37,6 @@ export const palette =
   red: "#FA4753",
   black: "#17181C",
   white: "#FFFFFF",
-  purple: "#9BA5C9"
+  purple: "#9BA5C9",
+  pink: "#FC9A9A"
 };

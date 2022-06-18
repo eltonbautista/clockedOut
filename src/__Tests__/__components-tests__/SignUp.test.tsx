@@ -36,7 +36,7 @@ describe('SignUp component tests', () => {
     const submitButton = screen.getByText(/create account/i);
 
     expect(emailInput).toBeInTheDocument();
-    expect(submitButton).toHaveStyle('width: 100%');
+    expect(submitButton).toHaveStyle('width: 90%');
   });
 
   it('should direct to SignUp view, then clicking a button redirects me to Login view', () => {

@@ -3,19 +3,21 @@ import styled from 'styled-components';
 import { StyledFormContainers } from '../Views/Login';
 import { UserContext } from '../Helpers/contexts';
 import { IData } from '../Helpers/interface';
+import { palette } from '../Helpers/utils';
 
 
 const StyledH5 = styled.h5`
-  font-family: ostrichSansHeavy;
-  color: black;
+  font-family: jostLight, Arial, Helvetica, sans-serif;
+  color: ${palette.red};
   letter-spacing: 1px;
-  background-color: red;
+  text-align: start;
+  /* background-color: red; */
   width: 100%;
+  font-size: clamp(18px, 2vh, 19px);
 `;
 
 
 const StyledInput = styled.input`
-  margin-top: 5px;
   width: 100%;
   font-family: grenze;
 `;

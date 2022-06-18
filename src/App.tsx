@@ -13,7 +13,7 @@ import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 
 const StyledH1 = styled.h1`
   color: red;
-  font-family: grenze;
+  font-family: jostLight;
   justify-self: start;
   text-align: start;
   font-size: clamp(24px, 5vw, 60px);

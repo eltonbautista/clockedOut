@@ -14,7 +14,6 @@ font-size: clamp(24px, 4vw, 46px);
 height: fit-content;
 margin: 0;
 z-index: 1;
-/* font-family: ostrichSansHeavy, grenze, Arial, Helvetica, sans-serif; */
 font-family: jostLight;
 font-weight: 100;
 letter-spacing: 1px;
@@ -152,7 +151,7 @@ interface PropsDesc {
 const StyledDescContainer = styled.div<PropsDesc>`
   background-color: ${props => props.imgRight ? `#fc9a9a` : `${palette.red}`};
   border-bottom: ${props => props.imgRight ? `2px solid ${palette.black}` : ` 2px solid ${palette.white}`};
-  font-family: jostLight, grenze, Arial, Helvetica, sans-serif;
+  font-family: jostLight, Arial, Helvetica, sans-serif;
   ${props => props.last ?
     `
    background-image: url(${valoImg}); 
@@ -259,7 +258,7 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
       <div data-description-first >
         {!last && !imgRight &&
           <div data-not-div>
-            <video id="my-video" onMouseLeave={(e) => e.currentTarget.pause()} onMouseOver={(e) => e.currentTarget.play()} controls autoPlay={true} loop>
+            <video id="my-video" onMouseLeave={(e) => e.currentTarget.pause()} onMouseOver={(e) => e.currentTarget.play()} controls >
               <source src={donda} type="video/mp4"></source>
             </video>
           </div>}
