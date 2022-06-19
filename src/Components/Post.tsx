@@ -2,44 +2,88 @@ import React from "react";
 import styled from "styled-components";
 import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
+import { CircularPicture } from "../Views/Feed";
+import testpfp2 from "../Styles/assets/testpfp2.jpg";
+
 
 const StyledPost = styled.div`
   display: grid;
-  grid-template-rows: 0.2fr 0.5fr 0.1fr 0.2fr;
+  grid-template-rows: 0.2fr 1fr 0.1fr 0.2fr;
+  min-height: 500px;
+  max-height: fit-content;
+  /* gap: 10px; */
+
   > div {
     display: grid;
+    justify-items: center;
   }
+
+  button {
+    background-color: #fff6f6;
+    box-shadow: none;
+    border: none;
+  }
+
 `;
 
 const StyledUserInfo = styled.div`
-  grid-template-columns: 0.2fr 0.8fr;
+  grid-template-columns: 0.1fr auto;
+  padding: 15px 15px 5px 15px;
+  justify-items: center;
+  align-items: center;
+  width: 100%;
+  background-color: aliceblue;
 
-  > div {
-    
+
+
+  > div:last-of-type {
+    display: grid;
+    margin-left: 10px;
+    padding-left: 20px;
+    width: 100%;
+    justify-items: start;
+    align-items: center;
+    gap: 2px;
   }
-`;
-const StyledUserPost = styled.div`
+
+  > div:last-of-type > div {
+    display: grid;
+    grid-auto-flow: column;
+    gap: 10px;
+  }
   
+`;
+
+
+
+
+
+const StyledUserPost = styled.div`
+  background-color: beige;
 `;
 const StyledPostLikesComments = styled.div`
-  
+  justify-items: center;
+  background-color: burlywood;
 `;
 const StyledLCS = styled.div`
-
+  background-color: coral;
 `;
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
 
   return (
-    <StyledPost>
+    <StyledPost className="user-post">
 
       <StyledUserInfo className="user-info">
-        <img src="personal image" alt="pfp"></img>
+        <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
         <div>
           <h3>User's name</h3>
-          <p>User's @</p>
-          <p>Most active game and timezone</p>
-          <p>Time posted</p>
+          <div>
+            <span>User's @</span> |
+            <span>Most active game and timezone</span> |
+            <span>Time posted</span>
+          </div>
+
         </div>
       </StyledUserInfo>
 
@@ -49,14 +93,18 @@ const Post: React.FC<IPostProps> = (props) => {
       </StyledUserPost>
 
       <StyledPostLikesComments className="post-likes-and-comments">
-
-        <span>Dynamic count of likes</span>
+        {/* Dynamic count of likes */}
+        <span>Likes: 1</span>
         <span>
           <SOButtons>
+
+            {/* Dynamic count of comments,
+              when user clicks this it will create display div that shows comments */}
             <ButtonHeader>
-              Dynamic count of comments,
-              when user clicks this it will create display div that shows comments
+              Comments
             </ButtonHeader>
+
+
           </SOButtons>
         </span>
 

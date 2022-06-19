@@ -9,22 +9,25 @@ import { palette } from "../Helpers/utils";
 const FeedNav = styled.nav`
   display: grid;
   width: 100%;
-  justify-self: center;
-  padding: 0 150px 0 150px;
-  /* grid-auto-flow: column; */
+  justify-items: space-around;
+  padding: 10px max(150px, 8vw) 0 max(150px, 8vw);
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
-  background-color: ${palette.fpink};
-  border-bottom: 2px solid ${palette.red};
+  background-color: ${palette.red};
+
+  a {
+    text-decoration: none;
+  }
+  
   > div {
     display: grid;
   }
 
-  > p {
-    text-align: start;
+  > a {
+    font-family: jostLight, Arial, Helvetica, sans-serif;
+    font-size: clamp(36px, 3vh, 40px);
+    letter-spacing: 0.5px;
     padding-left: 10px;
-    font-family: grenze, sans-serif;
-    font-size: clamp(50px, 2.5vh, 60px);
   }
 `;
 
@@ -39,6 +42,9 @@ const NavButtonDropdown = styled.div`
     align-self: center;
     width: fit-content;
     height: fit-content;
+    font-weight: 900;
+    font-size: clamp(20px,2vh,28px);
+    padding: none;
     /* margin-right: 100px; */
 
     :hover {
@@ -64,7 +70,8 @@ const HomeNav = styled.nav`
     font-family: jostLight, Arial, Helvetica, sans-serif;
     font-size: clamp(36px, 3vh, 40px);
     letter-spacing: 0.5px;
-    padding-right: max(150px, 15vw);
+    margin-left: max(150px, 15vw);
+    width: fit-content;
   }
   > div {
     display: grid;
@@ -79,7 +86,8 @@ const HomeNav = styled.nav`
 `;
 
 const NavLinksContainer = styled.div`
-  font-size: clamp(26px, 2vh, 40px);
+  font-size: clamp(20px,2vh,28px);
+  font-weight: 900;
   align-content: center;
   justify-content: space-evenly;
 `;
@@ -99,7 +107,7 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
     </HomeNav>
     :
     <FeedNav id="navbar">
-      <p>clockedOut</p>
+      <Link to='/feed'>clockedOut</Link>
       {' '}
       <NavLinksContainer>
         <Link to="/feed" >Feed</Link>

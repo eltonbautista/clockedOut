@@ -2,11 +2,9 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
-import testpfp from "../Styles/assets/testpfp.jpeg";
-import testpfp1 from "../Styles/assets/testpfp1.jpg";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
-import { ButtonGroup } from "react-bootstrap";
 import { palette } from "../Helpers/utils";
+import Post from "../Components/Post";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -39,6 +37,8 @@ const StyledMain = styled.main`
   border-radius: 8px;
   background-color: ${palette.fpink};
   gap: 15px;
+  min-height: 100vh;
+  
 `;
 
 const StyledSharebox = styled.div`
@@ -46,9 +46,11 @@ const StyledSharebox = styled.div`
   border: 1px solid ${palette.red};
   height: max(130px, 13vh);
   border-radius: 8px;
+  /* padding: 5px; */
+
   > div {
     display: grid;
-    grid-template-columns: 0.1fr 0.9fr;
+    grid-template-columns: 0.1fr auto;
     justify-items: center;
     align-items: center;
     padding-left: 10px;
@@ -80,6 +82,8 @@ const StyledFeedContent = styled.div`
   border: 1px solid ${palette.red};
   border-radius: 8px;
   /* border-top: none; */
+  /* padding: 8px; */
+  gap: 10px;
 `;
 
 
@@ -211,7 +215,7 @@ border-radius: 50%;
 
 `;
 
-const CircularPicture: React.FC<ICircularPictureProps> = (props) => {
+export const CircularPicture: React.FC<ICircularPictureProps> = (props) => {
   const { height, width, marginTop, zIndex, imgSrc, } = props;
 
   return (
@@ -332,6 +336,7 @@ const Feed: React.FC<IFeedProps> = () => {
 
             <div>
               <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
+              {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
               <SOButtons>
                 Write a post
               </SOButtons>
@@ -349,7 +354,13 @@ const Feed: React.FC<IFeedProps> = () => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            {/* Need to figure out how to make posts flow down in here */}
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
+            <Post />
           </StyledFeedContent>
         </StyledMain>
 

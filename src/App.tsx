@@ -29,7 +29,7 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledHeader = styled.header`
-  display: grid;
+  /* display: grid; */
   background-color: ${palette.red};
 `;
 

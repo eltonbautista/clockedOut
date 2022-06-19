@@ -34,7 +34,7 @@ export interface IFeedProps {
 }
 
 export interface IPostProps {
-  media: boolean;
+  media?: boolean;
 }
 
 export interface IPrivateRouteProps {
