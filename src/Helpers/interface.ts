@@ -71,3 +71,9 @@ export interface IBackgroundCanvas {
 export interface IStyledLPProps {
   bgImg?: string;
 }
+
+export interface INewPostModal {
+  newPostText?: string;
+  newPostImage?: string | HTMLImageElement;
+  newPostVideo?: string | HTMLVideoElement;
+}

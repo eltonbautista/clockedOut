@@ -11,7 +11,6 @@ const StyledPost = styled.div`
   grid-template-rows: 0.2fr 1fr 0.1fr 0.2fr;
   min-height: 500px;
   max-height: fit-content;
-  /* gap: 10px; */
 
   > div {
     display: grid;

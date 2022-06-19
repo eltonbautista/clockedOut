@@ -41,6 +41,7 @@ const App: React.FC = function App() {
   // HOOKS & STATES
   const navigate: Function = useNavigate();
 
+
   const initSignUpData: IData = {
     email: '',
     username: '',

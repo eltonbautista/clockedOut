@@ -46,7 +46,6 @@ const StyledSharebox = styled.div`
   border: 1px solid ${palette.red};
   height: max(130px, 13vh);
   border-radius: 8px;
-  /* padding: 5px; */
 
   > div {
     display: grid;
@@ -81,8 +80,6 @@ const StyledFeedContent = styled.div`
   display: grid;
   border: 1px solid ${palette.red};
   border-radius: 8px;
-  /* border-top: none; */
-  /* padding: 8px; */
   gap: 10px;
 `;
 
@@ -97,6 +94,7 @@ const StyledAside = styled.aside`
     width: 50%;
   }
 `;
+
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
@@ -129,13 +127,10 @@ const StyledSidebar = styled.div`
 
   > div:first-of-type > div:nth-child(3) > a {
     color: ${palette.black};
-    /* position: absolute; */
     letter-spacing: 0.3px;
     text-decoration: none;
     width: min(100%, 125px);
     justify-self: center;
-    /* top: min(-80%, -45px); */
-    /* margin-top: 40px; */
     font-size: clamp(16px, 2vh, 20px);
   }
 
