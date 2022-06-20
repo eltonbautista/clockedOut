@@ -1,9 +1,11 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
-import { IHidePostModal, INewPostModal } from "../Helpers/interface";
+import { IHidePostModal, INewPostModal, IPostState } from "../Helpers/interface";
 import { palette } from "../Helpers/utils";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
+import { UserContext } from "../Helpers/contexts";
+
 const PostModal = styled.div`
   display: grid;
   position: absolute;
@@ -70,8 +72,18 @@ const PostModal = styled.div`
         background: none;
         border: none;
         font-size: clamp(16px, 2vh, 22px);
-        padding: 5px 15px 3px 15px;
+        
         height: 50%;
+        /* padding: 0; */
+        padding: 5px 10px 5px 10px;
+        position: relative;
+        cursor: pointer;
+
+        :hover {
+          background-color: #e6d9d9;
+          border-radius: 30px;
+          /* padding: 5px 10px 5px 10px; */
+        }
       }
 
       /* Post it button */
@@ -79,8 +91,7 @@ const PostModal = styled.div`
         text-align: center;
         border-radius: 50px;
         background-color: ${palette.fpink};
-
-        
+        padding: 5px 15px 3px 15px;
       }
     }
 
@@ -121,16 +132,44 @@ const PostModalContainer = styled.div<INewPostModal>`
     background-color: rgb(0, 0, 0, 0.75);
     z-index: 1;
     }
+
+    input[type=file]::file-selector-button {
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 25px;
+}
 `;
 
+const CustomFileInput = styled.input`
+  position: absolute;
+  width: 100px;
+  opacity: 0;
+  right: 2px;
+  bottom: 0.5px;
+`;
 
 const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
-  const { newPostImage, newPostText, newPostVideo, showModal, stateSetters } = props;
+  const { showModal, stateSetters } = props;
   // Function used to hide PostModal, and allow scrolling. 
+
+  const { setPostState } = useContext(UserContext);
+  const postState: IPostState = useContext(UserContext).postState;
+  const textAreaRef = useRef<HTMLTextAreaElement>(null);
+
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
       stateSetters?.setShowModal(false);
       stateSetters?.setOverflowPost('auto');
+    }
+  };
+
+  const newPostBtnHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    console.log(textAreaRef.current);
+    if (textAreaRef.current !== null) {
+      postState['postText'] = textAreaRef.current.value;
+      setPostState({ ...postState });
+      console.log(postState);
     }
   };
 
@@ -144,17 +183,20 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           <div>Create a Post
             <button onClick={(e) => { hidePostModalHandler(e); }}>X</button>
           </div>
-          <form id="new-post-form" onSubmit={(e) => { e.preventDefault(); }}>
+          <form id="new-post-form" onSubmit={(e) => {
+            e.preventDefault();
+            newPostBtnHandler(e);
+          }}>
             <div>
               <div>
                 <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="50px" width="50px" />
                 <span>Robert Kugler</span>
               </div>
-              <textarea placeholder="What would you like to talk about?"></textarea>
+              <textarea placeholder="What would you like to talk about?" ref={textAreaRef} ></textarea>
               <div>
-                <button type="button">Add Image</button>
-                <button type="button">Add Video</button>
-                <button type="submit" form="new-post-form">Post It!</button>
+                <button type="button"><CustomFileInput type="file"></CustomFileInput>Add Image</button>
+                <button type="button"><CustomFileInput type="file"></CustomFileInput>Add Video</button>
+                <button type="submit" form="new-post-form" >Post It!</button>
               </div>
             </div>
           </form>

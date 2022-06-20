@@ -54,10 +54,6 @@ const StyledUserInfo = styled.div`
   
 `;
 
-
-
-
-
 const StyledUserPost = styled.div`
   background-color: beige;
 `;
@@ -68,6 +64,7 @@ const StyledPostLikesComments = styled.div`
 const StyledLCS = styled.div`
   background-color: coral;
 `;
+
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
 

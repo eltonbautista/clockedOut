@@ -12,6 +12,9 @@ export const postObject = (
 
 };
 
+// export const initialPost = postObject('', '', '');
+
+
 interface IUserDisplayedInfo {
   gameOne?: string;
   gameTwo?: string;

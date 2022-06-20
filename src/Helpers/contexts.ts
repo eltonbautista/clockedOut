@@ -3,6 +3,8 @@ import React, { createContext, useContext } from "react";
 interface UserContextState {
   userSignUpData: object,
   setUserSignUpData: Function,
+  postState: object,
+  setPostState: Function,
 }
 export const UserContext = createContext({} as UserContextState);
 

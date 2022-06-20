@@ -3,13 +3,15 @@ import './Styles/App.css';
 import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData, ILoginInput } from './Helpers/interface';
+import { IData, ILoginInput, IPostState } from './Helpers/interface';
 import { signingIn, IUser, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
-import { createLocalInfo, palette } from './Helpers/utils';
+import { createLocalInfo, palette, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 // import 'bootstrap/dist/css/bootstrap.min.css';
+import { userObject, postObject } from './Helpers/userObject';
+
 
 const StyledH1 = styled.h1`
   color: red;
@@ -29,7 +31,6 @@ const StyledH1 = styled.h1`
 `;
 
 const StyledHeader = styled.header`
-  /* display: grid; */
   background-color: ${palette.red};
 `;
 
@@ -53,11 +54,17 @@ const App: React.FC = function App() {
     password: '',
   };
 
+  const initPostData: IPostState = {
+    postText: '',
+    postImage: '',
+    postVideo: '',
+  };
+
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
-
+  const [postState, setPostState] = useState(initPostData);
 
   useEffect(() => {
     const info = localStorage.getItem('loginInfo');
@@ -74,7 +81,8 @@ const App: React.FC = function App() {
     });
   }, []);
 
-  const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData }), [userSignUpData, setUserSignUpData]);
+  const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData, postState: postState, setPostState: setPostState }), [userSignUpData, setUserSignUpData, postState, setPostState]);
+
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
     setUserSignUpData({ ...userSignUpData });
@@ -94,7 +102,6 @@ const App: React.FC = function App() {
     setLoggedInData(currUser);
     await createLocalInfo(currUser);
 
-    // setLocalInfo(localStorage.getItem('loginInfo'));
     if (currUser?.email) {
       navigate('feed', { replace: true });
     }
@@ -104,8 +111,6 @@ const App: React.FC = function App() {
   return (
     <StyledAppContainer className="App">
       <StyledHeader id='header'>
-        {/* LEAVE FOR NOW */}
-        {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
         {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
       </StyledHeader>
 
@@ -123,6 +128,7 @@ const App: React.FC = function App() {
 
           </Route>
         </Routes>
+
 
       </UserContext.Provider>
       <div id='app-child-container'>
