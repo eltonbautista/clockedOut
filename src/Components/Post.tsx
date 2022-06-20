@@ -4,6 +4,7 @@ import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
+import { palette } from "../Helpers/utils";
 
 
 const StyledPost = styled.div`
@@ -18,7 +19,7 @@ const StyledPost = styled.div`
   }
 
   button {
-    background-color: #fff6f6;
+    background-color: ${palette.fwhite};
     box-shadow: none;
     border: none;
   }

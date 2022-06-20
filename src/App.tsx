@@ -103,7 +103,7 @@ const App: React.FC = function App() {
 
   return (
     <StyledAppContainer className="App">
-      <StyledHeader>
+      <StyledHeader id='header'>
         {/* LEAVE FOR NOW */}
         {/* <StyledH1 onClick={() => navigate('/')}>clockedOut</StyledH1> */}
         {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}

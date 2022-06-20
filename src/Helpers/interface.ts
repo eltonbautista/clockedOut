@@ -82,3 +82,7 @@ export interface INewPostModal {
   newPostImage?: string | HTMLImageElement;
   newPostVideo?: string | HTMLVideoElement;
 }
+
+export interface IHidePostModal {
+  event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
+}

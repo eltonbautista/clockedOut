@@ -48,7 +48,9 @@ export const palette =
   purple: "#9BA5C9",
   pink: "#FC9A9A",
 
-  fpink: "#ffe0e0"
+  fpink: "#ffe0e0",
+  fwhite: "#fff6f6",
+
 };
 
 // -----------------------------------------------------------------------------

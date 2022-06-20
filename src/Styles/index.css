@@ -41,6 +41,11 @@ select {
   font: inherit;
 }
 
+button,
+a {
+  cursor: crosshair;
+}
+
 p,
 h1,
 h2,

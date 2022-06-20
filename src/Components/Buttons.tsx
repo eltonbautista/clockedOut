@@ -40,14 +40,8 @@ const SOButtons = styled.button<ISOButton>`
       border: none;
       width: fit-content;
       height: fit-content;
-      cursor: crosshair;
       padding: 0;
     ` : null}
-
-  &:hover {
-    color: pink;
-    cursor: crosshair;
-  }
 `;
 
 interface IButtonHeader {

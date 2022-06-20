@@ -10,13 +10,14 @@ import NewPostModal from "../Components/NewPostModal";
 const StyledFeed = styled.div`
   display: grid;
   min-height: 100%;
-  background-color: #fff6f6;
+  background-color: ${palette.fwhite};
   text-align: center;
   * {
     font-family: jostLight, Arial, Helvetica, sans-serif;
     font-weight: 300;
     letter-spacing: 0.3px;
     color: ${palette.black};
+    text-decoration: none;
   }
 
 `;
@@ -69,7 +70,7 @@ const StyledSharebox = styled.div`
     margin-left: 10px;
     border: 1px solid ${palette.black};
     box-shadow: none;
-    background-color: #fff6f6;
+    background-color: ${palette.fwhite};
     padding-left: 20px;
 
     color: ${palette.black};
@@ -253,13 +254,12 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   justify-self: center;
 
   :hover {
-    cursor: crosshair;
     color: white;
   }
 
   ${props => props.clicked ?
     `white-space: normal;
-  cursor: crosshair;
+
   text-overflow: clip;
   overflow: visible;
   height: fit-content;
@@ -279,9 +279,10 @@ const Feed: React.FC<IFeedProps> = () => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
+  // post modal is visible
   useEffect(() => {
     document.body.style.overflow = overflowPost;
-
   }, [overflowPost]);
 
   return (
@@ -347,7 +348,7 @@ const Feed: React.FC<IFeedProps> = () => {
                 setShowModal(true);
                 setOverflowPost('hidden');
               }}>
-                Write a post
+                <a href="#header">Write a Post</a>
               </SOButtons>
             </div>
             <div>

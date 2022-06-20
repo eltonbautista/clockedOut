@@ -46,8 +46,7 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
   background-size: fill;
   background-attachment: fixed;
   background-position: ${props => props.bgImg === 'login' ? "-50px -200px;" : "center"};
-
-  height: 100%;
+  height: 100vh;
 
 
   div[data-lp-inputs-container] {

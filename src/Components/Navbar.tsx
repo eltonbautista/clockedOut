@@ -17,6 +17,7 @@ const FeedNav = styled.nav`
 
   a {
     text-decoration: none;
+    width: fit-content;
   }
   
   > div {
