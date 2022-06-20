@@ -85,7 +85,7 @@ const Post: React.FC<IPostProps> = (props) => {
       </StyledUserInfo>
 
       <StyledUserPost className="user-post">
-        <p></p>
+        <p>{props.text}</p>
         {props.media ? <div>load media in here</div> : null}
       </StyledUserPost>
 

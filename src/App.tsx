@@ -65,6 +65,8 @@ const App: React.FC = function App() {
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
   const [postState, setPostState] = useState(initPostData);
+  const [postArray, setPostArray] = useState([]);
+
 
   useEffect(() => {
     const info = localStorage.getItem('loginInfo');
@@ -81,7 +83,17 @@ const App: React.FC = function App() {
     });
   }, []);
 
-  const UCProviderVal = useMemo(() => ({ userSignUpData: userSignUpData, setUserSignUpData: setUserSignUpData, postState: postState, setPostState: setPostState }), [userSignUpData, setUserSignUpData, postState, setPostState]);
+  const UCProviderVal = useMemo(() =>
+  ({
+    userSignUpData: userSignUpData,
+    setUserSignUpData: setUserSignUpData,
+    postState: postState,
+    setPostState: setPostState,
+    postArray: postArray,
+    setPostArray: setPostArray,
+  }),
+
+    [userSignUpData, setUserSignUpData, postState, setPostState, postArray, setPostArray]);
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;

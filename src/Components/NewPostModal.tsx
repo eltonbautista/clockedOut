@@ -5,6 +5,7 @@ import { palette } from "../Helpers/utils";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
+import Post from "./Post";
 
 const PostModal = styled.div`
   display: grid;
@@ -153,9 +154,12 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const { showModal, stateSetters } = props;
   // Function used to hide PostModal, and allow scrolling. 
 
-  const { setPostState } = useContext(UserContext);
+  const { setPostState, postArray, setPostArray } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
+  const imageUploadRef = useRef<HTMLInputElement>(null);
+  const videoUploadRef = useRef<HTMLInputElement>(null);
+
 
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
@@ -165,13 +169,42 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   };
 
   const newPostBtnHandler = (e: React.FormEvent<HTMLFormElement>) => {
-    console.log(textAreaRef.current);
-    if (textAreaRef.current !== null) {
-      postState['postText'] = textAreaRef.current.value;
-      setPostState({ ...postState });
-      console.log(postState);
+    if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
+      return;
     }
+
+    postState['postText'] = textAreaRef.current.value;
+
+    // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
+    // This is the case because this is when I will save my files to Firebase db.
+
+    if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0) {
+      postState['postImage'] = imageUploadRef.current.files[0].name;
+    }
+
+    if (videoUploadRef.current.files !== null && videoUploadRef.current.files.length > 0) {
+      postState['postVideo'] = videoUploadRef.current.files[0].name;
+    }
+
+    if (textAreaRef.current.value === '') {
+      console.log('no mas');
+      return;
+    };
+
+
+    setPostState({ ...postState });
+    setPostArray([...postArray, <Post text={postState['postText']} />]);
+    setPostState({
+      postText: '',
+      postImage: '',
+      postVideo: '',
+    });
+    textAreaRef.current.value = '';
+    hidePostModalHandler(e);
   };
+  // Hmm I guess what would happen is a user would create a post etc. and their data would be stored
+  // inside of Firestore db and Firebase storage?? I'm not exactly sure how to pull up their created
+  // data..
 
   return (
     // Will be the PostModal's background (greyed out / a bit blurry)
@@ -194,8 +227,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
               </div>
               <textarea placeholder="What would you like to talk about?" ref={textAreaRef} ></textarea>
               <div>
-                <button type="button"><CustomFileInput type="file"></CustomFileInput>Add Image</button>
-                <button type="button"><CustomFileInput type="file"></CustomFileInput>Add Video</button>
+                <button type="button"><CustomFileInput ref={imageUploadRef} type="file"></CustomFileInput>Add Image</button>
+                <button type="button"><CustomFileInput ref={videoUploadRef} type="file"></CustomFileInput>Add Video</button>
                 <button type="submit" form="new-post-form" >Post It!</button>
               </div>
             </div>

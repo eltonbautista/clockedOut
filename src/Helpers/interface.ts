@@ -34,6 +34,7 @@ export interface IFeedProps {
 }
 
 export interface IPostProps {
+  text?: string;
   media?: boolean;
 }
 
@@ -84,7 +85,7 @@ export interface INewPostModal {
 }
 
 export interface IHidePostModal {
-  event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent>;
+  event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>;
 }
 
 export interface IPostState {

@@ -1,10 +1,14 @@
-import React, { createContext, useContext } from "react";
+import { IPostProps } from './interface';
+import React, { createContext, ReactNode, useContext } from "react";
+import { JsxElement } from "typescript";
 
 interface UserContextState {
   userSignUpData: object,
   setUserSignUpData: Function,
   postState: object,
   setPostState: Function,
+  postArray: ReactNode[],
+  setPostArray: Function,
 }
 export const UserContext = createContext({} as UserContextState);
 

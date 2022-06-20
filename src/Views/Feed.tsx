@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
@@ -6,6 +6,7 @@ import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
 import Post from "../Components/Post";
 import NewPostModal from "../Components/NewPostModal";
+import { UserContext } from "../Helpers/contexts";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -279,11 +280,29 @@ const Feed: React.FC<IFeedProps> = () => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
 
+  const { postArray } = useContext(UserContext);
+
   // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
   // post modal is visible
   useEffect(() => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
+
+  const mapList = (arrayToMap: any[]) => {
+    if (!arrayToMap) {
+      return;
+    }
+    if (arrayToMap.length > 0) {
+      return postArray.map((post, index) => {
+        return <React.Fragment key={index}>{post}</React.Fragment>;
+      });
+    }
+    return;
+  };
+
+  const createdPosts = mapList(postArray);
+
+  console.log(createdPosts);
 
   return (
     <StyledFeed id="feed-container" >
@@ -364,13 +383,8 @@ const Feed: React.FC<IFeedProps> = () => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
-            <Post />
+            {/* The user's posts will be mapped in here */}
+            {createdPosts}
           </StyledFeedContent>
         </StyledMain>
 
