@@ -1,10 +1,11 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
 import Post from "../Components/Post";
+import NewPostModal from "../Components/NewPostModal";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -17,6 +18,7 @@ const StyledFeed = styled.div`
     letter-spacing: 0.3px;
     color: ${palette.black};
   }
+
 `;
 
 const StyledScaffoldContainer = styled.div`
@@ -28,6 +30,7 @@ const StyledScaffoldContainer = styled.div`
   justify-self: center;
   gap: 10px;
   padding-top: 30px;
+
 `;
 
 const StyledMain = styled.main`
@@ -273,9 +276,17 @@ const sidebarPContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit
 
 const Feed: React.FC<IFeedProps> = () => {
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
+  const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
+  const [showModal, setShowModal] = useState<boolean>(false);
+
+  useEffect(() => {
+    document.body.style.overflow = overflowPost;
+
+  }, [overflowPost]);
 
   return (
-    <StyledFeed id="feed-container">
+    <StyledFeed id="feed-container" >
+      <NewPostModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>
       <StyledScaffoldContainer>
 
         <StyledSidebar id="feed-sidebar">
@@ -332,7 +343,10 @@ const Feed: React.FC<IFeedProps> = () => {
             <div>
               <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
               {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
-              <SOButtons>
+              <SOButtons onClick={(e) => {
+                setShowModal(true);
+                setOverflowPost('hidden');
+              }}>
                 Write a post
               </SOButtons>
             </div>

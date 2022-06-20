@@ -13,14 +13,16 @@
   font-family: jostLight, Arial, Helvetica, sans-serif;
 }
 
-html,
-body {
+html {
   height: 100%;
 }
+
 
 body {
   line-height: 1.5;
   -webkit-font-smoothing: antialiased;
+  min-height: 100%;
+
 }
 
 img,

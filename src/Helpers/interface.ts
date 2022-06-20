@@ -73,6 +73,11 @@ export interface IStyledLPProps {
 }
 
 export interface INewPostModal {
+  showModal?: boolean;
+  stateSetters?: {
+    setOverflowPost: Function,
+    setShowModal: Function,
+  };
   newPostText?: string;
   newPostImage?: string | HTMLImageElement;
   newPostVideo?: string | HTMLVideoElement;
