@@ -1,3 +1,4 @@
+import { IResetInputs } from './interface';
 import { User } from "firebase/auth";
 
 // Background images:
@@ -5,6 +6,7 @@ import viper from '../Styles/assets/valResized.jpg';
 import ken from '../Styles/assets/fighter.svg';
 import animeGirl from '../Styles/assets/animeGirl.jpg';
 import zed from '../Styles/assets/zed.jpg';
+import { text } from 'stream/consumers';
 
 
 // import { profanities } from 'profanities';
@@ -69,5 +71,14 @@ export default function preload(images: string[], fillArr: HTMLImageElement[]) {
 };
 
 preload([viper, ken, animeGirl, zed], backgroundImages);
+
+// A util used to clear my inputs in NewPostModal.tsx;
+export const resetInputs = (textInp: IResetInputs['textInp'], imgInp: IResetInputs['imgInp'], videoInp: IResetInputs['videoInp']) => {
+  if (textInp.current !== null && imgInp.current !== null && videoInp.current !== null) {
+    textInp.current.value = '';
+    imgInp.current.value = '';
+    videoInp.current.value = '';
+  }
+};
 
 export { backgroundImages };

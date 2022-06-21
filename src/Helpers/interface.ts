@@ -35,6 +35,8 @@ export interface IFeedProps {
 
 export interface IPostProps {
   text?: string | number | readonly string[] | undefined;
+  img?: string | undefined;
+  video?: string | undefined;
   media?: boolean;
 }
 
@@ -80,8 +82,8 @@ export interface INewPostModal {
     setShowModal: Function,
   };
   newPostText?: string;
-  newPostImage?: string | HTMLImageElement;
-  newPostVideo?: string | HTMLVideoElement;
+  newPostImage?: string;
+  newPostVideo?: string;
 }
 
 export interface IHidePostModal {
@@ -90,6 +92,13 @@ export interface IHidePostModal {
 
 export interface IPostState {
   postText?: string | number | readonly string[] | undefined;
-  postImage?: string | HTMLImageElement;
-  postVideo?: string | HTMLVideoElement;
+  postImage?: string;
+  postVideo?: string;
+}
+
+export interface IResetInputs {
+  set: Function;
+  textInp: React.RefObject<HTMLTextAreaElement>;
+  imgInp: React.RefObject<HTMLInputElement>;
+  videoInp: React.RefObject<HTMLInputElement>;
 }

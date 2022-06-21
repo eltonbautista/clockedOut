@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import styled from "styled-components";
 import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
@@ -67,7 +67,14 @@ const StyledLCS = styled.div`
 
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
-
+  // const img = new Image();
+  // useEffect(() => {
+  //   if (!props.img) {
+  //     return;
+  //   }
+  //   img.src = props.img;
+  // });
+  console.log(props);
   return (
     <StyledPost className="user-post">
 
@@ -86,7 +93,13 @@ const Post: React.FC<IPostProps> = (props) => {
 
       <StyledUserPost className="user-post">
         <p>{props.text}</p>
-        {props.media ? <div>load media in here</div> : null}
+        {props.img && !props.video ? <div><img src={props.img} alt={props.img}></img></div> : null}
+        {!props.img && props.video ?
+          <div>
+            <video controls >
+              <source src={props.video} ></source>
+            </video>
+          </div> : null}
       </StyledUserPost>
 
       <StyledPostLikesComments className="post-likes-and-comments">

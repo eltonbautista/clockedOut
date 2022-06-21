@@ -1,7 +1,7 @@
 import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from "react";
 import styled from "styled-components";
 import { IHidePostModal, INewPostModal, IPostState } from "../Helpers/interface";
-import { palette } from "../Helpers/utils";
+import { palette, resetInputs } from "../Helpers/utils";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
@@ -177,13 +177,18 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
     // This is the case because this is when I will save my files to Firebase db.
+    if (postStateCopy['postVideo']) {
+      console.log('test');
+    }
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0) {
-      postState['postImage'] = imageUploadRef.current.files[0].name;
+      const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
+      postStateCopy['postImage'] = imgSrc;
     }
 
     if (videoUploadRef.current.files !== null && videoUploadRef.current.files.length > 0) {
-      postState['postVideo'] = videoUploadRef.current.files[0].name;
+      const videoSrc = URL.createObjectURL(videoUploadRef.current.files[0]);
+      postStateCopy['postVideo'] = videoSrc;
     }
 
     if (textAreaRef.current.value === '') {
@@ -193,13 +198,13 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     setPostState({ ...postStateCopy });
 
-    setPostArray([...postArray, <Post text={postStateCopy['postText']} />]);
+    setPostArray([...postArray, <Post video={postStateCopy['postVideo']} img={postStateCopy['postImage']} text={postStateCopy['postText']} />]);
     setPostState({
       postText: '',
       postImage: '',
       postVideo: '',
     });
-    textAreaRef.current.value = '';
+    resetInputs(textAreaRef, imageUploadRef, videoUploadRef);
     hidePostModalHandler(e);
   };
   // Hmm I guess what would happen is a user would create a post etc. and their data would be stored
