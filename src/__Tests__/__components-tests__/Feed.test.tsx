@@ -8,7 +8,10 @@ import Post from "../../Components/Post";
 describe('Tests for Feed component', () => {
 
   it('should render SignUp elements with appropriate props', () => {
-    render(<Feed />);
+    render(
+      <UserContextProvider>
+        <Feed />
+      </UserContextProvider>);
 
     const postBtn = screen.getByRole('link', { name: 'Write a Post' });
     expect(postBtn).toBeInTheDocument();

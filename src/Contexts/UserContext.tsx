@@ -1,6 +1,7 @@
 import React, { useState, useMemo, ReactNode } from "react";
 import { UserContext } from "../Helpers/contexts";
-import { IPostState, IData } from "../Helpers/interface";
+import { IPostState, IData, } from "../Helpers/interface";
+import { IUser } from '../firebase-config';
 
 interface IUserContextProvider {
   children: ReactNode;
@@ -23,6 +24,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   };
 
 
+  const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
   const [postArray, setPostArray] = useState([]);
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
@@ -31,13 +33,15 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   ({
     userSignUpData: userSignUpData,
     setUserSignUpData: setUserSignUpData,
+    loggedInData: loggedInData,
+    setLoggedInData: setLoggedInData,
     postState: postState,
     setPostState: setPostState,
     postArray: postArray,
     setPostArray: setPostArray,
   }),
 
-    [userSignUpData, setUserSignUpData, postState, setPostState, postArray, setPostArray]);
+    [userSignUpData, setUserSignUpData, loggedInData, setLoggedInData, postState, setPostState, postArray, setPostArray]);
 
   return (
     <UserContext.Provider value={UCProviderVal}>

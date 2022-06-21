@@ -47,10 +47,10 @@ const App: React.FC = function App() {
   };
 
   const [userLoginData, setUserLoginData] = useState(initLoginData);
-  const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
+  // const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
 
-  const { postArray, setPostArray, postState, setPostState, setUserSignUpData, userSignUpData } = useContext(UserContext);
+  const { postArray, setPostArray, postState, setPostState, setUserSignUpData, userSignUpData, loggedInData, setLoggedInData } = useContext(UserContext);
 
   useEffect(() => {
     const info = localStorage.getItem('loginInfo');
@@ -65,7 +65,7 @@ const App: React.FC = function App() {
         localStorage.removeItem('localInfo');
       }
     });
-  }, []);
+  }, [setLoggedInData]);
 
 
 

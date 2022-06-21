@@ -168,6 +168,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   };
 
   const newPostBtnHandler = (e: React.FormEvent<HTMLFormElement>) => {
+    // TS: cannot call any properties that might be null, so need to make sure they aren't before using them.
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
       return;
     }
@@ -177,9 +178,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
     // This is the case because this is when I will save my files to Firebase db.
-    if (postStateCopy['postVideo']) {
-      console.log('test');
-    }
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0) {
       const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
@@ -196,9 +194,11 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
+    // set new states
     setPostState({ ...postStateCopy });
-
     setPostArray([...postArray, <Post video={postStateCopy['postVideo']} img={postStateCopy['postImage']} text={postStateCopy['postText']} />]);
+
+    // after necessary info is used, reset postState and inputs.
     setPostState({
       postText: '',
       postImage: '',

@@ -8,12 +8,15 @@ import SignedOut from "../../Views/SignedOut";
 import { SODescriptionContainers, } from "../../Components/SOComponents";
 import { SOButtons } from "../../Components/Buttons";
 import { BrowserRouter } from "react-router-dom";
+import UserContextProvider from "../../Contexts/UserContext";
 
 describe('Tests for my SignedOut component', () => {
   it('Making sure SignedOut renders properly', () => {
     render(
       <BrowserRouter>
-        <SignedOut />
+        <UserContextProvider>
+          <SignedOut />
+        </UserContextProvider>
       </BrowserRouter>
     );
     const text = screen.getByText(/create connections/i);

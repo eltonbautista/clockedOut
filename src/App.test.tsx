@@ -12,7 +12,10 @@ describe('Global App testing', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <App />
+          <UserContextProvider>
+            <App />
+          </UserContextProvider>
+
         </BrowserRouter>);
     });
 

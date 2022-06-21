@@ -1,6 +1,7 @@
 import { profanities } from 'profanities';
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
+
 import {
   getFirestore,
   collection,
@@ -9,6 +10,7 @@ import {
   addDoc,
   doc,
 } from 'firebase/firestore';
+
 import {
   getAuth,
   createUserWithEmailAndPassword,
@@ -21,6 +23,10 @@ import {
   User,
 
 } from "firebase/auth";
+
+import { getDatabase } from "firebase/database";
+
+
 import { filterBadWords, profanityList } from "./Helpers/utils";
 
 // TODO: Add SDKs for Firebase products that you want to use
@@ -33,7 +39,8 @@ const firebaseConfig = {
   projectId: "clocked-out",
   storageBucket: "clocked-out.appspot.com",
   messagingSenderId: "348242359935",
-  appId: "1:348242359935:web:c68eafe659d3fed61b714a"
+  appId: "1:348242359935:web:c68eafe659d3fed61b714a",
+  databaseURL: "https://clocked-out-default-rtdb.firebaseio.com/"
 };
 
 // Initialize Firebase
@@ -42,6 +49,7 @@ const app = initializeApp(firebaseConfig);
 // Initialize services
 const db = getFirestore(app);
 const auth = getAuth();
+const rtdb = getDatabase(app);
 
 // Collection references
 const collections =
@@ -112,6 +120,11 @@ export function initFirebaseAuth(user: User | null) {
     }
   });
 };
+
+function writeUserData() {
+
+}
+
 
 
 export { IUser, auth, onAuthStateChanged };

@@ -28,7 +28,10 @@ const loginObj: ILoginInput = {
 
 describe('SignUp component tests', () => {
   it('should render SignUp elements with appropriate props', () => {
-    render(<SignUp inputFields={signUpObj} />);
+    render(
+      <UserContextProvider>
+        <SignUp inputFields={signUpObj} />
+      </UserContextProvider>);
 
     const emailInput = screen.getByText(/email/i);
     const submitButton = screen.getByText(/create account/i);
@@ -57,7 +60,11 @@ describe('SignUp component tests', () => {
   });
 
   it('typing in input should yield proper input textbox value', () => {
-    render(<SignUp inputFields={signUpObj} />);
+    render(
+      <UserContextProvider>
+        <SignUp inputFields={signUpObj} />
+      </UserContextProvider>
+    );
     const [email, username, password] = screen.getAllByTestId('input');
     const form = screen.getByText(/create account/i);
 
@@ -79,7 +86,11 @@ describe('Tests for SignUp component', () => {
   beforeEach(cleanup);
   afterEach(cleanup);
   it('should render SignUp', () => {
-    render(<Login inputFields={loginObj} />);
+    render(
+      <UserContextProvider>
+        <Login inputFields={loginObj} />
+      </UserContextProvider>
+    );
     const firstInputHeader = screen.getByText(/email/i);
     const firstLabel = screen.getByText(/email/i);
 
@@ -98,7 +109,11 @@ describe('Tests for SignUp component', () => {
     const { testEmail, testPassword } = testData;
 
 
-    render(<Login inputFields={loginObj} />);
+    render(
+      <UserContextProvider>
+        <Login inputFields={loginObj} />
+      </UserContextProvider>
+    );
 
     const [email, password] = screen.getAllByTestId('input');
 
@@ -116,7 +131,10 @@ describe('Tests for SignUp component', () => {
     cleanup();
 
     if (await mockDataRetrieval(testEmail, testPassword)) {
-      render(<Feed />);
+      render(
+        <UserContextProvider>
+          <Feed />
+        </UserContextProvider>);
     };
     expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
 
