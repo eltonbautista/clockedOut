@@ -34,7 +34,7 @@ export interface IFeedProps {
 }
 
 export interface IPostProps {
-  text?: string;
+  text?: string | number | readonly string[] | undefined;
   media?: boolean;
 }
 

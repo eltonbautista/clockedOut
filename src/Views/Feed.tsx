@@ -4,7 +4,6 @@ import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
-import Post from "../Components/Post";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 
@@ -301,8 +300,6 @@ const Feed: React.FC<IFeedProps> = () => {
   };
 
   const createdPosts = mapList(postArray);
-
-  console.log(createdPosts);
 
   return (
     <StyledFeed id="feed-container" >

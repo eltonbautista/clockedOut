@@ -1,15 +1,13 @@
-import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
-import React from "react";
+import { render, screen, cleanup } from "@testing-library/react";
 import SignUp from "../../Views/SignUp";
 import Login from "../../Views/Login";
 import App from "../../App";
 import { BrowserRouter } from "react-router-dom";
 import userEvent from "@testing-library/user-event";
 import { IData, ILoginInput } from "../../Helpers/interface";
-import { act } from "react-dom/test-utils";
 import Feed from "../../Views/Feed";
-import { auth, signingIn } from "../../firebase-config";
-
+import { signingIn } from "../../firebase-config";
+import UserContextProvider from "../../Contexts/UserContext";
 
 const mockDataRetrieval = async (email: string, password: string) => {
   const myData = await signingIn(email, password);
@@ -40,10 +38,15 @@ describe('SignUp component tests', () => {
   });
 
   it('should direct to SignUp view, then clicking a button redirects me to Login view', () => {
+
     render(
       <BrowserRouter>
-        <App />
+        <UserContextProvider>
+          <App />
+        </UserContextProvider>
+
       </BrowserRouter>);
+
 
     const signUpLink = screen.getAllByRole('button')[1];
     userEvent.click(signUpLink);

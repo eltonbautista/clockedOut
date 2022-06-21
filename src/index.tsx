@@ -2,16 +2,20 @@ import React from 'react';
 import ReactDOM from 'react-dom/client';
 import './Styles/index.css';
 import reportWebVitals from './reportWebVitals';
-import RouteSwitch from './RouteSwitch';
 import { BrowserRouter } from 'react-router-dom';
 import App from './App';
+import UserContextProvider from './Contexts/UserContext';
+
+
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
 );
 root.render(
   <React.StrictMode>
     <BrowserRouter>
-      <App />
+      <UserContextProvider>
+        <App />
+      </UserContextProvider>
     </BrowserRouter>
   </React.StrictMode>
 );

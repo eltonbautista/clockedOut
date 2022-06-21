@@ -1,10 +1,8 @@
-import React from "react";
-import { render, screen, fireEvent, cleanup, waitFor } from "@testing-library/react";
-import App from "../../App";
-import { BrowserRouter } from "react-router-dom";
+import { render, screen } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
-import { IData, ILoginInput } from "../../Helpers/interface";
 import Feed from "../../Views/Feed";
+import UserContextProvider from "../../Contexts/UserContext";
+
 
 describe('Tests for Feed component', () => {
 
@@ -16,7 +14,10 @@ describe('Tests for Feed component', () => {
   });
 
   it('should create a new post', () => {
-    render(<Feed />);
+    render(
+      <UserContextProvider>
+        <Feed />
+      </UserContextProvider>);
     const mockPostText = 'This should render onto the page';
 
     const postBtn = screen.getByRole('link', { name: 'Write a Post' });

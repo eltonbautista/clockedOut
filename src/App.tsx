@@ -1,16 +1,15 @@
-import React, { useState, useEffect, useMemo } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Styles/App.css';
 import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData, ILoginInput, IPostState } from './Helpers/interface';
+import { IData, ILoginInput } from './Helpers/interface';
 import { signingIn, IUser, auth } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
 import { createLocalInfo, palette, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 // import 'bootstrap/dist/css/bootstrap.min.css';
-import { userObject, postObject } from './Helpers/userObject';
 
 
 const StyledH1 = styled.h1`
@@ -42,31 +41,16 @@ const App: React.FC = function App() {
   // HOOKS & STATES
   const navigate: Function = useNavigate();
 
-
-  const initSignUpData: IData = {
-    email: '',
-    username: '',
-    password: '',
-  };
-
   const initLoginData: ILoginInput = {
     email: '',
     password: '',
   };
 
-  const initPostData: IPostState = {
-    postText: '',
-    postImage: '',
-    postVideo: '',
-  };
-
-  const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
-  const [postState, setPostState] = useState(initPostData);
-  const [postArray, setPostArray] = useState([]);
 
+  const { postArray, setPostArray, postState, setPostState, setUserSignUpData, userSignUpData } = useContext(UserContext);
 
   useEffect(() => {
     const info = localStorage.getItem('loginInfo');
@@ -83,17 +67,7 @@ const App: React.FC = function App() {
     });
   }, []);
 
-  const UCProviderVal = useMemo(() =>
-  ({
-    userSignUpData: userSignUpData,
-    setUserSignUpData: setUserSignUpData,
-    postState: postState,
-    setPostState: setPostState,
-    postArray: postArray,
-    setPostArray: setPostArray,
-  }),
 
-    [userSignUpData, setUserSignUpData, postState, setPostState, postArray, setPostArray]);
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
@@ -126,23 +100,19 @@ const App: React.FC = function App() {
         {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
       </StyledHeader>
 
-      <UserContext.Provider value={UCProviderVal}>
+      <Routes>
 
-        <Routes>
+        <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/sign-up' element={<SignUp localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
 
-          <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
-          <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
-          <Route path='/sign-up' element={<SignUp localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/feed'
+          element={
+            <PrivateRoute stateAuth={loggedInData} children={<Feed />} />} >
 
-          <Route path='/feed'
-            element={
-              <PrivateRoute stateAuth={loggedInData} children={<Feed />} />} >
+        </Route>
+      </Routes>
 
-          </Route>
-        </Routes>
-
-
-      </UserContext.Provider>
       <div id='app-child-container'>
         <Outlet />
       </div>

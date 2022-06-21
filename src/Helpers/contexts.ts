@@ -1,9 +1,8 @@
-import { IPostProps } from './interface';
-import React, { createContext, ReactNode, useContext } from "react";
-import { JsxElement } from "typescript";
+import { IData, IPostProps, IPostState } from './interface';
+import { createContext, ReactNode } from "react";
 
 interface UserContextState {
-  userSignUpData: object,
+  userSignUpData: IData,
   setUserSignUpData: Function,
   postState: object,
   setPostState: Function,

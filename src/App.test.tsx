@@ -4,6 +4,7 @@ import { render, screen, act } from '@testing-library/react';
 import App from './App';
 import { BrowserRouter } from 'react-router-dom';
 import userEvent from '@testing-library/user-event';
+import UserContextProvider from './Contexts/UserContext';
 
 describe('Global App testing', () => {
 
@@ -23,7 +24,10 @@ describe('Global App testing', () => {
     act(() => {
       render(
         <BrowserRouter>
-          <App />
+          <UserContextProvider>
+            <App />
+          </UserContextProvider>
+
         </BrowserRouter>);
     });
     const login = screen.getAllByText('Login');

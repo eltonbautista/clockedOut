@@ -160,7 +160,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const videoUploadRef = useRef<HTMLInputElement>(null);
 
-
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
       stateSetters?.setShowModal(false);
@@ -172,8 +171,9 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
       return;
     }
+    const postStateCopy = { ...postState };
 
-    postState['postText'] = textAreaRef.current.value;
+    postStateCopy['postText'] = textAreaRef.current.value;
 
     // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
     // This is the case because this is when I will save my files to Firebase db.
@@ -191,9 +191,9 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
+    setPostState({ ...postStateCopy });
 
-    setPostState({ ...postState });
-    setPostArray([...postArray, <Post text={postState['postText']} />]);
+    setPostArray([...postArray, <Post text={postStateCopy['postText']} />]);
     setPostState({
       postText: '',
       postImage: '',
