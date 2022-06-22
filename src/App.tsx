@@ -4,7 +4,7 @@ import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, IDbUserData, ILoginInput, IPostState } from './Helpers/interface';
-import { signingIn, IUser, auth, getUserData } from './firebase-config';
+import { signingIn, IUser, auth, getAllUserData } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
 import { createLocalInfo, filterPosts, palette, toPostStateObjects, } from './Helpers/utils';
@@ -46,7 +46,7 @@ const App: React.FC = function App() {
   const fetch = useCallback(async () => {
     // Used to fetch userData from Firestore collection
 
-    const archivedUserData = await getUserData();
+    const archivedUserData = await getAllUserData();
     if (archivedUserData !== undefined && loggedInData && localInfo) {
       setAllUsersData(archivedUserData);
     }
@@ -91,8 +91,6 @@ const App: React.FC = function App() {
     userLoginData[key] = e.target.value;
     setUserLoginData({ ...userLoginData });
   };
-
-  // console.log(allUsersData);
 
   // Used for handling user's login request. When a user logs in, the currently stored loginInformation is deleted, and a new signedIn call to Firebase is called - and saves the current user's ID token onto localStorage.
   // TODO: Add error pop-ups to notify users what is preventing them from logging in: wrong password/email, request timed out, etc.

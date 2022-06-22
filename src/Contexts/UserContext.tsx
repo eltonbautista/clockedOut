@@ -2,7 +2,7 @@ import React, { useState, useMemo, ReactNode, useEffect } from "react";
 import { UserContext } from "../Helpers/contexts";
 import { IPostState, IData, IDbUserData } from "../Helpers/interface";
 import { IUser } from '../firebase-config';
-import { getUserData } from "../firebase-config";
+import { getAllUserData } from "../firebase-config";
 import { DocumentData } from "firebase/firestore";
 import Post from "../Components/Post";
 

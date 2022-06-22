@@ -303,7 +303,6 @@ const Feed: React.FC<IFeedProps> = () => {
   useEffect(() => {
     // effect that invokes addDbPostsToLocal() if loggedInData exists
     if (loggedInData) {
-      console.log('hi');
       addDbPostsToLocal();
     }
   }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
@@ -331,7 +330,6 @@ const Feed: React.FC<IFeedProps> = () => {
   };
 
   const createdPosts = mapList(postArray);
-
 
   return (
     <StyledFeed id="feed-container" >

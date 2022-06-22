@@ -6,7 +6,8 @@ import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
 import Post from "./Post";
-import { writeUserData } from "../firebase-config";
+import { uploadImage, writeUserData, collections, getUserDoc, db } from "../firebase-config";
+import { updateDoc, doc } from "firebase/firestore";
 
 const PostModal = styled.div`
   display: grid;
@@ -170,29 +171,51 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
   // A function used to push user data into firestore db;
   const storeDataToDb = async (postState: IPostState) => {
-    const userPostObjects: IPostState[] = [];
-
+    let userPostObjects: IPostState[] = [];
     userPostObjects.push(postState);
 
-    await writeUserData(loggedInData, userPostObjects);
-  };
+    if (loggedInData && loggedInData.uid) {
+      const currentUserDoc = await getUserDoc(loggedInData.uid);
 
-  const newPostBtnHandler = (e: React.FormEvent<HTMLFormElement>) => {
+      if (currentUserDoc) {
+        const userDocRef = doc(db, "userData", loggedInData.uid);
+
+        userPostObjects = [...userPostObjects, ...currentUserDoc.posts];
+
+        await updateDoc(userDocRef, {
+          posts: userPostObjects
+        });
+
+      } else if (!currentUserDoc) {
+        await writeUserData(loggedInData, userPostObjects);
+      }
+    }
+  };
+  // console.log(postArray);
+  const newPostBtnHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     // TS: cannot call any properties that might be null, so need to make sure they aren't before using them.
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
       return;
     }
     const postStateCopy = { ...postState };
+    let imgDownloadLink: string;
+    let videoDownloadLink = 'blank for now';
 
     postStateCopy['postText'] = textAreaRef.current.value;
 
     // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
     // This is the case because this is when I will save my files to Firebase db.
 
-    if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0) {
+    if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0 && loggedInData !== undefined) {
       const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
       console.log(imgSrc);
+
+      if (loggedInData) {
+        let foo = await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
+        console.log(foo);
+      }
       postStateCopy['postImage'] = imgSrc;
+      hidePostModalHandler(e);
     }
 
     if (videoUploadRef.current.files !== null && videoUploadRef.current.files.length > 0) {
@@ -206,6 +229,13 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     };
 
     const testArr = [...postArray, postStateCopy];
+
+    // const storedPost: IPostState = {
+    //   postText: postStateCopy['postText'],
+    //   postImage: imgDownloadLink,
+    //   postVideo: videoDownloadLink
+    // }
+
     storeDataToDb(postStateCopy);
 
     // set new states
@@ -248,8 +278,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
               </div>
               <textarea placeholder="What would you like to talk about?" ref={textAreaRef} ></textarea>
               <div>
-                <button type="button"><CustomFileInput ref={imageUploadRef} type="file"></CustomFileInput>Add Image</button>
-                <button type="button"><CustomFileInput ref={videoUploadRef} type="file"></CustomFileInput>Add Video</button>
+                <button type="button"><CustomFileInput ref={imageUploadRef} accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Add Image</button>
+                <button type="button"><CustomFileInput ref={videoUploadRef} accept=".mp4" type="file"></CustomFileInput>Add Video</button>
                 <button type="submit" form="new-post-form" >Post It!</button>
               </div>
             </div>

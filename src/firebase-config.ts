@@ -6,6 +6,7 @@ import {
   getFirestore,
   collection,
   getDocs,
+  getDoc,
   setDoc,
   addDoc,
   doc,
@@ -26,7 +27,7 @@ import {
 } from "firebase/auth";
 
 import { getDatabase } from "firebase/database";
-
+import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
 import { IDatabaseArgs } from './Helpers/interface';
@@ -39,26 +40,80 @@ const firebaseConfig = {
   apiKey: "AIzaSyCUrU3eINb-vn5fnsKUpXaQI5fhjxFpuoY",
   authDomain: "clocked-out.firebaseapp.com",
   projectId: "clocked-out",
-  storageBucket: "clocked-out.appspot.com",
   messagingSenderId: "348242359935",
   appId: "1:348242359935:web:c68eafe659d3fed61b714a",
-  databaseURL: "https://clocked-out-default-rtdb.firebaseio.com/"
+  databaseURL: "https://clocked-out-default-rtdb.firebaseio.com/",
+  storageBucket: "gs://clocked-out.appspot.com",
 };
 
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 
 // Initialize services
-const db = getFirestore(app);
+export const db = getFirestore(app);
 const auth = getAuth();
 const rtdb = getDatabase(app);
+// TODO: https://firebase.google.com/docs/app-check/web/recaptcha-provider add App Check so only my website can use the images in storage.
+const storage = getStorage(app);
 
 // Collection references
-const collections =
+export const collections =
 {
   profanitiesRef: collection(db, 'profanities'),
   userDataRef: collection(db, 'userData'),
 };
+
+export async function uploadImage(imageName: string, userID: string, file: File) {
+  const postImage = ref(storage, imageName);
+  const userImagePath = userID + "/images/" + imageName;
+  const postImageRef = ref(storage, userImagePath);
+  const metadata = {
+    contentType: '.png, .jpg, .jpeg, .svg'
+  };
+
+
+  const uploadingTask = uploadBytesResumable(postImageRef, file, metadata);
+
+  uploadingTask.on('state_changed',
+    (snapshot) => {
+      const progress = (snapshot.bytesTransferred / snapshot.totalBytes) * 100;
+      console.log('Upload is ' + progress + ' % done');
+      switch (snapshot.state) {
+        case 'paused':
+          console.log('Uploading is paused');
+          break;
+        case 'running':
+          console.log('Uploading is ongoing');
+          break;
+      }
+    },
+    (error) => {
+      console.log(error);
+    },
+    async () => {
+      const myDownloadURL = await getDownloadURL(uploadingTask.snapshot.ref);
+      return myDownloadURL;
+    }
+  );
+  return uploadingTask;
+};
+
+// TODO: MIGHT NEED LATER ON
+// export function downloadImage() {
+
+// }
+
+export async function getUserDoc(userID: string) {
+  const docSnap = await getDoc(doc(db, "userData", userID));
+
+  if (docSnap.exists()) {
+    console.log(docSnap.data());
+    return docSnap.data();
+  } else {
+    console.log('No such document');
+  }
+}
+
 
 export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
   try {
@@ -79,7 +134,7 @@ export async function writeUserData(userData: IDatabaseArgs['userData'], postArr
 
 };
 
-export async function getUserData() {
+export async function getAllUserData() {
   const ALLUSERDATA: {
     docID: string,
     docData: DocumentData,
