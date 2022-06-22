@@ -137,22 +137,15 @@ describe('Tests for SignUp component', () => {
     // TODO: For some reason the async function is failing now. Not sure why..
 
     // console.log(await mockDataRetrieval('123', "123"));
-    // const promise = await mockDataRetrieval(testEmail, testPassword);
-
-
-    // if (promise) {
-    //   act(() => {
-    //     render(
-
-    //       <Feed />
-    //     );
-    //   });
-
-    // };
-
-
-
-    // expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
+    const promise = await mockDataRetrieval(testEmail, testPassword);
+    if (promise) {
+      act(() => {
+        render(
+          <Feed />
+        );
+      });
+    };
+    expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
 
   });
 });

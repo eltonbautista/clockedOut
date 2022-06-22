@@ -1,5 +1,7 @@
+import { DocumentData } from 'firebase/firestore';
 import { User } from "firebase/auth";
 import React from "react";
+
 
 export interface IData {
   email: string;
@@ -111,4 +113,11 @@ export interface IResetInputs {
 export interface IDatabaseArgs {
   userData: User | null | undefined;
   postArray: IPostState[];
+}
+
+export interface IDbUserData {
+  userDocument: {
+    docID: string;
+    docData: DocumentData;
+  }[];
 }

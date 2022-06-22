@@ -1,6 +1,6 @@
 import React, { useState, useMemo, ReactNode, useEffect } from "react";
 import { UserContext } from "../Helpers/contexts";
-import { IPostState, IData, } from "../Helpers/interface";
+import { IPostState, IData, IDbUserData } from "../Helpers/interface";
 import { IUser } from '../firebase-config';
 import { getUserData } from "../firebase-config";
 import { DocumentData } from "firebase/firestore";
@@ -25,18 +25,8 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
   const [postArray, setPostArray] = useState<IPostState[]>([]);
-  const [dbPosts, setDbPosts] = useState<{ docID: string; docData: DocumentData; }[]>();
+  const [dbPosts, setDbPosts] = useState<IDbUserData['userDocument']>([]);
 
-  useEffect(() => {
-    const asyncDataFetch = async () => {
-      const archivedUserPost = await getUserData();
-      if (archivedUserPost !== undefined) {
-        setDbPosts(archivedUserPost);
-      }
-    };
-    asyncDataFetch();
-
-  }, []);
 
   // useEffect(() => {
   //   dbPosts?.forEach((postData, i) => {

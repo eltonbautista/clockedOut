@@ -67,14 +67,7 @@ const StyledLCS = styled.div`
 
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
-  // const img = new Image();
-  // useEffect(() => {
-  //   if (!props.img) {
-  //     return;
-  //   }
-  //   img.src = props.img;
-  // });
-  console.log(props);
+
   return (
     <StyledPost className="user-post">
 

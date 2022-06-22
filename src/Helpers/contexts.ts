@@ -1,3 +1,4 @@
+import { DocumentData } from 'firebase/firestore';
 import { IData, IPostProps, IPostState, ILoginInput } from './interface';
 import { createContext, ReactNode } from "react";
 // import { User } from 'firebase/auth';
@@ -10,6 +11,11 @@ interface UserContextState {
   setPostArray: Function;
   loggedInData: typeof IUser | null | undefined;
   setLoggedInData: React.Dispatch<React.SetStateAction<typeof IUser | null | undefined>>;
+  dbPosts: { docID: string; docData: DocumentData; }[];
+  setDbPosts: React.Dispatch<React.SetStateAction<{
+    docID: string;
+    docData: DocumentData;
+  }[]>>;
 }
 export const UserContext = createContext({} as UserContextState);
 

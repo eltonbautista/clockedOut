@@ -1,14 +1,17 @@
-import React, { useState, useEffect, useContext } from 'react';
+import React, { useState, useEffect, useContext, useCallback } from 'react';
 import './Styles/App.css';
 import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData, ILoginInput } from './Helpers/interface';
-import { signingIn, IUser, auth } from './firebase-config';
+import { IData, IDbUserData, ILoginInput, IPostState } from './Helpers/interface';
+import { signingIn, IUser, auth, getUserData } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
-import { createLocalInfo, palette, } from './Helpers/utils';
+import { createLocalInfo, filterPosts, palette, toPostStateObjects, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
+import { couldStartTrivia } from 'typescript';
+import { User } from 'firebase/auth';
+
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
 
@@ -56,24 +59,57 @@ const App: React.FC = function App() {
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
 
-  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData } = useContext(UserContext);
+  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, dbPosts, setDbPosts } = useContext(UserContext);
+
+
+
+  const fetch = useCallback(async () => {
+    const archivedUserPost = await getUserData();
+    if (archivedUserPost !== undefined) {
+      setDbPosts(archivedUserPost);
+    }
+  }, [setDbPosts]);
+
+  // loggedInData is set when user logs in - this is determined by Firebase auth.
+  // If true then fetch user documents (archivedUserPost)
+  useEffect(() => {
+    if (loggedInData) {
+      fetch();
+    }
+  }, [fetch, loggedInData]);
 
   useEffect(() => {
-    const info = localStorage.getItem('loginInfo');
-    setLocalInfo(info);
-
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setLoggedInData(user);
         createLocalInfo(user);
+
+        const info = localStorage.getItem('loginInfo');
+        setLocalInfo(info);
+
       } else if (!user) {
         setLoggedInData(null);
         localStorage.removeItem('localInfo');
       }
     });
-  }, [setLoggedInData]);
+  }, [setLoggedInData, loggedInData]);
 
+  useEffect(() => {
+    onAuthStateChanged(auth, async (user) => {
+      if (user) {
+        const filteredDbPosts = filterPosts(dbPosts);
+        if (dbPosts !== undefined && postArray.length < dbPosts.length && filteredDbPosts !== undefined) {
+          const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredDbPosts);
+          if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+            setPostArray([...postArray, ...dbPostObjectsArray]);
+          }
+        }
+      } else if (!user) {
+        setDbPosts([]);
+      }
+    });
 
+  }, [dbPosts, postArray, setDbPosts, setPostArray]);
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;

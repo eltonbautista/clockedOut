@@ -1,5 +1,7 @@
-import { IResetInputs } from './interface';
+import { IResetInputs, IDbUserData, IPostState } from './interface';
 import { User } from "firebase/auth";
+import { DocumentData } from 'firebase/firestore';
+
 
 // Background images:
 import viper from '../Styles/assets/valResized.jpg';
@@ -80,5 +82,38 @@ export const resetInputs = (textInp: IResetInputs['textInp'], imgInp: IResetInpu
     videoInp.current.value = '';
   }
 };
+
+
+export const filterPosts = (userDocs: IDbUserData['userDocument']) => {
+  if (userDocs !== undefined) {
+    return userDocs.filter((post, index) => {
+      return post !== userDocs[index + 1];
+    });
+  }
+};
+
+export const toPostStateObjects = async (filteredUserDocuments: IDbUserData['userDocument']) => {
+  const thisArray: IDbUserData['userDocument'] = [...filteredUserDocuments];
+  const newArr: IPostState[] = [];
+  // let bar = filteredUserDocuments[0].docData.posts[0];
+  // Okay so, initially I was trying to do this: posts[i] => but the amount of posts is different from the amount of userData.
+  // The thing is, there's only supposed to be one userData, at least for now, and it's only the person who is logged in
+  // Later on when they start following others then it will increase
+
+  if (thisArray !== undefined && thisArray.length > 0) {
+    thisArray.forEach((userDoc, i) => {
+      if (userDoc !== undefined) {
+        newArr.push({
+          postText: userDoc.docData.posts[0].postText,
+          postImage: userDoc.docData.posts[0].postImage,
+          postVideo: userDoc.docData.posts[0].postVideo,
+        });
+      }
+    });
+  }
+
+  return newArr;
+};
+
 
 export { backgroundImages };
