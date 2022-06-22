@@ -15,7 +15,6 @@ describe('Global App testing', () => {
           <UserContextProvider>
             <App />
           </UserContextProvider>
-
         </BrowserRouter>);
     });
 

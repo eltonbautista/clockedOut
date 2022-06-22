@@ -279,6 +279,8 @@ const Feed: React.FC<IFeedProps> = () => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
 
+
+
   const { postArray } = useContext(UserContext);
 
   // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
@@ -287,7 +289,7 @@ const Feed: React.FC<IFeedProps> = () => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
-  const mapList = (arrayToMap: any[]) => {
+  const mapList = (arrayToMap: any[] | undefined) => {
     if (!arrayToMap) {
       return;
     }
@@ -380,7 +382,6 @@ const Feed: React.FC<IFeedProps> = () => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            {/* The user's posts will be mapped in here */}
             {createdPosts}
           </StyledFeedContent>
         </StyledMain>

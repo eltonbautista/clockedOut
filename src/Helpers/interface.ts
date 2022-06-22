@@ -1,4 +1,5 @@
 import { User } from "firebase/auth";
+import React from "react";
 
 export interface IData {
   email: string;
@@ -101,4 +102,9 @@ export interface IResetInputs {
   textInp: React.RefObject<HTMLTextAreaElement>;
   imgInp: React.RefObject<HTMLInputElement>;
   videoInp: React.RefObject<HTMLInputElement>;
+}
+
+export interface IDatabaseArgs {
+  userData: User | null | undefined;
+  postArray: IPostState[];
 }

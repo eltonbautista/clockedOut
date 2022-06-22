@@ -8,7 +8,7 @@ interface UserContextState {
   setUserSignUpData: Function;
   postState: IPostState;
   setPostState: Function;
-  postArray: ReactNode[];
+  postArray: ReactNode[] | never[];
   setPostArray: Function;
   loggedInData: typeof IUser | null | undefined;
   setLoggedInData: React.Dispatch<React.SetStateAction<typeof IUser | null | undefined>>;

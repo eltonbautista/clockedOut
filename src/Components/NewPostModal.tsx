@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef, useLayoutEffect } from "react";
+import React, { useEffect, useState, useContext, useRef, useLayoutEffect, JSXElementConstructor, useCallback } from "react";
 import styled from "styled-components";
 import { IHidePostModal, INewPostModal, IPostState } from "../Helpers/interface";
 import { palette, resetInputs } from "../Helpers/utils";
@@ -6,6 +6,7 @@ import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
 import Post from "./Post";
+import { writeUserData } from "../firebase-config";
 
 const PostModal = styled.div`
   display: grid;
@@ -154,7 +155,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const { showModal, stateSetters } = props;
   // Function used to hide PostModal, and allow scrolling. 
 
-  const { setPostState, postArray, setPostArray } = useContext(UserContext);
+  const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const imageUploadRef = useRef<HTMLInputElement>(null);
@@ -165,6 +166,15 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       stateSetters?.setShowModal(false);
       stateSetters?.setOverflowPost('auto');
     }
+  };
+
+  // A function used to push user data into firestore db;
+  const storeDataToDb = async (postState: IPostState) => {
+    const userPostObjects: IPostState[] = [];
+
+    userPostObjects.push(postState);
+
+    await writeUserData(loggedInData, userPostObjects);
   };
 
   const newPostBtnHandler = (e: React.FormEvent<HTMLFormElement>) => {
@@ -181,6 +191,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0) {
       const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
+      console.log(imgSrc);
       postStateCopy['postImage'] = imgSrc;
     }
 
@@ -194,9 +205,12 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
+    const testArr = [...postArray, <Post video={postStateCopy['postVideo']} img={postStateCopy['postImage']} text={postStateCopy['postText']} />];
+    storeDataToDb(postStateCopy);
+
     // set new states
     setPostState({ ...postStateCopy });
-    setPostArray([...postArray, <Post video={postStateCopy['postVideo']} img={postStateCopy['postImage']} text={postStateCopy['postText']} />]);
+    setPostArray([...testArr]);
 
     // after necessary info is used, reset postState and inputs.
     setPostState({
@@ -207,6 +221,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     resetInputs(textAreaRef, imageUploadRef, videoUploadRef);
     hidePostModalHandler(e);
   };
+
   // Hmm I guess what would happen is a user would create a post etc. and their data would be stored
   // inside of Firestore db and Firebase storage?? I'm not exactly sure how to pull up their created
   // data..
@@ -224,6 +239,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           <form id="new-post-form" onSubmit={(e) => {
             e.preventDefault();
             newPostBtnHandler(e);
+            // storeDataToDb();
           }}>
             <div>
               <div>

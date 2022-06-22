@@ -9,6 +9,7 @@ import {
   setDoc,
   addDoc,
   doc,
+  DocumentData,
 } from 'firebase/firestore';
 
 import {
@@ -28,6 +29,7 @@ import { getDatabase } from "firebase/database";
 
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
+import { IDatabaseArgs } from './Helpers/interface';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -54,8 +56,49 @@ const rtdb = getDatabase(app);
 // Collection references
 const collections =
 {
-  profanitiesRef: collection(db, 'profanities')
+  profanitiesRef: collection(db, 'profanities'),
+  userDataRef: collection(db, 'userData'),
 };
+
+export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
+  try {
+
+    if (userData !== null && userData !== undefined) {
+      const addUserData = await setDoc(doc(db, "userData", userData.uid), {
+        userID: userData.uid,
+        displayName: userData.displayName,
+        email: userData.email,
+        profilePicture: userData.photoURL,
+        posts: postArray,
+      });
+    }
+
+  } catch (err) {
+    console.log(err);
+  }
+
+};
+
+export async function getUserData() {
+  const ALLUSERDATA: {
+    docID: string,
+    docData: DocumentData,
+  }[] = [];
+
+  try {
+    const querySnapshot = await getDocs(collections['userDataRef']);
+    querySnapshot.forEach((doc) => {
+      ALLUSERDATA.push({
+        docID: doc.id,
+        docData: doc.data(),
+      });
+    });
+    return ALLUSERDATA;
+  } catch (err) {
+    console.log(err);
+  }
+}
+
 
 export const createUserInformation = async (email: string, password: string, username: string) => {
 
@@ -121,9 +164,7 @@ export function initFirebaseAuth(user: User | null) {
   });
 };
 
-function writeUserData() {
 
-}
 
 
 
