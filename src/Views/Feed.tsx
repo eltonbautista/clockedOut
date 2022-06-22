@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState } from "../Helpers/interface";
+import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { filterPosts, palette, toPostStateObjects } from "../Helpers/utils";
@@ -283,10 +283,9 @@ const Feed: React.FC<IFeedProps> = () => {
 
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
 
-  // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
-  // post modal is visible
+  const addDbPostsToLocal = useCallback(async () => {
+    // callback used for adding db posts to local so they can be rendered on load of the Feed view.
 
-  const addDbPoststoLocal = useCallback(async () => {
     if (loggedInData) {
       const filteredUsersData = filterPosts(allUsersData);
 
@@ -302,13 +301,18 @@ const Feed: React.FC<IFeedProps> = () => {
 
 
   useEffect(() => {
-    console.log(loggedInData);
+    // effect that invokes addDbPostsToLocal() if loggedInData exists
     if (loggedInData) {
-      addDbPoststoLocal();
+      console.log('hi');
+      addDbPostsToLocal();
     }
-  }, [addDbPoststoLocal, loggedInData, setAllUsersData]);
+  }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
+
 
   useEffect(() => {
+    // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
+    // post modal is visible
+
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
@@ -327,6 +331,7 @@ const Feed: React.FC<IFeedProps> = () => {
   };
 
   const createdPosts = mapList(postArray);
+
 
   return (
     <StyledFeed id="feed-container" >

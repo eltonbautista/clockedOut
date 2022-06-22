@@ -12,8 +12,6 @@ import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 import { couldStartTrivia } from 'typescript';
 import { User } from 'firebase/auth';
 
-// import 'bootstrap/dist/css/bootstrap.min.css';
-
 const StyledHeader = styled.header`
   background-color: ${palette.red};
 `;
@@ -44,22 +42,31 @@ const App: React.FC = function App() {
 
   const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
 
+
   const fetch = useCallback(async () => {
+    // Used to fetch userData from Firestore collection
+
     const archivedUserData = await getUserData();
     if (archivedUserData !== undefined && loggedInData && localInfo) {
       setAllUsersData(archivedUserData);
     }
   }, [localInfo, loggedInData, setAllUsersData]);
 
-  // loggedInData is set when user logs in - this is determined by Firebase auth.
-  // If true then fetch user documents (archivedUserData)
+
   useEffect(() => {
+    // loggedInData is set when user logs in - this is determined by Firebase auth.
+    // If true then fetch user documents (archivedUserData)
+
     if (loggedInData && localInfo) {
       fetch();
     }
   }, [fetch, localInfo, loggedInData]);
 
+
   useEffect(() => {
+    // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
+    // Renders once, and on dependency change
+
     onAuthStateChanged(auth, async (user) => {
       if (user) {
         setLoggedInData(user);
