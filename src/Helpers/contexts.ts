@@ -11,8 +11,8 @@ interface UserContextState {
   setPostArray: Function;
   loggedInData: typeof IUser | null | undefined;
   setLoggedInData: React.Dispatch<React.SetStateAction<typeof IUser | null | undefined>>;
-  dbPosts: { docID: string; docData: DocumentData; }[];
-  setDbPosts: React.Dispatch<React.SetStateAction<{
+  allUsersData: { docID: string; docData: DocumentData; }[];
+  setAllUsersData: React.Dispatch<React.SetStateAction<{
     docID: string;
     docData: DocumentData;
   }[]>>;

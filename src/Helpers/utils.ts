@@ -92,10 +92,10 @@ export const filterPosts = (userDocs: IDbUserData['userDocument']) => {
   }
 };
 
-export const toPostStateObjects = async (filteredUserDocuments: IDbUserData['userDocument']) => {
-  const thisArray: IDbUserData['userDocument'] = [...filteredUserDocuments];
+export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDocument']) => {
+  const thisArray: IDbUserData['userDocument'] = [...filteredUsersData];
   const newArr: IPostState[] = [];
-  // let bar = filteredUserDocuments[0].docData.posts[0];
+  // let bar = filteredUsersData[0].docData.posts[0];
   // Okay so, initially I was trying to do this: posts[i] => but the amount of posts is different from the amount of userData.
   // The thing is, there's only supposed to be one userData, at least for now, and it's only the person who is logged in
   // Later on when they start following others then it will increase

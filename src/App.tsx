@@ -14,24 +14,6 @@ import { User } from 'firebase/auth';
 
 // import 'bootstrap/dist/css/bootstrap.min.css';
 
-
-const StyledH1 = styled.h1`
-  color: red;
-  font-family: jostLight;
-  justify-self: start;
-  text-align: start;
-  font-size: clamp(24px, 5vw, 60px);
-  padding-left: 5%;
-  height: fit-content;
-  width: 100%;
-  margin: 0;
-  background-color: black;
-  /* letter-spacing: 2px; */
-  font-weight: 0;
-  position: fixed;
-  z-index: 1;
-`;
-
 const StyledHeader = styled.header`
   background-color: ${palette.red};
 `;
@@ -42,6 +24,7 @@ const StyledAppContainer = styled.div`
 `;
 const App: React.FC = function App() {
   // HOOKS & STATES
+
   const navigate: Function = useNavigate();
 
   const initLoginData: ILoginInput = {
@@ -59,24 +42,22 @@ const App: React.FC = function App() {
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
 
-  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, dbPosts, setDbPosts } = useContext(UserContext);
-
-
+  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
 
   const fetch = useCallback(async () => {
-    const archivedUserPost = await getUserData();
-    if (archivedUserPost !== undefined) {
-      setDbPosts(archivedUserPost);
+    const archivedUserData = await getUserData();
+    if (archivedUserData !== undefined && loggedInData && localInfo) {
+      setAllUsersData(archivedUserData);
     }
-  }, [setDbPosts]);
+  }, [localInfo, loggedInData, setAllUsersData]);
 
   // loggedInData is set when user logs in - this is determined by Firebase auth.
-  // If true then fetch user documents (archivedUserPost)
+  // If true then fetch user documents (archivedUserData)
   useEffect(() => {
-    if (loggedInData) {
+    if (loggedInData && localInfo) {
       fetch();
     }
-  }, [fetch, loggedInData]);
+  }, [fetch, localInfo, loggedInData]);
 
   useEffect(() => {
     onAuthStateChanged(auth, async (user) => {
@@ -94,23 +75,6 @@ const App: React.FC = function App() {
     });
   }, [setLoggedInData, loggedInData]);
 
-  useEffect(() => {
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        const filteredDbPosts = filterPosts(dbPosts);
-        if (dbPosts !== undefined && postArray.length < dbPosts.length && filteredDbPosts !== undefined) {
-          const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredDbPosts);
-          if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-            setPostArray([...postArray, ...dbPostObjectsArray]);
-          }
-        }
-      } else if (!user) {
-        setDbPosts([]);
-      }
-    });
-
-  }, [dbPosts, postArray, setDbPosts, setPostArray]);
-
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
     setUserSignUpData({ ...userSignUpData });
@@ -121,6 +85,7 @@ const App: React.FC = function App() {
     setUserLoginData({ ...userLoginData });
   };
 
+  // console.log(allUsersData);
 
   // Used for handling user's login request. When a user logs in, the currently stored loginInformation is deleted, and a new signedIn call to Firebase is called - and saves the current user's ID token onto localStorage.
   // TODO: Add error pop-ups to notify users what is preventing them from logging in: wrong password/email, request timed out, etc.

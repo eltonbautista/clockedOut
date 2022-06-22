@@ -3,10 +3,11 @@ import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
-import { palette } from "../Helpers/utils";
+import { filterPosts, palette, toPostStateObjects } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
+import { useCallback } from "react";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -280,10 +281,33 @@ const Feed: React.FC<IFeedProps> = () => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
 
-  const { postArray } = useContext(UserContext);
+  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
 
   // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
   // post modal is visible
+
+  const addDbPoststoLocal = useCallback(async () => {
+    if (loggedInData) {
+      const filteredUsersData = filterPosts(allUsersData);
+
+      if (allUsersData !== undefined && postArray.length < allUsersData.length && filteredUsersData !== undefined) {
+        const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData);
+        if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+          setPostArray([...postArray, ...dbPostObjectsArray]);
+        }
+      }
+
+    }
+  }, [allUsersData, loggedInData, postArray, setPostArray]);
+
+
+  useEffect(() => {
+    console.log(loggedInData);
+    if (loggedInData) {
+      addDbPoststoLocal();
+    }
+  }, [addDbPoststoLocal, loggedInData, setAllUsersData]);
+
   useEffect(() => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);

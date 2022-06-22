@@ -6,6 +6,10 @@ import { Navigate } from 'react-router-dom';
 import { palette } from '../Helpers/utils';
 import { backgroundImages } from '../Helpers/utils';
 import { IStyledLPProps } from '../Helpers/interface';
+import { UserContext } from '../Helpers/contexts';
+import { useContext } from 'react';
+import { useEffect } from 'react';
+
 
 export const StyledForm = styled.form`
   height: fit-content;
@@ -58,7 +62,13 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
 
 export default function Login(props: ILoginProps) {
   const { nav, stateAuth, localAuth } = props;
-  // const { email, password, } = props.inputFields;
+  const { loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+
+  useEffect(() => {
+    if (!loggedInData) {
+      setAllUsersData([]);
+    }
+  }, [loggedInData, setAllUsersData]);
 
   if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;

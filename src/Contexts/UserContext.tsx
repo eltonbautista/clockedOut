@@ -25,27 +25,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
   const [postArray, setPostArray] = useState<IPostState[]>([]);
-  const [dbPosts, setDbPosts] = useState<IDbUserData['userDocument']>([]);
-
-
-  // useEffect(() => {
-  //   dbPosts?.forEach((postData, i) => {
-  //     console.log(postData);
-  //     setPostArray([...postArray,
-  //     <Post
-  //       text={postData.docData.posts[i].postText}
-  //       img={postData.docData.posts[i].postImage}
-  //       video={postData.docData.posts[i].postVideo} />]);
-  //   });
-  // }, [dbPosts, postArray]);
-
-  // useEffect(() => {
-  //   if (dbPosts) {
-  //     const createArray = [...postArray, <Post video={postState['postVideo']} img={postState['postImage']} text={postState['postText']} />];
-
-  //     setPostArray([...createArray]);
-  //   }
-  // }, [dbPosts, postArray, postState]);
+  const [allUsersData, setAllUsersData] = useState<IDbUserData['userDocument']>([]);
 
   const UCProviderVal = useMemo(() =>
   ({
@@ -55,15 +35,14 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     setPostState: setPostState,
     postArray: postArray,
     setPostArray: setPostArray,
-    dbPosts: dbPosts,
-    setDbPosts: setDbPosts,
+    allUsersData: allUsersData,
+    setAllUsersData: setAllUsersData,
   }),
     [
       loggedInData, setLoggedInData,
       postState, setPostState,
       postArray, setPostArray,
-      dbPosts, setDbPosts
-
+      allUsersData, setAllUsersData
     ]);
 
   return (
