@@ -205,7 +205,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
-    const testArr = [...postArray, <Post video={postStateCopy['postVideo']} img={postStateCopy['postImage']} text={postStateCopy['postText']} />];
+    const testArr = [...postArray, postStateCopy];
     storeDataToDb(postStateCopy);
 
     // set new states

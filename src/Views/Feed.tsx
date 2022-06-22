@@ -1,11 +1,12 @@
 import React, { useEffect, useState, useContext } from "react";
 import styled from "styled-components";
-import { IFeedProps, ICircularPictureProps, IBackgroundCanvas } from "../Helpers/interface";
+import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
+import Post from "../Components/Post";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -279,8 +280,6 @@ const Feed: React.FC<IFeedProps> = () => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
 
-
-
   const { postArray } = useContext(UserContext);
 
   // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
@@ -289,20 +288,22 @@ const Feed: React.FC<IFeedProps> = () => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
-  const mapList = (arrayToMap: any[] | undefined) => {
+  const mapList = (arrayToMap: IPostState[] | undefined) => {
     if (!arrayToMap) {
       return;
     }
     if (arrayToMap.length > 0) {
-      return postArray.map((post, index) => {
-        return <React.Fragment key={index}>{post}</React.Fragment>;
+      return arrayToMap.map((postObj: IPostState, index) => {
+        return (
+          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']} text={postObj['postText']} />
+        );
       });
     }
     return;
   };
 
   const createdPosts = mapList(postArray);
-
+  console.log(createdPosts);
   return (
     <StyledFeed id="feed-container" >
       <NewPostModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>

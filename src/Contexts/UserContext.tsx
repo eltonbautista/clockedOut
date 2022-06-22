@@ -30,7 +30,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
-  const [postArray, setPostArray] = useState<never[] | ReactNode[]>([]);
+  const [postArray, setPostArray] = useState<IPostState[]>([]);
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [dbPosts, setDbPosts] = useState<{ docID: string; docData: DocumentData; }[]>();
 
