@@ -19,6 +19,10 @@ export interface ISignUpProps {
   inputFields: IData;
   stateAuth?: User | string | null | undefined;
   localAuth?: string | null;
+  signUpData?: {
+    userSignUpData: IData;
+    setUserSignUpData: React.Dispatch<React.SetStateAction<IData>>;
+  };
 }
 
 export interface ILoginProps {

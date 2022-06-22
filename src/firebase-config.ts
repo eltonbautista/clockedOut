@@ -109,7 +109,7 @@ export const createUserInformation = async (email: string, password: string, use
     profanityQuerySnapshot.forEach((doc) => {
       profanityList.push({ ...doc.data(), id: doc.id });
     });
-    console.log(profanityList[0].profanities);
+
     if (!filterBadWords(profanityList[0].profanities, username)) {
       return false;
     };

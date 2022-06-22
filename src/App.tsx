@@ -46,11 +46,17 @@ const App: React.FC = function App() {
     password: '',
   };
 
+  const initSignUpData: IData = {
+    email: '',
+    username: '',
+    password: '',
+  };
+
   const [userLoginData, setUserLoginData] = useState(initLoginData);
-  // const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
+  const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [localInfo, setLocalInfo] = useState<string | null>(null);
 
-  const { postArray, setPostArray, postState, setPostState, setUserSignUpData, userSignUpData, loggedInData, setLoggedInData } = useContext(UserContext);
+  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData } = useContext(UserContext);
 
   useEffect(() => {
     const info = localStorage.getItem('loginInfo');
@@ -104,7 +110,7 @@ const App: React.FC = function App() {
 
         <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
         <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
-        <Route path='/sign-up' element={<SignUp localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/sign-up' element={<SignUp signUpData={{ userSignUpData, setUserSignUpData }} localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
 
         <Route path='/feed'
           element={

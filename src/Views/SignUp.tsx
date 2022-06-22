@@ -33,8 +33,7 @@ const StyledSUForm = styled(StyledForm)`
 let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
-  const { stateAuth, localAuth } = props;
-  const context = useContext(UserContext);
+  const { stateAuth, localAuth, signUpData } = props;
 
   useEffect(() => {
     const inputs = document.querySelectorAll('input');
@@ -53,8 +52,11 @@ export default function SignUp(props: ISignUpProps) {
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();
     buttonSwitch = await createUserInformation(info.email, info.password, info.username);
-    context.setUserSignUpData({ ...info });
+    signUpData?.setUserSignUpData({ ...info });
   };
+
+
+
   return !stateAuth ? (
     // TODO: body used for background? Or can keep the same background image for performance purposes
     <StyledLoginPage id='sign-up-body'>

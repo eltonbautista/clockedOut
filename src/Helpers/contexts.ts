@@ -4,8 +4,6 @@ import { createContext, ReactNode } from "react";
 import { IUser } from '../firebase-config';
 
 interface UserContextState {
-  userSignUpData: IData;
-  setUserSignUpData: Function;
   postState: IPostState;
   setPostState: Function;
   postArray: IPostState[];

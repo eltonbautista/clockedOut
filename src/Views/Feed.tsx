@@ -303,7 +303,7 @@ const Feed: React.FC<IFeedProps> = () => {
   };
 
   const createdPosts = mapList(postArray);
-  console.log(createdPosts);
+
   return (
     <StyledFeed id="feed-container" >
       <NewPostModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>

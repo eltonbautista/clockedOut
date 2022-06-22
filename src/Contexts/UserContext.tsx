@@ -21,17 +21,10 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     postVideo: '',
   };
 
-  const initSignUpData: IData = {
-    email: '',
-    username: '',
-    password: '',
-  };
-
 
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
   const [postArray, setPostArray] = useState<IPostState[]>([]);
-  const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [dbPosts, setDbPosts] = useState<{ docID: string; docData: DocumentData; }[]>();
 
   useEffect(() => {
@@ -66,8 +59,6 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   const UCProviderVal = useMemo(() =>
   ({
-    userSignUpData: userSignUpData,
-    setUserSignUpData: setUserSignUpData,
     loggedInData: loggedInData,
     setLoggedInData: setLoggedInData,
     postState: postState,
@@ -78,7 +69,6 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     setDbPosts: setDbPosts,
   }),
     [
-      userSignUpData, setUserSignUpData,
       loggedInData, setLoggedInData,
       postState, setPostState,
       postArray, setPostArray,
