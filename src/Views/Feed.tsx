@@ -277,12 +277,15 @@ const sidebarPContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit
 // To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
 const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
+  // VARIABLES, STATES & CONTEXT: 
+
   const { localAuth } = props;
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
-
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+
+  // HOOKS:
 
   const addDbPostsToLocal = useCallback(async () => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
@@ -335,10 +338,11 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   };
 
   const createdPosts = mapList(postArray);
+
   if (localAuth && !loggedInData) {
     return <div>Loading assets...</div>;
   }
-  // console.log(localAuth);
+
 
   return (
     <StyledFeed id="feed-container" >

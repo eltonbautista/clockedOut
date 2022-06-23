@@ -4,7 +4,7 @@ import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
 import { IData, IDbUserData, ILoginInput, IPostState } from './Helpers/interface';
-import { signingIn, IUser, auth, getAllUserData } from './firebase-config';
+import { signingIn, IUser, auth, getAllUserData, getUserDoc } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
 import { createLocalInfo, filterPosts, palette, toPostStateObjects, } from './Helpers/utils';
@@ -20,51 +20,60 @@ const StyledAppContainer = styled.div`
   height: 100%;
   position: relative;
 `;
-const App: React.FC = function App() {
-  // HOOKS & STATES
 
-  const navigate: Function = useNavigate();
+const App: React.FC = function App() {
+  // VARIABLES, STATES & CONTEXT: 
 
   const initLoginData: ILoginInput = {
     email: '',
     password: '',
   };
-
   const initSignUpData: IData = {
     email: '',
     username: '',
     password: '',
   };
-
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [localInfo, setLocalInfo] = useState<string | null>(localStorage.getItem('loginInfo'));
-
-  // console.log(localInfo);
   const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+
+  // HOOKS:
+
+  const navigate: Function = useNavigate();
   useEffect(() => {
-    // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
-    // Renders once, and on dependency change
+    // Effect that sets localInfo which is partly used for authentication. This is done to reduce re-rendering caused by API calls.
     const myInfo = localStorage.getItem('loginInfo');
     setLocalInfo(myInfo);
     if (!loggedInData && !localInfo) {
       localStorage.removeItem('loginInfo');
       setLocalInfo(myInfo);
     }
+
   }, [localInfo, loggedInData]);
 
   useEffect(() => {
     // loggedInData is set when user logs in - this is determined by Firebase auth.
     // If true then fetch user documents (archivedUserData)
     async function asynCalls() {
+
+      if (loggedInData) {
+        console.log(await getUserDoc(loggedInData?.uid));
+      }
+
       const archivedUserData = await getAllUserData();
       if (archivedUserData !== undefined && localInfo) {
         setAllUsersData(archivedUserData);
       }
     }
-    asynCalls();
 
-  }, [localInfo, setAllUsersData]);
+    if (loggedInData) {
+
+      asynCalls();
+    }
+
+
+  }, [localInfo, loggedInData, setAllUsersData]);
 
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {

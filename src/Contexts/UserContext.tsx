@@ -21,7 +21,6 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     postVideo: '',
   };
 
-  console.log('context');
 
   const [loggedInData, setLoggedInData] = useState<typeof IUser | null | undefined>(null);
   const [postState, setPostState] = useState(initPostData);
@@ -42,6 +41,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
         setLoggedInData(null);
       }
     });
+
   }, [setLoggedInData, loggedInData]);
 
   const UCProviderVal = useMemo(() =>

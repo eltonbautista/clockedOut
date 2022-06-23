@@ -103,18 +103,22 @@ export async function uploadImage(imageName: string, userID: string, file: File)
 
 // }
 
+// Function that is used to *get* the *current* user's document - if it exists. 
 export async function getUserDoc(userID: string) {
   const docSnap = await getDoc(doc(db, "userData", userID));
 
   if (docSnap.exists()) {
-    console.log(docSnap.data());
-    return docSnap.data();
+    const userDoc = docSnap.data();
+    if (userDoc.userID === userID) {
+      return userDoc;
+    }
   } else {
     console.log('No such document');
   }
 }
 
-
+// Function used to write a user's data.
+// TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
 export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
   try {
 
@@ -134,6 +138,7 @@ export async function writeUserData(userData: IDatabaseArgs['userData'], postArr
 
 };
 
+// Function that *gets* ALL user's data. 
 export async function getAllUserData() {
   const ALLUSERDATA: {
     docID: string,
