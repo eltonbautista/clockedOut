@@ -117,7 +117,6 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
         <SOButtons onClick={() => {
           signingOut();
           setLocalInfo?.(null);
-          // localStorage.removeItem('loginInfo');
           nav?.('login', { replace: true });
         }} >Sign Out
         </SOButtons>

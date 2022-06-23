@@ -38,49 +38,34 @@ const App: React.FC = function App() {
 
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
-  const [localInfo, setLocalInfo] = useState<string | null>(null);
+  const [localInfo, setLocalInfo] = useState<string | null>(localStorage.getItem('loginInfo'));
 
+  // console.log(localInfo);
   const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
-
-
-  const fetch = useCallback(async () => {
-    // Used to fetch userData from Firestore collection
-
-    const archivedUserData = await getAllUserData();
-    if (archivedUserData !== undefined && loggedInData && localInfo) {
-      setAllUsersData(archivedUserData);
+  useEffect(() => {
+    // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
+    // Renders once, and on dependency change
+    const myInfo = localStorage.getItem('loginInfo');
+    setLocalInfo(myInfo);
+    if (!loggedInData && !localInfo) {
+      localStorage.removeItem('loginInfo');
+      setLocalInfo(myInfo);
     }
-  }, [localInfo, loggedInData, setAllUsersData]);
-
+  }, [localInfo, loggedInData]);
 
   useEffect(() => {
     // loggedInData is set when user logs in - this is determined by Firebase auth.
     // If true then fetch user documents (archivedUserData)
-
-    if (loggedInData && localInfo) {
-      fetch();
-    }
-  }, [fetch, localInfo, loggedInData]);
-
-
-  useEffect(() => {
-    // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
-    // Renders once, and on dependency change
-
-    onAuthStateChanged(auth, async (user) => {
-      if (user) {
-        setLoggedInData(user);
-        createLocalInfo(user);
-
-        const info = localStorage.getItem('loginInfo');
-        setLocalInfo(info);
-
-      } else if (!user) {
-        setLoggedInData(null);
-        localStorage.removeItem('localInfo');
+    async function asynCalls() {
+      const archivedUserData = await getAllUserData();
+      if (archivedUserData !== undefined && localInfo) {
+        setAllUsersData(archivedUserData);
       }
-    });
-  }, [setLoggedInData, loggedInData]);
+    }
+    asynCalls();
+
+  }, [localInfo, setAllUsersData]);
+
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
     userSignUpData[key] = e.target.value;
@@ -120,7 +105,7 @@ const App: React.FC = function App() {
 
         <Route path='/feed'
           element={
-            <PrivateRoute stateAuth={loggedInData} children={<Feed />} />} >
+            <PrivateRoute stateAuth={loggedInData} localAuth={localInfo} children={<Feed localAuth={localInfo} />} />} >
 
         </Route>
       </Routes>

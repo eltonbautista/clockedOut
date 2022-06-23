@@ -73,7 +73,7 @@ export default function Login(props: ILoginProps) {
   if (localAuth && !stateAuth) {
     return <div>loading assets..</div>;
   }
-
+  // console.log(localAuth);
   return stateAuth ? <Navigate to="/feed" /> : (
     <StyledLoginPage bgImg='login'>
 

@@ -37,7 +37,7 @@ export interface ILoginProps {
 }
 
 export interface IFeedProps {
-
+  localAuth?: string | null;
 }
 
 export interface IPostProps {
@@ -51,6 +51,7 @@ export interface IPrivateRouteProps {
   // path: string;
   children: React.ReactElement;
   stateAuth: User | string | null | undefined;
+  localAuth?: string | null;
 }
 
 export interface INavProps {

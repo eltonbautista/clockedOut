@@ -14,9 +14,12 @@ import { text } from 'stream/consumers';
 // import { profanities } from 'profanities';
 
 export const createLocalInfo = async (userInfo: User | null | undefined) => {
-  const myToken: string = await userInfo!.getIdToken();
-  localStorage.removeItem('loginInfo');
-  localStorage.setItem('loginInfo', myToken);
+  const currentLocalInfo = localStorage.getItem('loginInfo');
+  if (!currentLocalInfo) {
+    const myToken: string = await userInfo!.getIdToken();
+    // localStorage.removeItem('loginInfo');
+    localStorage.setItem('loginInfo', myToken);
+  }
 };
 
 export const localLoginInfo = localStorage.getItem('loginInfo');
@@ -101,7 +104,7 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
 
   if (currentUserFiltered !== undefined && currentUserFiltered.length > 0) {
     currentUserFiltered[0].docData.posts.forEach((userDoc: DocumentData, i: number) => {
-      console.log(userDoc);
+      // console.log(userDoc);
       if (userDoc !== undefined) {
         newArr.push({
           postText: userDoc.postText,
