@@ -6,8 +6,9 @@ import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
 import Post from "./Post";
-import { uploadImage, writeUserData, collections, getUserDoc, db } from "../firebase-config";
+import { uploadImage, writeUserData, collections, getUserDoc, db, downloadImage } from "../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
+import { getBlob } from "firebase/storage";
 
 const PostModal = styled.div`
   display: grid;
@@ -211,8 +212,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       console.log(imgSrc);
 
       if (loggedInData) {
-        let foo = await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
-        console.log(foo);
+        await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
+        await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid);
       }
       postStateCopy['postImage'] = imgSrc;
       hidePostModalHandler(e);

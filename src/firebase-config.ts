@@ -27,7 +27,7 @@ import {
 } from "firebase/auth";
 
 import { getDatabase } from "firebase/database";
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { getBlob, getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
 import { IDatabaseArgs } from './Helpers/interface';
@@ -99,9 +99,13 @@ export async function uploadImage(imageName: string, userID: string, file: File)
 };
 
 // TODO: MIGHT NEED LATER ON
-// export function downloadImage() {
+export async function downloadImage(imageName: string, userID: string,) {
+  const userImagePath = userID + "/images/" + imageName;
+  const postImageRef = ref(storage, userImagePath);
 
-// }
+  const downloadedBlob = await getBlob(postImageRef);
+  console.log(downloadedBlob);
+}
 
 // Function that is used to *get* the *current* user's document - if it exists. 
 export async function getUserDoc(userID: string) {

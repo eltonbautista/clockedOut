@@ -290,47 +290,30 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
 
   const addDbPostsToLocal = useCallback(async () => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
-
     if (loggedInData) {
       // Filter user data so there exists only one user data per user.
-
       const filteredUsersData = filterPosts(allUsersData);
       if (filteredUsersData) {
-
         const currentUserData = await getUserDoc(loggedInData.uid);
-
-        // allUsersData !== undefined &&  && filteredUsersData !== undefined
-
         if (postArray.length < allUsersData.length && currentUserData && currentUserData.userID === loggedInData.uid) {
           const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
           if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
             setPostArray([...postArray, ...dbPostObjectsArray]);
           }
         }
-
       }
-      // else if (!loggedInData) {
-      //   setPostArray([]);
-      // }
-
-
-
-
     }
+
   }, [allUsersData, loggedInData, postArray, setPostArray]);
 
 
   useEffect(() => {
-    // effect that invokes addDbPostsToLocal() if loggedInData exists
+    // effect that invokes addDbPostsToLocal()
     async function invoke() {
-
       await addDbPostsToLocal();
-
     }
     invoke();
-
   }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
-
 
   useEffect(() => {
     // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
