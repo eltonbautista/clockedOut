@@ -198,8 +198,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     }
     const postStateCopy = { ...postState };
-    let imgDownloadLink: string;
-    let videoDownloadLink = 'blank for now';
+    // let imgDownloadLink: string;
+    // let videoDownloadLink = 'blank for now';
 
     postStateCopy['postText'] = textAreaRef.current.value;
 

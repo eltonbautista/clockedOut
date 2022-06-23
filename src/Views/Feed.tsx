@@ -290,7 +290,7 @@ const Feed: React.FC<IFeedProps> = () => {
       const filteredUsersData = filterPosts(allUsersData);
 
       if (allUsersData !== undefined && postArray.length < allUsersData.length && filteredUsersData !== undefined) {
-        const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData);
+        const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
         if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
           setPostArray([...postArray, ...dbPostObjectsArray]);
         }
@@ -302,9 +302,13 @@ const Feed: React.FC<IFeedProps> = () => {
 
   useEffect(() => {
     // effect that invokes addDbPostsToLocal() if loggedInData exists
-    if (loggedInData) {
-      addDbPostsToLocal();
+    async function invoke() {
+      if (loggedInData) {
+        await addDbPostsToLocal();
+      }
     }
+    invoke();
+
   }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
 
 

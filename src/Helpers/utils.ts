@@ -92,21 +92,21 @@ export const filterPosts = (userDocs: IDbUserData['userDocument']) => {
   }
 };
 
-export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDocument']) => {
-  const thisArray: IDbUserData['userDocument'] = [...filteredUsersData];
-  const newArr: IPostState[] = [];
-  // let bar = filteredUsersData[0].docData.posts[0];
-  // Okay so, initially I was trying to do this: posts[i] => but the amount of posts is different from the amount of userData.
-  // The thing is, there's only supposed to be one userData, at least for now, and it's only the person who is logged in
-  // Later on when they start following others then it will increase
+export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDocument'], userID: string) => {
 
-  if (thisArray !== undefined && thisArray.length > 0) {
-    thisArray.forEach((userDoc, i) => {
+  const newArr: IPostState[] = [];
+  const currentUserFiltered = filteredUsersData.filter((user) => {
+    return user.docID === userID;
+  });
+
+  if (currentUserFiltered !== undefined && currentUserFiltered.length > 0) {
+    currentUserFiltered[0].docData.posts.forEach((userDoc: DocumentData, i: number) => {
+      console.log(userDoc);
       if (userDoc !== undefined) {
         newArr.push({
-          postText: userDoc.docData.posts[0].postText,
-          postImage: userDoc.docData.posts[0].postImage,
-          postVideo: userDoc.docData.posts[0].postVideo,
+          postText: userDoc.postText,
+          postImage: userDoc.postImage,
+          postVideo: userDoc.postVideo,
         });
       }
     });
@@ -114,6 +114,5 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
 
   return newArr;
 };
-
 
 export { backgroundImages };
