@@ -286,6 +286,8 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+  const [asyncPostLoad, setAsyncPostLoad] = useState<JSX.Element[] | undefined>();
+
 
   // HOOKS:
 
@@ -323,6 +325,20 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
+  const mapList = (arrayToMap: IPostState[] | undefined) => {
+    if (!arrayToMap) {
+      return;
+    }
+
+    if (arrayToMap.length > 0) {
+      return arrayToMap.map((postObj: IPostState, index) => {
+        return (
+          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
+        );
+      });
+    }
+    return;
+  };
 
 
   const asyncArray = useCallback(async () => {
@@ -342,70 +358,28 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
         );
       }
     }
-    return objectArr;
-  }, [loggedInData, postArray]);
-  const bar = useRef<null | JSX.Element[] | undefined>(null);
-  useEffect(() => {
-    let foo: IPostState[] | undefined;
-    const mapList = (arrayToMap: IPostState[] | undefined) => {
-      if (!arrayToMap) {
-        return;
-      }
+    const componentList = mapList(objectArr);
+    if (asyncPostLoad === undefined) {
+      setAsyncPostLoad(componentList);
+    }
 
-      if (arrayToMap.length > 0) {
-        return arrayToMap.map((postObj: IPostState, index) => {
-          return (
-            <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
-          );
-        });
-      }
-      return;
-    };
+    return objectArr;
+  }, [asyncPostLoad, loggedInData, postArray]);
+
+  const bar = useRef<null | JSX.Element[] | undefined>(null);
+
+  useEffect(() => {
+    // let foo: IPostState[] | undefined;
 
     async function test() {
-      foo = await asyncArray();
-      // console.log(foo);
-      // let bar = await foo;
-      // const food = [];
-      // if (bar !== undefined) {
-      //   for (let i = 0; i < bar.length; i++) {
-      //     food.push(await bar[i]);
-      //   }
-
-      // };
-      const workPlease = mapList(foo);
-      bar.current = workPlease;
-
-      if (foo.length < 1) {
-        setPostArray([...postArray, ...foo]);
-      }
+      asyncArray();
     }
     test();
-  }, [asyncArray, postArray, setPostArray]);
+  }, [asyncArray, postArray]);
 
-  console.log(bar.current);
-  const mapList = (arrayToMap: IPostState[] | undefined) => {
-    if (!arrayToMap) {
-      return;
-    }
-
-    if (arrayToMap.length > 0) {
-      return arrayToMap.map((postObj: IPostState, index) => {
-        return (
-          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
-        );
-      });
-    }
-    return;
-  };
-
-
-  const createdPosts = mapList(postArray);
-
-  if (localAuth && !loggedInData) {
+  if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
   }
-
 
   return (
     <StyledFeed id="feed-container" >
@@ -486,7 +460,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            {bar.current !== undefined ? bar.current : null}
+            {asyncPostLoad}
           </StyledFeedContent>
         </StyledMain>
 
