@@ -228,7 +228,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
-    const testArr = [...postArray, postStateCopy];
+    const testArr = [postStateCopy, ...postArray];
 
     // const storedPost: IPostState = {
     //   postText: postStateCopy['postText'],
