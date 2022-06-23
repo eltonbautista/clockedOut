@@ -17,7 +17,10 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   const initPostData: IPostState = {
     postText: '',
-    postImage: '',
+    postImage: {
+      imageName: '',
+      imageURL: ''
+    },
     postVideo: '',
   };
 

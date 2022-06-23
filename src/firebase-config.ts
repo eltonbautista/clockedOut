@@ -54,7 +54,7 @@ export const db = getFirestore(app);
 const auth = getAuth();
 const rtdb = getDatabase(app);
 // TODO: https://firebase.google.com/docs/app-check/web/recaptcha-provider add App Check so only my website can use the images in storage.
-const storage = getStorage(app);
+export const storage = getStorage(app);
 
 // Collection references
 export const collections =
@@ -104,7 +104,7 @@ export async function downloadImage(imageName: string, userID: string,) {
   const postImageRef = ref(storage, userImagePath);
 
   const downloadedBlob = await getBlob(postImageRef);
-  console.log(downloadedBlob);
+  return downloadedBlob;
 }
 
 // Function that is used to *get* the *current* user's document - if it exists. 

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, useRef } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
@@ -8,7 +8,8 @@ import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
-import { getUserDoc } from "../firebase-config";
+import { downloadImage, getUserDoc, storage } from "../firebase-config";
+import { getBlob, ref } from "firebase/storage";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -322,19 +323,82 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
+
+
+  const asyncArray = useCallback(async () => {
+    // const newArray = async () => {
+    const objectArr: IPostState[] = [];
+    if (loggedInData) {
+      for (let i = 0; i < postArray.length; i++) {
+        objectArr.push(
+          {
+            postText: postArray[i].postText,
+            postImage: {
+              imageName: postArray[i].postImage.imageName,
+              imageURL: URL.createObjectURL(await downloadImage(postArray[i].postImage.imageName, loggedInData?.uid))
+            },
+            postVideo: postArray[i].postVideo
+          }
+        );
+      }
+    }
+    return objectArr;
+  }, [loggedInData, postArray]);
+  const bar = useRef<null | JSX.Element[] | undefined>(null);
+  useEffect(() => {
+    let foo: IPostState[] | undefined;
+    const mapList = (arrayToMap: IPostState[] | undefined) => {
+      if (!arrayToMap) {
+        return;
+      }
+
+      if (arrayToMap.length > 0) {
+        return arrayToMap.map((postObj: IPostState, index) => {
+          return (
+            <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
+          );
+        });
+      }
+      return;
+    };
+
+    async function test() {
+      foo = await asyncArray();
+      // console.log(foo);
+      // let bar = await foo;
+      // const food = [];
+      // if (bar !== undefined) {
+      //   for (let i = 0; i < bar.length; i++) {
+      //     food.push(await bar[i]);
+      //   }
+
+      // };
+      const workPlease = mapList(foo);
+      bar.current = workPlease;
+
+      if (foo.length < 1) {
+        setPostArray([...postArray, ...foo]);
+      }
+    }
+    test();
+  }, [asyncArray, postArray, setPostArray]);
+
+  console.log(bar.current);
   const mapList = (arrayToMap: IPostState[] | undefined) => {
     if (!arrayToMap) {
       return;
     }
+
     if (arrayToMap.length > 0) {
       return arrayToMap.map((postObj: IPostState, index) => {
         return (
-          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']} text={postObj['postText']} />
+          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
         );
       });
     }
     return;
   };
+
 
   const createdPosts = mapList(postArray);
 
@@ -422,7 +486,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            {createdPosts}
+            {bar.current !== undefined ? bar.current : null}
           </StyledFeedContent>
         </StyledMain>
 

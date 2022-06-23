@@ -208,14 +208,21 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     // This is the case because this is when I will save my files to Firebase db.
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0 && loggedInData !== undefined) {
-      const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
-      console.log(imgSrc);
 
       if (loggedInData) {
         await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
-        await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid);
+
+        const imgSrc = URL.createObjectURL(await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid));
+        console.log(imgSrc);
+        postStateCopy['postImage'] = {
+          imageURL: imgSrc,
+          imageName: imageUploadRef.current.files[0].name
+        };
       }
-      postStateCopy['postImage'] = imgSrc;
+      // const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
+
+
+      // postStateCopy['postImage'] = imgSrc;
       hidePostModalHandler(e);
     }
 

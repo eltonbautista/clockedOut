@@ -101,7 +101,10 @@ export interface IHidePostModal {
 
 export interface IPostState {
   postText?: string | number | readonly string[] | undefined;
-  postImage?: string;
+  postImage: {
+    imageName: string,
+    imageURL?: string;
+  };
   postVideo?: string;
 }
 
