@@ -8,6 +8,7 @@ import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
+import { getUserDoc } from "../firebase-config";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -291,14 +292,29 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
 
     if (loggedInData) {
-      const filteredUsersData = filterPosts(allUsersData);
+      // Filter user data so there exists only one user data per user.
 
-      if (allUsersData !== undefined && postArray.length < allUsersData.length && filteredUsersData !== undefined) {
-        const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
-        if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-          setPostArray([...postArray, ...dbPostObjectsArray]);
+      const filteredUsersData = filterPosts(allUsersData);
+      if (filteredUsersData) {
+
+        const currentUserData = await getUserDoc(loggedInData.uid);
+
+        // allUsersData !== undefined &&  && filteredUsersData !== undefined
+
+        if (postArray.length < allUsersData.length && currentUserData && currentUserData.userID === loggedInData.uid) {
+          const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
+          if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+            setPostArray([...postArray, ...dbPostObjectsArray]);
+          }
         }
+
       }
+      // else if (!loggedInData) {
+      //   setPostArray([]);
+      // }
+
+
+
 
     }
   }, [allUsersData, loggedInData, postArray, setPostArray]);
@@ -307,9 +323,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   useEffect(() => {
     // effect that invokes addDbPostsToLocal() if loggedInData exists
     async function invoke() {
-      if (loggedInData) {
-        await addDbPostsToLocal();
-      }
+
+      await addDbPostsToLocal();
+
     }
     invoke();
 

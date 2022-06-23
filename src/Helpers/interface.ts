@@ -59,6 +59,7 @@ export interface INavProps {
   nav?: Function;
   stateAuth: User | string | null | undefined;
   setLocalInfo?: Function;
+  setAuth: Function;
 }
 
 export interface ICircularPictureProps {
@@ -121,4 +122,12 @@ export interface IDbUserData {
     docID: string;
     docData: DocumentData;
   }[];
+}
+
+export interface ICurrentUserData {
+  userID: string,
+  displayName: string,
+  email: string,
+  profilePicture: string,
+  posts: IPostState[];
 }

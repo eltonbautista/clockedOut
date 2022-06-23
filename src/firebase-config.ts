@@ -114,27 +114,36 @@ export async function getUserDoc(userID: string) {
     }
   } else {
     console.log('No such document');
+    return false;
   }
 }
 
 // Function used to write a user's data.
 // TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
 export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
-  try {
+  if (!userData) {
+    return;
+  }
+  // If the current user doesn't have any data in the db (haven't created a post), then create one for them.
+  if (!await getUserDoc(userData?.uid)) {
 
-    if (userData !== null && userData !== undefined) {
-      const addUserData = await setDoc(doc(db, "userData", userData.uid), {
-        userID: userData.uid,
-        displayName: userData.displayName,
-        email: userData.email,
-        profilePicture: userData.photoURL,
-        posts: postArray,
-      });
+    try {
+      if (userData !== null && userData !== undefined) {
+        const addUserData = await setDoc(doc(db, "userData", userData.uid), {
+          userID: userData.uid,
+          displayName: userData.displayName,
+          email: userData.email,
+          profilePicture: userData.photoURL,
+          posts: postArray,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
 
-  } catch (err) {
-    console.log(err);
   }
+
+
 
 };
 

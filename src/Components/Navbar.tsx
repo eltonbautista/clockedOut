@@ -95,7 +95,7 @@ const NavLinksContainer = styled.div`
 
 
 const Navbar: React.FC<INavProps> = (props: INavProps) => {
-  const { authorized, nav, stateAuth, setLocalInfo } = props;
+  const { authorized, nav, stateAuth, setLocalInfo, setAuth } = props;
 
   return (!stateAuth ?
     <HomeNav id="navbar">
@@ -116,6 +116,7 @@ const Navbar: React.FC<INavProps> = (props: INavProps) => {
       <NavButtonDropdown>
         <SOButtons onClick={() => {
           signingOut();
+          setAuth(null);
           setLocalInfo?.(null);
           nav?.('login', { replace: true });
         }} >Sign Out

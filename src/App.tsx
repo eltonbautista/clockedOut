@@ -55,25 +55,21 @@ const App: React.FC = function App() {
   useEffect(() => {
     // loggedInData is set when user logs in - this is determined by Firebase auth.
     // If true then fetch user documents (archivedUserData)
+
     async function asynCalls() {
 
-      if (loggedInData) {
-        console.log(await getUserDoc(loggedInData?.uid));
+      const archivedAllUsersData = await getAllUserData();
+      if (archivedAllUsersData !== undefined && localInfo) {
+        setAllUsersData(archivedAllUsersData);
+      } else if (!localInfo) {
+        setAllUsersData([]);
+        setPostArray([]);
       }
 
-      const archivedUserData = await getAllUserData();
-      if (archivedUserData !== undefined && localInfo) {
-        setAllUsersData(archivedUserData);
-      }
     }
+    asynCalls();
 
-    if (loggedInData) {
-
-      asynCalls();
-    }
-
-
-  }, [localInfo, loggedInData, setAllUsersData]);
+  }, [localInfo, setAllUsersData, setPostArray]);
 
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
@@ -103,7 +99,7 @@ const App: React.FC = function App() {
   return (
     <StyledAppContainer className="App">
       <StyledHeader id='header'>
-        {!loggedInData ? <Navbar stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
+        {!loggedInData ? <Navbar setAuth={setLoggedInData} stateAuth={loggedInData} nav={navigate} authorized={false} /> : <Navbar setAuth={setLoggedInData} setLocalInfo={setLocalInfo} stateAuth={loggedInData} nav={navigate} authorized={true} />}
       </StyledHeader>
 
       <Routes>

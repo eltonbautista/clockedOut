@@ -238,7 +238,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     storeDataToDb(postStateCopy);
 
-    // set new states
+    // set new states, mainly for creating new posts locally - but this state is integrated into db post collection
     setPostState({ ...postStateCopy });
     setPostArray([...testArr]);
 

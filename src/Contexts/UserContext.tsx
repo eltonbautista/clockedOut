@@ -39,6 +39,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
         }
       } else if (!user) {
         setLoggedInData(null);
+        setAllUsersData([]);
       }
     });
 
