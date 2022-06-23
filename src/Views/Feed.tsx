@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext, useRef } from "react";
+import React, { useEffect, useState, useContext, useRef, ReactNode } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
@@ -286,7 +286,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
-  const [asyncPostLoad, setAsyncPostLoad] = useState<JSX.Element[] | undefined>();
+  const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
 
 
   // HOOKS:
@@ -319,9 +319,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
 
   useEffect(() => {
-    // Whenever overflowPost value changes then this useEffect is invoked, used to prevent scrolling when
-    // post modal is visible
-
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
@@ -359,23 +356,16 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       }
     }
     const componentList = mapList(objectArr);
-    if (asyncPostLoad === undefined) {
+    if (asyncPostLoad === undefined || asyncPostLoad!.length < postArray.length) {
       setAsyncPostLoad(componentList);
     }
 
     return objectArr;
   }, [asyncPostLoad, loggedInData, postArray]);
 
-  const bar = useRef<null | JSX.Element[] | undefined>(null);
-
   useEffect(() => {
-    // let foo: IPostState[] | undefined;
-
-    async function test() {
-      asyncArray();
-    }
-    test();
-  }, [asyncArray, postArray]);
+    asyncArray();
+  }, [asyncArray]);
 
   if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
