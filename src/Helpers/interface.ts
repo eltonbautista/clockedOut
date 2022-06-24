@@ -45,6 +45,9 @@ export interface IPostProps {
   img?: string | undefined;
   video?: string | undefined;
   media?: boolean;
+
+  displayName?: string | null;
+  pfp?: string | null;
 }
 
 export interface IPrivateRouteProps {

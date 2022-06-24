@@ -202,6 +202,12 @@ export const createUserInformation = async (email: string, password: string, use
 
 };
 
+export const updateProfilePicture = (pfp: string | null | undefined, user: User) => {
+  updateProfile(user, {
+    photoURL: pfp,
+  });
+};
+
 export const signingOut = async (stateAuth?: User | null | undefined, navTo?: Function) => {
   try {
     await signOut(auth);

@@ -3,12 +3,14 @@ import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
+import testpfp from "../Styles/assets/testpfp.jpeg";
+import cat from "../Styles/assets/cat.png";
 import { filterPosts, palette, toPostStateObjects } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
-import { downloadImage, getUserDoc, storage } from "../firebase-config";
+import { downloadImage, getUserDoc, storage, updateProfilePicture } from "../firebase-config";
 import { getBlob, ref } from "firebase/storage";
 
 const StyledFeed = styled.div`
@@ -379,9 +381,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
 
           <div className="feed-sidebar-upper">
             <BackgroundCanvas sidebar></BackgroundCanvas>
-            <CircularPicture zIndex="0" marginTop="15%" imgSrc={testpfp2} height="85px" width="85px" />
+            <CircularPicture zIndex="0" marginTop="15%" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : testpfp2} height="85px" width="85px" />
             <div>
-              <a href="asd.com">Robert Kugler</a>
+              <a href="asd.com">{loggedInData?.displayName}</a>
               <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
                 return !prevState;
               })} >
@@ -427,7 +429,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           <StyledSharebox id="feed-sharebox">
 
             <div>
-              <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
+              <CircularPicture zIndex="0" position="sticky" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : cat} height="60px" width="60px" />
               {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
               <SOButtons onClick={(e) => {
                 setShowModal(true);

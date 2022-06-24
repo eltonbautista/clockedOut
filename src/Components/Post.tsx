@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useContext, useEffect } from "react";
 import styled from "styled-components";
 import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
-
+import { UserContext } from "../Helpers/contexts";
+import cat from "../Styles/assets/cat.png";
 
 const StyledPost = styled.div`
   display: grid;
@@ -67,14 +68,14 @@ const StyledLCS = styled.div`
 
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
-
+  const { loggedInData } = useContext(UserContext);
   return (
     <StyledPost className="user-post">
 
       <StyledUserInfo className="user-info">
-        <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="60px" width="60px" />
+        <CircularPicture zIndex="0" position="sticky" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : cat} height="60px" width="60px" />
         <div>
-          <h3>User's name</h3>
+          <h3>{loggedInData?.displayName}</h3>
           <div>
             <span>User's @</span> |
             <span>Most active game and timezone</span> |
