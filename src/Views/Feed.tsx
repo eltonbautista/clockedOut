@@ -8,7 +8,8 @@ import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
-import { downloadImage, getUserDoc } from "../firebase-config";
+import { downloadImage, getUserDoc, storage } from "../firebase-config";
+import { getBlob, ref } from "firebase/storage";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -367,9 +368,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     asyncArray();
   }, [asyncArray]);
 
-  const createdPosts = mapList(postArray);
-
-  if (localAuth && !loggedInData) {
+  if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
   }
 
@@ -453,7 +452,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
-            {createdPosts}
+            {asyncPostLoad}
           </StyledFeedContent>
         </StyledMain>
 
