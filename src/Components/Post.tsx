@@ -10,8 +10,8 @@ import cat from "../Styles/assets/cat.png";
 
 const StyledPost = styled.div`
   display: grid;
-  grid-template-rows: 0.2fr 1fr 0.1fr 0.2fr;
-  min-height: 500px;
+  grid-template-rows: 0.2fr auto 0.1fr 0.2fr;
+  /* min-height: 500px; */
   max-height: fit-content;
 
   > div {
@@ -32,10 +32,9 @@ const StyledUserInfo = styled.div`
   padding: 15px 15px 5px 15px;
   justify-items: center;
   align-items: center;
-  width: 100%;
-  background-color: aliceblue;
-
-
+  max-width: 100%;
+  max-height: 100%;
+  /* background-color: aliceblue; */
 
   > div:last-of-type {
     display: grid;
@@ -45,6 +44,7 @@ const StyledUserInfo = styled.div`
     justify-items: start;
     align-items: center;
     gap: 2px;
+
   }
 
   > div:last-of-type > div {
@@ -56,14 +56,59 @@ const StyledUserInfo = styled.div`
 `;
 
 const StyledUserPost = styled.div`
-  background-color: beige;
+  /* background-color: green; */
+  /* width: 100%; */
+  height: fit-content;
+  max-height: 600px;
+  display: grid;
+    /* grid-template-rows: 0.1 0.4fr auto; */
+
+    > p {
+      /* height: fit-content; */
+      justify-self: start;
+      padding: 10px 20px;
+      /* margin: 10px; */
+      /* background-color: aliceblue; */
+      /* width: 100%; */
+    }
+
+  > div {
+    width: 100%;
+    display: block;
+    min-height: 100px;
+    height: 100%;
+    max-height: 550px;
+    /* position: relative; */
+    margin: 0;
+    padding: 0;
+    /* height: clamp(300px, 50%, 350px); */
+  }
+
+  img {
+    object-fit: cover;
+    object-position: 0%;
+    background-position: 100%;
+    background-size: cover;
+    width: 100%;
+    height: 100%;
+  }
+
+  video {
+
+  }
 `;
 const StyledPostLikesComments = styled.div`
   justify-items: center;
-  background-color: burlywood;
+  /* background-color: burlywood; */
+  grid-auto-flow: column;
+  /* Hiding for now cuz ugly */
+  visibility: hidden;
 `;
 const StyledLCS = styled.div`
-  background-color: coral;
+  /* background-color: coral; */
+  grid-auto-flow: column;
+  /* Hiding for now cuz ugly */
+  visibility: hidden;
 `;
 
 // Post is a dynamically generated component that is created when a user creates a new post.

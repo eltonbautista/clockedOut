@@ -298,7 +298,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       const filteredUsersData = filterPosts(allUsersData);
       if (filteredUsersData) {
         const currentUserData = await getUserDoc(loggedInData.uid);
-        console.log(currentUserData);
         if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
           const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
           if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
@@ -348,7 +347,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
             postText: postArray[i].postText,
             postImage: {
               imageName: postArray[i].postImage.imageName,
-              imageURL: URL.createObjectURL(await downloadImage(postArray[i].postImage.imageName, loggedInData?.uid))
+              imageURL: postArray[i].postImage.imageName ? URL.createObjectURL(await downloadImage(postArray[i].postImage.imageName, loggedInData?.uid)) : ''
             },
             postVideo: postArray[i].postVideo
           }
@@ -356,7 +355,8 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       }
     }
     const componentList = mapList(objectArr);
-
+    // postArray[i].postImage.imageName
+    // 
     if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
       setAsyncPostLoad(componentList);
     }
@@ -371,6 +371,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
   }
+  // if (loggedInData) {
+  //   updateProfilePicture(testpfp, loggedInData);
+  // }
 
   return (
     <StyledFeed id="feed-container" >
