@@ -296,10 +296,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       const filteredUsersData = filterPosts(allUsersData);
       if (filteredUsersData) {
         const currentUserData = await getUserDoc(loggedInData.uid);
-        if (postArray.length < allUsersData.length && currentUserData && currentUserData.userID === loggedInData.uid) {
+        console.log(currentUserData);
+        if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
           const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
-          // console.log(dbPostObjectsArray);
-          // console.log(postArray);
           if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
             setPostArray([...postArray, ...dbPostObjectsArray]);
           }
