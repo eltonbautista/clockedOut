@@ -27,7 +27,7 @@ import {
 } from "firebase/auth";
 
 import { getDatabase } from "firebase/database";
-import { getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
+import { getBlob, getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
 import { IDatabaseArgs } from './Helpers/interface';
@@ -54,7 +54,7 @@ export const db = getFirestore(app);
 const auth = getAuth();
 const rtdb = getDatabase(app);
 // TODO: https://firebase.google.com/docs/app-check/web/recaptcha-provider add App Check so only my website can use the images in storage.
-const storage = getStorage(app);
+export const storage = getStorage(app);
 
 // Collection references
 export const collections =
@@ -99,9 +99,13 @@ export async function uploadImage(imageName: string, userID: string, file: File)
 };
 
 // TODO: MIGHT NEED LATER ON
-// export function downloadImage() {
+export async function downloadImage(imageName: string, userID: string,) {
+  const userImagePath = userID + "/images/" + imageName;
+  const postImageRef = ref(storage, userImagePath);
 
-// }
+  const downloadedBlob = await getBlob(postImageRef);
+  return downloadedBlob;
+}
 
 // Function that is used to *get* the *current* user's document - if it exists. 
 export async function getUserDoc(userID: string) {
@@ -114,27 +118,36 @@ export async function getUserDoc(userID: string) {
     }
   } else {
     console.log('No such document');
+    return false;
   }
 }
 
 // Function used to write a user's data.
 // TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
 export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
-  try {
+  if (!userData) {
+    return;
+  }
+  // If the current user doesn't have any data in the db (haven't created a post), then create one for them.
+  if (!await getUserDoc(userData?.uid)) {
 
-    if (userData !== null && userData !== undefined) {
-      const addUserData = await setDoc(doc(db, "userData", userData.uid), {
-        userID: userData.uid,
-        displayName: userData.displayName,
-        email: userData.email,
-        profilePicture: userData.photoURL,
-        posts: postArray,
-      });
+    try {
+      if (userData !== null && userData !== undefined) {
+        const addUserData = await setDoc(doc(db, "userData", userData.uid), {
+          userID: userData.uid,
+          displayName: userData.displayName,
+          email: userData.email,
+          profilePicture: userData.photoURL,
+          posts: postArray,
+        });
+      }
+    } catch (err) {
+      console.log(err);
     }
 
-  } catch (err) {
-    console.log(err);
   }
+
+
 
 };
 

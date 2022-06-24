@@ -101,7 +101,10 @@ export interface IHidePostModal {
 
 export interface IPostState {
   postText?: string | number | readonly string[] | undefined;
-  postImage?: string;
+  postImage: {
+    imageName: string,
+    imageURL?: string;
+  };
   postVideo?: string;
 }
 
@@ -123,6 +126,7 @@ export interface IDbUserData {
     docData: DocumentData;
   }[];
 }
+
 export interface ICurrentUserData {
   userID: string,
   displayName: string,

@@ -1,4 +1,4 @@
-import React, { useEffect, useState, useContext } from "react";
+import React, { useEffect, useState, useContext, ReactNode } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
@@ -8,6 +8,7 @@ import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
+import { downloadImage, getUserDoc } from "../firebase-config";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -284,35 +285,34 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
-
+  const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
   // HOOKS:
 
   const addDbPostsToLocal = useCallback(async () => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
-
     if (loggedInData) {
+      // Filter user data so there exists only one user data per user.
       const filteredUsersData = filterPosts(allUsersData);
-
-      if (allUsersData !== undefined && postArray.length < allUsersData.length && filteredUsersData !== undefined) {
-        const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
-        if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-          setPostArray([...postArray, ...dbPostObjectsArray]);
+      if (filteredUsersData) {
+        const currentUserData = await getUserDoc(loggedInData.uid);
+        if (postArray.length < allUsersData.length && currentUserData && currentUserData.userID === loggedInData.uid) {
+          const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
+          if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+            setPostArray([...postArray, ...dbPostObjectsArray]);
+          }
         }
       }
-
     }
+
   }, [allUsersData, loggedInData, postArray, setPostArray]);
 
 
   useEffect(() => {
-    // effect that invokes addDbPostsToLocal() if loggedInData exists
+    // effect that invokes addDbPostsToLocal()
     async function invoke() {
-      if (loggedInData) {
-        await addDbPostsToLocal();
-      }
+      await addDbPostsToLocal();
     }
     invoke();
-
   }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
 
 
@@ -330,12 +330,42 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     if (arrayToMap.length > 0) {
       return arrayToMap.map((postObj: IPostState, index) => {
         return (
-          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']} text={postObj['postText']} />
+          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
         );
       });
     }
     return;
   };
+
+  const asyncArray = useCallback(async () => {
+    // const newArray = async () => {
+    const objectArr: IPostState[] = [];
+    if (loggedInData) {
+      for (let i = 0; i < postArray.length; i++) {
+        objectArr.push(
+          {
+            postText: postArray[i].postText,
+            postImage: {
+              imageName: postArray[i].postImage.imageName,
+              imageURL: URL.createObjectURL(await downloadImage(postArray[i].postImage.imageName, loggedInData?.uid))
+            },
+            postVideo: postArray[i].postVideo
+          }
+        );
+      }
+    }
+    const componentList = mapList(objectArr);
+
+    if (asyncPostLoad && postArray && asyncPostLoad!.length < postArray.length) {
+      setAsyncPostLoad(componentList);
+    }
+
+    return objectArr;
+  }, [asyncPostLoad, loggedInData, postArray]);
+
+  useEffect(() => {
+    asyncArray();
+  }, [asyncArray]);
 
   const createdPosts = mapList(postArray);
 

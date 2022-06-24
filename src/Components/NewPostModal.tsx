@@ -6,8 +6,9 @@ import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
 import Post from "./Post";
-import { uploadImage, writeUserData, collections, getUserDoc, db } from "../firebase-config";
+import { uploadImage, writeUserData, collections, getUserDoc, db, downloadImage } from "../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
+import { getBlob } from "firebase/storage";
 
 const PostModal = styled.div`
   display: grid;
@@ -207,14 +208,21 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     // This is the case because this is when I will save my files to Firebase db.
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0 && loggedInData !== undefined) {
-      const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
-      console.log(imgSrc);
 
       if (loggedInData) {
-        let foo = await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
-        console.log(foo);
+        await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
+
+        const imgSrc = URL.createObjectURL(await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid));
+        console.log(imgSrc);
+        postStateCopy['postImage'] = {
+          imageURL: imgSrc,
+          imageName: imageUploadRef.current.files[0].name
+        };
       }
-      postStateCopy['postImage'] = imgSrc;
+      // const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
+
+
+      // postStateCopy['postImage'] = imgSrc;
       hidePostModalHandler(e);
     }
 
@@ -228,7 +236,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     };
 
-    const testArr = [...postArray, postStateCopy];
+    const testArr = [postStateCopy, ...postArray];
 
     // const storedPost: IPostState = {
     //   postText: postStateCopy['postText'],
@@ -238,7 +246,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     storeDataToDb(postStateCopy);
 
-    // set new states
+    // set new states, mainly for creating new posts locally - but this state is integrated into db post collection
     setPostState({ ...postStateCopy });
     setPostArray([...testArr]);
 
