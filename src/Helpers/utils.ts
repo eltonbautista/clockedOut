@@ -101,7 +101,7 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
   const currentUserFiltered = filteredUsersData.filter((user) => {
     return user.docID === userID;
   });
-
+  // console.log(currentUserFiltered);
   if (currentUserFiltered !== undefined && currentUserFiltered.length > 0) {
     currentUserFiltered[0].docData.posts.forEach((userDoc: DocumentData, i: number) => {
       // console.log(userDoc);
@@ -114,7 +114,7 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
       }
     });
   }
-
+  // console.log(newArr);
   return newArr;
 };
 

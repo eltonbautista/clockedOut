@@ -17,7 +17,10 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   const initPostData: IPostState = {
     postText: '',
-    postImage: '',
+    postImage: {
+      imageName: '',
+      imageURL: ''
+    },
     postVideo: '',
   };
 
@@ -39,6 +42,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
         }
       } else if (!user) {
         setLoggedInData(null);
+        setAllUsersData([]);
       }
     });
 

@@ -298,6 +298,8 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
         const currentUserData = await getUserDoc(loggedInData.uid);
         if (postArray.length < allUsersData.length && currentUserData && currentUserData.userID === loggedInData.uid) {
           const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
+          // console.log(dbPostObjectsArray);
+          // console.log(postArray);
           if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
             setPostArray([...postArray, ...dbPostObjectsArray]);
           }
@@ -357,7 +359,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     }
     const componentList = mapList(objectArr);
 
-    if (asyncPostLoad && postArray && asyncPostLoad!.length < postArray.length) {
+    if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
       setAsyncPostLoad(componentList);
     }
 
@@ -371,7 +373,8 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
   }
-
+  // console.log(postArray);
+  // console.log(asyncPostLoad);
 
   return (
     <StyledFeed id="feed-container" >
