@@ -57,19 +57,19 @@ const App: React.FC = function App() {
     // If true then fetch user documents (archivedUserData)
 
     async function asynCalls() {
-
-      const archivedAllUsersData = await getAllUserData();
-      if (archivedAllUsersData !== undefined && localInfo) {
-        setAllUsersData(archivedAllUsersData);
-      } else if (!localInfo) {
-        setAllUsersData([]);
-        setPostArray([]);
+      if (loggedInData) {
+        const archivedAllUsersData = await getAllUserData();
+        if (archivedAllUsersData !== undefined && localInfo) {
+          setAllUsersData(archivedAllUsersData);
+        } else if (!localInfo) {
+          setAllUsersData([]);
+          setPostArray([]);
+        }
       }
-
     }
     asynCalls();
 
-  }, [localInfo, setAllUsersData, setPostArray]);
+  }, [localInfo, loggedInData, setAllUsersData, setPostArray]);
 
 
   const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
