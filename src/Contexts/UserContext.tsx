@@ -58,32 +58,22 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
       }
     });
 
-  }, [setLoggedInData, loggedInData, postArray]);
+  }, [postArray]);
 
-  function preload(images: string[], fillArr: HTMLImageElement[]) {
-    for (let i = 0; i < images.length; i += 1) {
-      fillArr[i] = new Image();
-      fillArr[i].src = images[i];
+  useEffect(() => {
+
+    const myTimeout = setTimeout(() => {
+      if (artificialLoader < 1) {
+        setArtificialLoader((prev) => {
+          return prev + 1;
+        });
+      }
+    }, 900);
+
+    if (artificialLoader >= 1) {
+      clearTimeout(myTimeout);
     }
-  };
-
-  const checkRef = useRef([]);
-
-  // useEffect(() => {
-
-  //   const myTimeout = setTimeout(() => {
-  //     if (artificialLoader < 1) {
-  //       setArtificialLoader((prev) => {
-  //         return prev + 1;
-  //       });
-  //     }
-  //   }, 3000);
-
-  //   if (artificialLoader >= 1) {
-  //     clearTimeout(myTimeout);
-  //   }
-  //   console.log(artificialLoader);
-  // }, [artificialLoader]);
+  }, [artificialLoader]);
 
   const UCProviderVal = useMemo(() =>
   ({

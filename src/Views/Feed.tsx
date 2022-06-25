@@ -287,22 +287,11 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader } = useContext(UserContext);
-  const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
+  const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>();
   const [userPostImages, setUserPostImages] = useState<any>([]);
   const tester: any = useRef([]);
   const testData: false | DocumentData | undefined = useRef();
   // HOOKS:
-  // const downloadFiles = useCallback(async () => {
-  //   if (loggedInData) {
-  //     // const userImagePath = loggedInData.uid + "/images/";
-  //     // const postImageRef = ref(storage, userImagePath);
-  //     // const downloadedBlob = await getBlob(postImageRef);
-
-
-  //     // const myArray = await downloadImage(loggedInData?.uid, loggedInData?.uid);
-  //     // console.log(downloadedBlob);
-  //   };
-  // }, [loggedInData, postArray, userPostImages]);
 
   function testPreload(images: string[]) {
     const fillArr: HTMLImageElement[] = [];
@@ -314,48 +303,16 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   };
 
   useEffect(() => {
-    // downloadFiles();
-    const test: any = [];
+
     if (loggedInData && userPostImages < postArray) {
       postArray.forEach(async (post) => {
         if (userPostImages.length < postArray.length) {
-          setUserPostImages([...userPostImages, ...testPreload([URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid))])]);
+          setUserPostImages([...testPreload([URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid))])]);
         }
       });
     }
 
-    // tester.current = testPreload(userPostImages);
-    console.log(userPostImages);
-
   }, [loggedInData, postArray, userPostImages]);
-
-
-  // const addCurrentUserDbPostsToLocal = useCallback(async () => {
-  //   // callback used for adding db posts to local so they can be rendered on load of the Feed view.
-  //   if (loggedInData) {
-  //     testData.current = await getUserDoc(loggedInData.uid);
-  //     if (testData.current === false) {
-  //       testData.current = true;
-  //     }
-
-  //     const currentUserData = await getUserDoc(loggedInData.uid);
-  //     if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
-  //       const dbPostObjectsArray = currentUserData.posts;
-  //       if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-  //         setPostArray([...postArray, ...dbPostObjectsArray]);
-  //       }
-  //     }
-  //   }
-
-  // }, [loggedInData, postArray, setPostArray]);
-
-  // useEffect(() => {
-  //   // effect that invokes addDbPostsToLocal()
-  //   async function invoke() {
-  //     await addCurrentUserDbPostsToLocal();
-  //   }
-  //   invoke();
-  // }, [addCurrentUserDbPostsToLocal]);
 
   useEffect(() => {
     document.body.style.overflow = overflowPost;
@@ -376,7 +333,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   };
 
   const asyncArray = useCallback(async () => {
-    // const newArray = async () => {
     const objectArr: IPostState[] = [];
     if (loggedInData && userPostImages.length > 0) {
       for (let i = 0; i < postArray.length; i++) {
@@ -404,21 +360,13 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     asyncArray();
   }, [asyncArray]);
 
-  if ((localAuth && !loggedInData)) {
-    return <div>Loading assets...</div>;
-  };
+  // if ((localAuth && !loggedInData)) {
+  //   return <div>Loading assets...</div>;
+  // };
 
-  // if (!testData.current && loggedInData) {
-  //   return <div>please wait</div>;
-  // }
-  // if (artificialLoader < 1) {
-  //   return <div>please wait...</div>;
-  // }
-
-  // if (loggedInData) {
-  //   updateProfilePicture(testpfp, loggedInData);
-  // }
-
+  if (artificialLoader < 1 || userPostImages === undefined) {
+    return <div>please wait...</div>;
+  }
 
   return (
     <StyledFeed id="feed-container" >
