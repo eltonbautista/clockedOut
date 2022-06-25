@@ -5,7 +5,7 @@ import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
 // import testpfp from "../Styles/assets/testpfp.jpeg";
 import cat from "../Styles/assets/cat.png";
-import { filterPosts, palette, toPostStateObjects, testpfp } from "../Helpers/utils";
+import preload, { filterPosts, palette, toPostStateObjects, testpfp } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
@@ -288,35 +288,74 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [showModal, setShowModal] = useState<boolean>(false);
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader } = useContext(UserContext);
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
+  const [userPostImages, setUserPostImages] = useState<any>([]);
+  const tester: any = useRef([]);
   const testData: false | DocumentData | undefined = useRef();
   // HOOKS:
+  // const downloadFiles = useCallback(async () => {
+  //   if (loggedInData) {
+  //     // const userImagePath = loggedInData.uid + "/images/";
+  //     // const postImageRef = ref(storage, userImagePath);
+  //     // const downloadedBlob = await getBlob(postImageRef);
 
-  const addCurrentUserDbPostsToLocal = useCallback(async () => {
-    // callback used for adding db posts to local so they can be rendered on load of the Feed view.
-    if (loggedInData) {
-      testData.current = await getUserDoc(loggedInData.uid);
-      if (testData.current === false) {
-        testData.current = true;
-      }
 
-      const currentUserData = await getUserDoc(loggedInData.uid);
-      if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
-        const dbPostObjectsArray = currentUserData.posts;
-        if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-          setPostArray([...postArray, ...dbPostObjectsArray]);
-        }
-      }
+  //     // const myArray = await downloadImage(loggedInData?.uid, loggedInData?.uid);
+  //     // console.log(downloadedBlob);
+  //   };
+  // }, [loggedInData, postArray, userPostImages]);
+
+  function testPreload(images: string[]) {
+    const fillArr: HTMLImageElement[] = [];
+    for (let i = 0; i < images.length; i += 1) {
+      fillArr[i] = new Image();
+      fillArr[i].src = images[i];
     }
-
-  }, [loggedInData, postArray, setPostArray]);
+    return fillArr;
+  };
 
   useEffect(() => {
-    // effect that invokes addDbPostsToLocal()
-    async function invoke() {
-      await addCurrentUserDbPostsToLocal();
+    // downloadFiles();
+    const test: any = [];
+    if (loggedInData && userPostImages < postArray) {
+      postArray.forEach(async (post) => {
+        if (userPostImages.length < postArray.length) {
+          setUserPostImages([...userPostImages, ...testPreload([URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid))])]);
+        }
+      });
     }
-    invoke();
-  }, [addCurrentUserDbPostsToLocal]);
+
+    // tester.current = testPreload(userPostImages);
+    console.log(userPostImages);
+
+  }, [loggedInData, postArray, userPostImages]);
+
+
+  // const addCurrentUserDbPostsToLocal = useCallback(async () => {
+  //   // callback used for adding db posts to local so they can be rendered on load of the Feed view.
+  //   if (loggedInData) {
+  //     testData.current = await getUserDoc(loggedInData.uid);
+  //     if (testData.current === false) {
+  //       testData.current = true;
+  //     }
+
+  //     const currentUserData = await getUserDoc(loggedInData.uid);
+  //     if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
+  //       const dbPostObjectsArray = currentUserData.posts;
+  //       if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+  //         setPostArray([...postArray, ...dbPostObjectsArray]);
+  //       }
+  //     }
+  //   }
+
+  // }, [loggedInData, postArray, setPostArray]);
+
+  // useEffect(() => {
+  //   // effect that invokes addDbPostsToLocal()
+  //   async function invoke() {
+  //     await addCurrentUserDbPostsToLocal();
+  //   }
+  //   invoke();
+  // }, [addCurrentUserDbPostsToLocal]);
 
   useEffect(() => {
     document.body.style.overflow = overflowPost;
@@ -339,14 +378,14 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const asyncArray = useCallback(async () => {
     // const newArray = async () => {
     const objectArr: IPostState[] = [];
-    if (loggedInData) {
+    if (loggedInData && userPostImages.length > 0) {
       for (let i = 0; i < postArray.length; i++) {
         objectArr.push(
           {
             postText: postArray[i].postText,
             postImage: {
               imageName: postArray[i].postImage.imageName,
-              imageURL: postArray[i].postImage.imageName ? URL.createObjectURL(await downloadImage(postArray[i].postImage.imageName, loggedInData?.uid)) : ''
+              imageURL: postArray[i].postImage.imageName ? userPostImages[i].src : ''
             },
             postVideo: postArray[i].postVideo
           }
@@ -359,7 +398,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     }
 
     return objectArr;
-  }, [asyncPostLoad, loggedInData, postArray]);
+  }, [asyncPostLoad, loggedInData, postArray, userPostImages]);
 
   useEffect(() => {
     asyncArray();

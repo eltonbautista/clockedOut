@@ -78,6 +78,7 @@ export default function preload(images: string[], fillArr: HTMLImageElement[]) {
     fillArr[i] = new Image();
     fillArr[i].src = images[i];
   }
+  return fillArr;
 };
 
 preload([viper, ken, animeGirl, zed], backgroundImages);

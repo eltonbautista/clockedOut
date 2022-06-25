@@ -1,7 +1,7 @@
-import React, { useState, useMemo, ReactNode, useEffect } from "react";
+import React, { useState, useMemo, ReactNode, useEffect, useRef, useCallback } from "react";
 import { UserContext } from "../Helpers/contexts";
 import { IPostState, IData, IDbUserData } from "../Helpers/interface";
-import { IUser } from '../firebase-config';
+import { downloadImage, getUserDoc, IUser } from '../firebase-config';
 import { getAllUserData } from "../firebase-config";
 import { DocumentData } from "firebase/firestore";
 import Post from "../Components/Post";
@@ -31,6 +31,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [allUsersData, setAllUsersData] = useState<IDbUserData['userDocument']>([]);
   const [artificialLoader, setArtificialLoader] = useState(0);
 
+
   useEffect(() => {
     // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
     // Renders once, and on dependency change
@@ -41,13 +42,32 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
         if (!localStorage.getItem('loginInfo')) {
           localStorage.setItem('loginInfo', await user.getIdToken());
         }
+
+        const currentUserData = await getUserDoc(user.uid);
+
+        if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === user.uid) {
+          if (currentUserData.posts !== undefined && currentUserData.posts.length > 0) {
+            setPostArray([...postArray, ...currentUserData.posts]);
+          }
+        }
+
       } else if (!user) {
+        localStorage.removeItem('loginInfo');
         setLoggedInData(null);
         setAllUsersData([]);
       }
     });
 
-  }, [setLoggedInData, loggedInData]);
+  }, [setLoggedInData, loggedInData, postArray]);
+
+  function preload(images: string[], fillArr: HTMLImageElement[]) {
+    for (let i = 0; i < images.length; i += 1) {
+      fillArr[i] = new Image();
+      fillArr[i].src = images[i];
+    }
+  };
+
+  const checkRef = useRef([]);
 
   // useEffect(() => {
 
