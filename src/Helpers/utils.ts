@@ -137,3 +137,30 @@ export function createFields(e: React.FormEvent<HTMLFormElement>, target: "signU
 };
 
 export { backgroundImages };
+
+
+// -----------------------------------------------------------------------------
+// THINGS THAT MIGHT BE USEFUL LATER:
+// -----------------------------------------------------------------------------
+
+
+// !! This callback was in FEED VIEW. It more focuses on grabbing data & posts from all users, but I was using it to grab the current user's data & posts
+
+// const addCurrentUserDbPostsToLocal = useCallback(async () => {
+//   // callback used for adding db posts to local so they can be rendered on load of the Feed view.
+//   if (loggedInData) {
+//     // Filter ALL user data so there exists only one user data per user.
+//     const filteredUsersData = filterPosts(allUsersData);
+//     if (filteredUsersData) {
+//       const currentUserData = await getUserDoc(loggedInData.uid);
+//       if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
+//         const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
+//         console.log(dbPostObjectsArray);
+//         if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+//           setPostArray([...postArray, ...dbPostObjectsArray]);
+//         }
+//       }
+//     }
+//   }
+
+// }, [allUsersData, loggedInData, postArray, setPostArray]);

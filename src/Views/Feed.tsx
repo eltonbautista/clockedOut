@@ -93,7 +93,6 @@ const StyledFeedContent = styled.div`
   gap: 10px;
 `;
 
-
 const StyledAside = styled.aside`
   grid-area: aside;
   background-color: ${palette.fpink};
@@ -244,7 +243,6 @@ const BackgroundCanvas = styled.div<IBackgroundCanvas>`
     background-color: ${props.backgroundColor};
     position: absolute;` }
 `;
-
 interface IStyledSidebarP {
   clicked?: boolean;
 };
@@ -291,32 +289,28 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
   // HOOKS:
 
-  const addDbPostsToLocal = useCallback(async () => {
+  const addCurrentUserDbPostsToLocal = useCallback(async () => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
     if (loggedInData) {
-      // Filter user data so there exists only one user data per user.
-      const filteredUsersData = filterPosts(allUsersData);
-      if (filteredUsersData) {
-        const currentUserData = await getUserDoc(loggedInData.uid);
-        if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
-          const dbPostObjectsArray: IPostState[] = await toPostStateObjects(filteredUsersData, loggedInData.uid);
-          if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
-            setPostArray([...postArray, ...dbPostObjectsArray]);
-          }
+      const currentUserData = await getUserDoc(loggedInData.uid);
+      if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
+        const dbPostObjectsArray = currentUserData.posts;
+        if (dbPostObjectsArray !== undefined && dbPostObjectsArray.length > 0) {
+          setPostArray([...postArray, ...dbPostObjectsArray]);
         }
       }
     }
 
-  }, [allUsersData, loggedInData, postArray, setPostArray]);
+  }, [loggedInData, postArray, setPostArray]);
 
 
   useEffect(() => {
     // effect that invokes addDbPostsToLocal()
     async function invoke() {
-      await addDbPostsToLocal();
+      await addCurrentUserDbPostsToLocal();
     }
     invoke();
-  }, [addDbPostsToLocal, loggedInData, setAllUsersData]);
+  }, [addCurrentUserDbPostsToLocal]);
 
   useEffect(() => {
     document.body.style.overflow = overflowPost;
@@ -326,7 +320,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     if (!arrayToMap) {
       return;
     }
-
     if (arrayToMap.length > 0) {
       return arrayToMap.map((postObj: IPostState, index) => {
         return (
@@ -355,8 +348,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       }
     }
     const componentList = mapList(objectArr);
-    // postArray[i].postImage.imageName
-    // 
     if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
       setAsyncPostLoad(componentList);
     }
