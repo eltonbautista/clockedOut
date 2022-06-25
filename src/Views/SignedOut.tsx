@@ -25,7 +25,7 @@ const StyledSignedOut = styled.div`
 
 `;
 
-const SignedOut: React.FC<Props> = (props) => {
+const SignedOut: React.FC<Props> = React.memo((props) => {
   const { stateAuth, nav, localAuth } = props;
 
   if (localAuth && !stateAuth) {
@@ -45,6 +45,6 @@ const SignedOut: React.FC<Props> = (props) => {
       <div></div>
     </StyledSignedOut>
   ) : <Navigate replace to='/feed' />;
-};
+});
 
-export default React.memo(SignedOut);
+export default SignedOut;

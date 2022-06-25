@@ -1,6 +1,7 @@
 import { IResetInputs, IDbUserData, IPostState } from './interface';
 import { User } from "firebase/auth";
 import { DocumentData } from 'firebase/firestore';
+import React from 'react';
 
 
 // Background images:
@@ -116,6 +117,23 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
   }
   // console.log(newArr);
   return newArr;
+};
+
+export function createFields(e: React.FormEvent<HTMLFormElement>, target: "signUp" | "login") {
+  if (target === "signUp") {
+    return {
+      emailValue: (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement).value,
+      usernameValue: (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement).value,
+      passwordValue: (e.currentTarget.children[0].children[1].children[2].children[1].children[0] as HTMLInputElement).value,
+    };
+  }
+  if (target === "login") {
+    return {
+      emailValue: (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement).value,
+      passwordValue: (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement).value,
+      usernameValue: ""
+    };
+  }
 };
 
 export { backgroundImages };

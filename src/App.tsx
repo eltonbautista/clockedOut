@@ -7,7 +7,7 @@ import { IData, IDbUserData, ILoginInput, IPostState } from './Helpers/interface
 import { signingIn, IUser, auth, getAllUserData, getUserDoc } from './firebase-config';
 import { onAuthStateChanged } from 'firebase/auth';
 import Navbar from './Components/Navbar';
-import { createLocalInfo, filterPosts, palette, toPostStateObjects, } from './Helpers/utils';
+import { createLocalInfo, filterPosts, palette, createFields, toPostStateObjects, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 import { couldStartTrivia } from 'typescript';
 import { User } from 'firebase/auth';
@@ -72,21 +72,13 @@ const App: React.FC = function App() {
   }, [localInfo, loggedInData, setAllUsersData, setPostArray]);
 
 
-  const signUpInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData): void => {
-    userSignUpData[key] = e.target.value;
-    setUserSignUpData({ ...userSignUpData });
-  };
-
-  const loginInputHandler = (e: React.ChangeEvent<HTMLInputElement>, key: keyof ILoginInput): void => {
-    userLoginData[key] = e.target.value;
-    setUserLoginData({ ...userLoginData });
-  };
-
   // Used for handling user's login request. When a user logs in, the currently stored loginInformation is deleted, and a new signedIn call to Firebase is called - and saves the current user's ID token onto localStorage.
   // TODO: Add error pop-ups to notify users what is preventing them from logging in: wrong password/email, request timed out, etc.
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-    const currUser = await signingIn(userLoginData.email, userLoginData.password);
+    const loginField = createFields(e, "login");
+
+    const currUser = await signingIn(loginField!.emailValue, loginField!.passwordValue);
     setLoggedInData(currUser);
     await createLocalInfo(currUser);
 
@@ -105,8 +97,8 @@ const App: React.FC = function App() {
       <Routes>
 
         <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
-        <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} inputHandler={loginInputHandler} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
-        <Route path='/sign-up' element={<SignUp signUpData={{ userSignUpData, setUserSignUpData }} localAuth={localInfo} inputFields={userSignUpData} inputHandler={signUpInputHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/sign-up' element={<SignUp signUpData={{ userSignUpData, setUserSignUpData }} localAuth={localInfo} inputFields={userSignUpData} nav={navigate} stateAuth={loggedInData} />}></Route>
 
         <Route path='/feed'
           element={

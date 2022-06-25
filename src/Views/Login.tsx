@@ -85,8 +85,8 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div data-lp-inputs-container>
-            <LPInputDiv data-testid='email-field' inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent="Email" />
-            <LPInputDiv data-testid='password-field' inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent="Password" />
+            <LPInputDiv data-testid='email-field' forIdentifier='email' hContent="Email" />
+            <LPInputDiv data-testid='password-field' forIdentifier='password' hContent="Password" />
           </div>
           <div>
             <SOButtons data-form-submit type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>

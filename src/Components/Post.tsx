@@ -190,4 +190,4 @@ const Post: React.FC<IPostProps> = (props) => {
   );
 };
 
-export default Post;
+export default React.memo(Post);

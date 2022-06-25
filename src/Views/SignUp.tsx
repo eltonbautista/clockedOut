@@ -7,7 +7,7 @@ import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
-import { backgroundImages } from "../Helpers/utils";
+import { backgroundImages, createFields } from "../Helpers/utils";
 
 const StyledSUForm = styled(StyledForm)`
   margin-top: 30%;
@@ -51,11 +51,15 @@ export default function SignUp(props: ISignUpProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();
-    buttonSwitch = await createUserInformation(info.email, info.password, info.username);
-    signUpData?.setUserSignUpData({ ...info });
+
+    const formFields = createFields(e, "signUp");
+
+    if (formFields !== undefined) {
+      buttonSwitch = await createUserInformation(formFields!.emailValue, formFields!.passwordValue, formFields!.usernameValue);
+    }
+
+    ;
   };
-
-
 
   return !stateAuth ? (
     // TODO: body used for background? Or can keep the same background image for performance purposes
@@ -65,9 +69,9 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" inputVal={props.inputFields.email} inputHandler={(e) => props.inputHandler?.(e, 'email')} forIdentifier='email' hContent='Email' />
-              <LPInputDiv inputVal={props.inputFields.username} inputHandler={(e) => props.inputHandler?.(e, 'username')} forIdentifier='username' hContent='Username' />
-              <LPInputDiv inputVal={props.inputFields.password} inputHandler={(e) => props.inputHandler?.(e, 'password')} forIdentifier='password' hContent='Password' />
+              <LPInputDiv inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" inputVal={props.inputFields.email} forIdentifier='email' hContent='Email' />
+              <LPInputDiv inputVal={props.inputFields.username} forIdentifier='username' hContent='Username' />
+              <LPInputDiv inputVal={props.inputFields.password} forIdentifier='password' hContent='Password' />
 
               <SOButtons data-form-submit disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('/login', { replace: true })} noStyle={true} >
