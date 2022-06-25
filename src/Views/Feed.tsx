@@ -1,17 +1,18 @@
-import React, { useEffect, useState, useContext, ReactNode } from "react";
+import React, { useEffect, useState, useContext, ReactNode, useRef } from "react";
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
-import testpfp from "../Styles/assets/testpfp.jpeg";
+// import testpfp from "../Styles/assets/testpfp.jpeg";
 import cat from "../Styles/assets/cat.png";
-import { filterPosts, palette, toPostStateObjects } from "../Helpers/utils";
+import { filterPosts, palette, toPostStateObjects, testpfp } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
 import { downloadImage, getUserDoc, storage, updateProfilePicture } from "../firebase-config";
 import { getBlob, ref } from "firebase/storage";
+import { DocumentData } from "firebase/firestore";
 
 const StyledFeed = styled.div`
   display: grid;
@@ -285,13 +286,19 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader } = useContext(UserContext);
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>([]);
+  const testData: false | DocumentData | undefined = useRef();
   // HOOKS:
 
   const addCurrentUserDbPostsToLocal = useCallback(async () => {
     // callback used for adding db posts to local so they can be rendered on load of the Feed view.
     if (loggedInData) {
+      testData.current = await getUserDoc(loggedInData.uid);
+      if (testData.current === false) {
+        testData.current = true;
+      }
+
       const currentUserData = await getUserDoc(loggedInData.uid);
       if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === loggedInData.uid) {
         const dbPostObjectsArray = currentUserData.posts;
@@ -302,7 +309,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     }
 
   }, [loggedInData, postArray, setPostArray]);
-
 
   useEffect(() => {
     // effect that invokes addDbPostsToLocal()
@@ -361,10 +367,19 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
 
   if ((localAuth && !loggedInData)) {
     return <div>Loading assets...</div>;
-  }
+  };
+
+  // if (!testData.current && loggedInData) {
+  //   return <div>please wait</div>;
+  // }
+  // if (artificialLoader < 1) {
+  //   return <div>please wait...</div>;
+  // }
+
   // if (loggedInData) {
   //   updateProfilePicture(testpfp, loggedInData);
   // }
+
 
   return (
     <StyledFeed id="feed-container" >
@@ -433,14 +448,14 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
               </SOButtons>
             </div>
             <div>
-              <button>
+              {/* <button>
                 <span>img/svg</span>
                 <span>Photo</span>
               </button>
               <button>
                 <span>img/svg</span>
                 <span>Video</span>
-              </button>
+              </button> */}
             </div>
           </StyledSharebox>
 

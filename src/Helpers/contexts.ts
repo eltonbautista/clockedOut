@@ -16,6 +16,8 @@ interface UserContextState {
     docID: string;
     docData: DocumentData;
   }[]>>;
+  artificialLoader: number;
+  setArtificialLoader: React.Dispatch<React.SetStateAction<number>>;
 }
 export const UserContext = createContext({} as UserContextState);
 

@@ -11,6 +11,9 @@ import animeGirl from '../Styles/assets/animeGirl.jpg';
 import zed from '../Styles/assets/zed.jpg';
 import { text } from 'stream/consumers';
 
+// Test images:
+import testpfp2 from "../Styles/assets/testpfp2.jpg";
+import { downloadImage } from '../firebase-config';
 
 // import { profanities } from 'profanities';
 
@@ -66,6 +69,7 @@ export const palette =
 
 // Lists of images categorized by use case 
 const backgroundImages: HTMLImageElement[] = [];
+const testpfp: HTMLImageElement[] = [];
 
 
 // Function used to preload images
@@ -77,6 +81,8 @@ export default function preload(images: string[], fillArr: HTMLImageElement[]) {
 };
 
 preload([viper, ken, animeGirl, zed], backgroundImages);
+preload([testpfp2,], testpfp);
+
 
 // A util used to clear my inputs in NewPostModal.tsx;
 export const resetInputs = (textInp: IResetInputs['textInp'], imgInp: IResetInputs['imgInp'], videoInp: IResetInputs['videoInp']) => {
@@ -136,7 +142,8 @@ export function createFields(e: React.FormEvent<HTMLFormElement>, target: "signU
   }
 };
 
-export { backgroundImages };
+
+export { backgroundImages, testpfp };
 
 
 // -----------------------------------------------------------------------------

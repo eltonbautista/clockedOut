@@ -29,6 +29,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [postState, setPostState] = useState(initPostData);
   const [postArray, setPostArray] = useState<IPostState[]>([]);
   const [allUsersData, setAllUsersData] = useState<IDbUserData['userDocument']>([]);
+  const [artificialLoader, setArtificialLoader] = useState(0);
 
   useEffect(() => {
     // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
@@ -48,6 +49,22 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   }, [setLoggedInData, loggedInData]);
 
+  // useEffect(() => {
+
+  //   const myTimeout = setTimeout(() => {
+  //     if (artificialLoader < 1) {
+  //       setArtificialLoader((prev) => {
+  //         return prev + 1;
+  //       });
+  //     }
+  //   }, 3000);
+
+  //   if (artificialLoader >= 1) {
+  //     clearTimeout(myTimeout);
+  //   }
+  //   console.log(artificialLoader);
+  // }, [artificialLoader]);
+
   const UCProviderVal = useMemo(() =>
   ({
     loggedInData: loggedInData,
@@ -58,12 +75,15 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     setPostArray: setPostArray,
     allUsersData: allUsersData,
     setAllUsersData: setAllUsersData,
+    artificialLoader: artificialLoader,
+    setArtificialLoader: setArtificialLoader,
   }),
     [
       loggedInData, setLoggedInData,
       postState, setPostState,
       postArray, setPostArray,
-      allUsersData, setAllUsersData
+      allUsersData, setAllUsersData,
+      artificialLoader, setArtificialLoader
     ]);
 
   return (

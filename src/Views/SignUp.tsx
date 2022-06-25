@@ -33,7 +33,7 @@ const StyledSUForm = styled(StyledForm)`
 let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
-  const { stateAuth, localAuth, signUpData } = props;
+  const { stateAuth, localAuth } = props;
 
   useEffect(() => {
     const inputs = document.querySelectorAll('input');
@@ -51,13 +51,10 @@ export default function SignUp(props: ISignUpProps) {
 
   async function handleSubmit(e: React.FormEvent<HTMLFormElement>, info: IData,) {
     e.preventDefault();
-
     const formFields = createFields(e, "signUp");
-
     if (formFields !== undefined) {
-      buttonSwitch = await createUserInformation(formFields!.emailValue, formFields!.passwordValue, formFields!.usernameValue);
+      buttonSwitch = await createUserInformation(formFields.emailValue, formFields.passwordValue, formFields.usernameValue);
     }
-
     ;
   };
 

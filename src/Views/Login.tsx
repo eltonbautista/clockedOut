@@ -62,7 +62,7 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
 
 export default function Login(props: ILoginProps) {
   const { nav, stateAuth, localAuth } = props;
-  const { loggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+  const { loggedInData, setAllUsersData } = useContext(UserContext);
 
   useEffect(() => {
     if (!loggedInData) {
