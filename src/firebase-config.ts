@@ -124,7 +124,8 @@ export async function getUserDoc(userID: string) {
 
 // Function used to write a user's data.
 // TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
-export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray'], sidebarInfo?: ISideBarInfo['sidebarInfo']) {
+//  sidebarInfo?: ISideBarInfo['sidebarInfo'] <=== Add as parameter later
+export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray'],) {
   if (!userData) {
     return;
   }
@@ -139,7 +140,7 @@ export async function writeUserData(userData: IDatabaseArgs['userData'], postArr
           email: userData.email,
           profilePicture: userData.photoURL,
           posts: postArray,
-          sidebarInfo,
+          // sidebarInfo,
         });
       }
     } catch (err) {

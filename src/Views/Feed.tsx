@@ -11,7 +11,7 @@ import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
 import { downloadImage, getUserDoc, storage, updateProfilePicture } from "../firebase-config";
-import { getBlob, ref } from "firebase/storage";
+import { getBlob, ref, listAll } from "firebase/storage";
 import { DocumentData } from "firebase/firestore";
 
 const StyledFeed = styled.div`
@@ -279,6 +279,29 @@ const sidebarPContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit
 
 // To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
+const mapList = (arrayToMap: IPostState[] | undefined) => {
+  if (!arrayToMap) {
+    return;
+  }
+  if (arrayToMap.length > 0) {
+    return arrayToMap.map((postObj: IPostState, index) => {
+      return (
+        <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
+      );
+    });
+  }
+  return;
+};
+
+function testPreload(images: string[]) {
+  const fillArr: HTMLImageElement[] = [];
+  for (let i = 0; i < images.length; i += 1) {
+    fillArr[i] = new Image();
+    fillArr[i].src = images[i];
+  }
+  return fillArr;
+};
+
 const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   // VARIABLES, STATES & CONTEXT: 
 
@@ -286,86 +309,75 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<boolean>(false);
-  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader } = useContext(UserContext);
+  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>();
   const [userPostImages, setUserPostImages] = useState<any>([]);
-  const tester: any = useRef([]);
-  const testData: false | DocumentData | undefined = useRef();
   // HOOKS:
 
-  function testPreload(images: string[]) {
-    const fillArr: HTMLImageElement[] = [];
-    for (let i = 0; i < images.length; i += 1) {
-      fillArr[i] = new Image();
-      fillArr[i].src = images[i];
-    }
-    return fillArr;
-  };
-
   useEffect(() => {
-
-    if (loggedInData && userPostImages < postArray) {
-      postArray.forEach(async (post) => {
-        if (userPostImages.length < postArray.length && post.postImage.imageName) {
-          setUserPostImages([...testPreload([URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid))])]);
-        }
-      });
-    }
-
-  }, [loggedInData, postArray, userPostImages]);
-
-  useEffect(() => {
-    document.body.style.overflow = overflowPost;
-  }, [overflowPost]);
-
-  const mapList = (arrayToMap: IPostState[] | undefined) => {
-    if (!arrayToMap) {
-      return;
-    }
-    if (arrayToMap.length > 0) {
-      return arrayToMap.map((postObj: IPostState, index) => {
-        return (
-          <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
-        );
-      });
-    }
-    return;
-  };
-
-  const asyncArray = useCallback(async () => {
-    const objectArr: IPostState[] = [];
-    if (loggedInData && userPostImages.length > 0) {
-      for (let i = 0; i < postArray.length; i++) {
-        objectArr.push(
-          {
-            postText: postArray[i].postText,
-            postImage: {
-              imageName: postArray[i].postImage.imageName,
-              imageURL: postArray[i].postImage.imageName ? userPostImages[i].src : ''
-            },
-            postVideo: postArray[i].postVideo
-          }
-        );
+    async function asynCaller() {
+      if (loggedInData && !currentUserData) {
+        const data = await getUserDoc(loggedInData.uid);
+        setCurrentUserData(data);
       }
     }
-    const componentList = mapList(objectArr);
-    if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
-      setAsyncPostLoad(componentList);
-    }
-
-    return objectArr;
-  }, [asyncPostLoad, loggedInData, postArray, userPostImages]);
+    asynCaller();
+  }, [currentUserData, loggedInData, setCurrentUserData]);
 
   useEffect(() => {
-    asyncArray();
-  }, [asyncArray]);
+    async function fetchTest() {
+      const objectArr: IPostState[] = [];
+      const imageArray: any = [];
+      console.log(loggedInData);
+      console.log(currentUserData);
+      try {
+        if (postArray.length > 0 && loggedInData && currentUserData && currentUserData.posts.length > 0) {
+          for await (const post of postArray) {
+            imageArray.push(URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid)));
+          }
+        }
+
+        const preloadedImages = testPreload(imageArray);
+
+        if (loggedInData && preloadedImages?.length > 0) {
+          for (let i = 0; i < postArray.length; i++) {
+            objectArr.push(
+              {
+                postText: postArray[i].postText,
+                postImage: {
+                  imageName: postArray[i].postImage.imageName,
+                  imageURL: postArray[i].postImage.imageName ? preloadedImages[i].src : ''
+                },
+                postVideo: postArray[i].postVideo
+              }
+            );
+          }
+        }
+
+        const componentList = mapList(objectArr);
+        if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
+          setAsyncPostLoad(componentList);
+        }
+      }
+      catch (error) {
+        console.log(error);
+      }
+
+    }
+
+    fetchTest();
+  }, [asyncPostLoad, currentUserData, loggedInData, postArray]);
 
   // if ((localAuth && !loggedInData)) {
   //   return <div>Loading assets...</div>;
   // };
 
+  if (postArray.length > 0 && !asyncPostLoad) {
+    return <div>Loading assets...</div>;
+  }
+
   if (artificialLoader < 1 || userPostImages === undefined) {
-    return <div>please wait...</div>;
+    return <div>Loading assets...</div>;
   }
 
   return (

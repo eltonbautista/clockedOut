@@ -18,6 +18,8 @@ interface UserContextState {
   }[]>>;
   artificialLoader: number;
   setArtificialLoader: React.Dispatch<React.SetStateAction<number>>;
+  currentUserData: false | DocumentData | undefined;
+  setCurrentUserData: React.Dispatch<React.SetStateAction<false | DocumentData | undefined>>;
 }
 export const UserContext = createContext({} as UserContextState);
 

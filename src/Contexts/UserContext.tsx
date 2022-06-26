@@ -30,6 +30,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [postArray, setPostArray] = useState<IPostState[]>([]);
   const [allUsersData, setAllUsersData] = useState<IDbUserData['userDocument']>([]);
   const [artificialLoader, setArtificialLoader] = useState(0);
+  const [currentUserData, setCurrentUserData] = useState<any>();
 
 
   useEffect(() => {
@@ -47,23 +48,20 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
         localStorage.removeItem('loginInfo');
         setLoggedInData(null);
         setAllUsersData([]);
+        setCurrentUserData(undefined);
       }
     });
 
   }, [postArray]);
 
   const setDbPosts = useCallback(async () => {
-
-    if (loggedInData) {
-      const currentUserData = await getUserDoc(loggedInData.uid);
-      if (currentUserData && postArray && currentUserData.userID === loggedInData.uid) {
-        if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
-          setPostArray([...postArray, ...currentUserData.posts]);
-        }
+    if (currentUserData && postArray && loggedInData && currentUserData.userID === loggedInData.uid) {
+      if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
+        setPostArray([...postArray, ...currentUserData.posts]);
       }
     }
 
-  }, [loggedInData, postArray, setPostArray]);
+  }, [currentUserData, loggedInData, postArray]);
 
   useEffect(() => {
     setDbPosts();
@@ -84,6 +82,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     }
   }, [artificialLoader]);
 
+
   const UCProviderVal = useMemo(() =>
   ({
     loggedInData: loggedInData,
@@ -96,13 +95,16 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     setAllUsersData: setAllUsersData,
     artificialLoader: artificialLoader,
     setArtificialLoader: setArtificialLoader,
+    currentUserData: currentUserData,
+    setCurrentUserData: setCurrentUserData
   }),
     [
       loggedInData, setLoggedInData,
       postState, setPostState,
       postArray, setPostArray,
       allUsersData, setAllUsersData,
-      artificialLoader, setArtificialLoader
+      artificialLoader, setArtificialLoader,
+      currentUserData, setCurrentUserData
     ]);
 
   return (
