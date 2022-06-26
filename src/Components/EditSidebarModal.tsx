@@ -5,7 +5,7 @@ import { palette } from "../Helpers/utils";
 import LPInputDiv from "./Forms";
 
 const ModalContainer = styled.div<ISidebarModal>`
-  visibility: ${props => props.showModal ? "visible" : "hidden"};
+  /* visibility: ${props => props.showModal ? "visible" : "hidden"}; */
   display: grid;
   position: absolute;
   top: 0;
@@ -37,6 +37,24 @@ const Modal = styled.div`
   height: max(calc(20% + 200px), fit-content);
   width: min(500px, 100%);
   border-radius: 8px;
+
+  > div {
+    display: grid;
+    grid-template-columns: 1fr auto;
+    padding: 10px;
+  }
+
+  > div > button {
+    background: none;
+    border: none;
+  }
+
+  > form > div {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 20px;
+    padding: 20px;
+  }
 `;
 
 const DefaultModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
@@ -81,6 +99,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
             <LPInputDiv hContent="Link One"></LPInputDiv>
             <LPInputDiv hContent="Link Two"></LPInputDiv>
             <LPInputDiv hContent="Link Three"></LPInputDiv>
+            <LPInputDiv hContent="Link Four"></LPInputDiv>
           </div>
         </form>
         <div>
