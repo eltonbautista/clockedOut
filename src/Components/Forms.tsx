@@ -34,9 +34,9 @@ const FooContainer = styled.div`
 
 export interface ILPInputDivProps {
   hContent?: string;
-  forIdentifier: "email" | "username" | "password";
+  forIdentifier?: "email" | "username" | "password";
   inputVal?: string;
-  inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData) => void;
+  inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData | undefined) => void;
   inputPattern?: string | undefined;
 }
 

@@ -11,6 +11,7 @@ import { createLocalInfo, filterPosts, palette, createFields, toPostStateObjects
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
 import { couldStartTrivia } from 'typescript';
 import { User } from 'firebase/auth';
+import EditSidebarModal from './Components/EditSidebarModal';
 
 const StyledHeader = styled.header`
   background-color: ${palette.red};
@@ -99,11 +100,12 @@ const App: React.FC = function App() {
         <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
         <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
         <Route path='/sign-up' element={<SignUp signUpData={{ userSignUpData, setUserSignUpData }} localAuth={localInfo} inputFields={userSignUpData} nav={navigate} stateAuth={loggedInData} />}></Route>
+        <Route path='/temporary' element={<EditSidebarModal />}></Route>
 
+        {/* Private Routes: */}
         <Route path='/feed'
           element={
             <PrivateRoute stateAuth={loggedInData} localAuth={localInfo} children={<Feed localAuth={localInfo} />} />} >
-
         </Route>
       </Routes>
 

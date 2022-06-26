@@ -30,7 +30,7 @@ import { getDatabase } from "firebase/database";
 import { getBlob, getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResumable } from "firebase/storage";
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
-import { IDatabaseArgs } from './Helpers/interface';
+import { IDatabaseArgs, ISideBarInfo } from './Helpers/interface';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -124,7 +124,7 @@ export async function getUserDoc(userID: string) {
 
 // Function used to write a user's data.
 // TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
-export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray']) {
+export async function writeUserData(userData: IDatabaseArgs['userData'], postArray: IDatabaseArgs['postArray'], sidebarInfo?: ISideBarInfo['sidebarInfo']) {
   if (!userData) {
     return;
   }
@@ -133,12 +133,13 @@ export async function writeUserData(userData: IDatabaseArgs['userData'], postArr
 
     try {
       if (userData !== null && userData !== undefined) {
-        const addUserData = await setDoc(doc(db, "userData", userData.uid), {
+        await setDoc(doc(db, "userData", userData.uid), {
           userID: userData.uid,
           displayName: userData.displayName,
           email: userData.email,
           profilePicture: userData.photoURL,
           posts: postArray,
+          sidebarInfo,
         });
       }
     } catch (err) {

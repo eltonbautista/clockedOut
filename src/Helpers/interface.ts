@@ -98,6 +98,14 @@ export interface INewPostModal {
   newPostVideo?: string;
 }
 
+export interface ISidebarModal {
+  showModal?: boolean;
+  stateSetters?: {
+    setOverflowPost: Function,
+    setShowModal: Function,
+  };
+}
+
 export interface IHidePostModal {
   event: React.MouseEvent<HTMLDivElement, MouseEvent> | React.MouseEvent<HTMLButtonElement, MouseEvent> | React.FormEvent<HTMLFormElement>;
 }
@@ -131,9 +139,25 @@ export interface IDbUserData {
 }
 
 export interface ICurrentUserData {
-  userID: string,
-  displayName: string,
-  email: string,
-  profilePicture: string,
+  userID: string;
+  displayName: string;
+  email: string;
+  profilePicture: string;
   posts: IPostState[];
+}
+
+export interface ISideBarInfo {
+  sidebarInfo?: {
+    games: {
+      gameOne?: string;
+      userOne?: string;
+      gameTwo?: string;
+      userTwo?: string;
+    },
+    links: {
+      linkOne?: string;
+      linkTwo?: string;
+      linkThree?: string;
+    };
+  };
 }
