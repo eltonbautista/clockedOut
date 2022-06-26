@@ -69,20 +69,20 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     setDbPosts();
   }, [setDbPosts]);
 
-  // useEffect(() => {
+  useEffect(() => {
 
-  //   const myTimeout = setTimeout(() => {
-  //     if (artificialLoader < 1) {
-  //       setArtificialLoader((prev) => {
-  //         return prev + 1;
-  //       });
-  //     }
-  //   }, 900);
+    const myTimeout = setTimeout(() => {
+      if (artificialLoader < 1) {
+        setArtificialLoader((prev) => {
+          return prev + 1;
+        });
+      }
+    }, 900);
 
-  //   if (artificialLoader >= 1) {
-  //     clearTimeout(myTimeout);
-  //   }
-  // }, [artificialLoader]);
+    if (artificialLoader >= 1) {
+      clearTimeout(myTimeout);
+    }
+  }, [artificialLoader]);
 
   const UCProviderVal = useMemo(() =>
   ({

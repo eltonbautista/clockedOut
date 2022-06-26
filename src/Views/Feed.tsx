@@ -364,9 +364,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   //   return <div>Loading assets...</div>;
   // };
 
-  // if (artificialLoader < 1 || userPostImages === undefined) {
-  //   return <div>please wait...</div>;
-  // }
+  if (artificialLoader < 1 || userPostImages === undefined) {
+    return <div>please wait...</div>;
+  }
 
   return (
     <StyledFeed id="feed-container" >
