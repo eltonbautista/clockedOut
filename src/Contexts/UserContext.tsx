@@ -43,14 +43,6 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
           localStorage.setItem('loginInfo', await user.getIdToken());
         }
 
-        const currentUserData = await getUserDoc(user.uid);
-
-        if (currentUserData && postArray.length < currentUserData.posts.length && currentUserData.userID === user.uid) {
-          if (currentUserData.posts !== undefined && currentUserData.posts.length > 0) {
-            setPostArray([...postArray, ...currentUserData.posts]);
-          }
-        }
-
       } else if (!user) {
         localStorage.removeItem('loginInfo');
         setLoggedInData(null);
@@ -60,20 +52,37 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   }, [postArray]);
 
-  useEffect(() => {
+  const setDbPosts = useCallback(async () => {
 
-    const myTimeout = setTimeout(() => {
-      if (artificialLoader < 1) {
-        setArtificialLoader((prev) => {
-          return prev + 1;
-        });
+    if (loggedInData) {
+      const currentUserData = await getUserDoc(loggedInData.uid);
+      if (currentUserData && postArray && currentUserData.userID === loggedInData.uid) {
+        if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
+          setPostArray([...postArray, ...currentUserData.posts]);
+        }
       }
-    }, 900);
-
-    if (artificialLoader >= 1) {
-      clearTimeout(myTimeout);
     }
-  }, [artificialLoader]);
+
+  }, [loggedInData, postArray, setPostArray]);
+
+  useEffect(() => {
+    setDbPosts();
+  }, [setDbPosts]);
+
+  // useEffect(() => {
+
+  //   const myTimeout = setTimeout(() => {
+  //     if (artificialLoader < 1) {
+  //       setArtificialLoader((prev) => {
+  //         return prev + 1;
+  //       });
+  //     }
+  //   }, 900);
+
+  //   if (artificialLoader >= 1) {
+  //     clearTimeout(myTimeout);
+  //   }
+  // }, [artificialLoader]);
 
   const UCProviderVal = useMemo(() =>
   ({
