@@ -152,19 +152,24 @@ export interface ICurrentUserData {
 }
 
 export interface ISideBarInfo {
-  sidebarInfo?: {
+  [key: string]: any;
+  sidebarInfo: {
     personalBio: string;
     games: {
-      gameOne?: string;
-      userOne?: string;
-      gameTwo?: string;
-      userTwo?: string;
+      gameOne: string;
+      userOne: string;
+      gameTwo: string;
+      userTwo: string;
     },
     links: {
-      linkOne?: string;
-      linkTwo?: string;
-      linkDisplayOne?: string;
-      linkDisplayTwo?: string;
+      linkOne: string;
+      linkTwo: string;
+      linkDisplayOne: string;
+      linkDisplayTwo: string;
     };
+  },
+  userInfo: {
+    displayName: string;
+    photoURL: string;
   };
 }

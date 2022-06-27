@@ -1,10 +1,10 @@
 import { doc, updateDoc } from "firebase/firestore";
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContextProvider from "../Contexts/UserContext";
 import { db, updateProfileDetails } from "../firebase-config";
 import { UserContext } from "../Helpers/contexts";
-import { IHidePostModal, ISidebarModal } from "../Helpers/interface";
+import { IHidePostModal, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
 import { palette } from "../Helpers/utils";
 import LPInputDiv from "./Forms";
 import { CustomFileInput } from "./NewPostModal";
@@ -126,10 +126,33 @@ const DefaultModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   );
 };
 
+const inputsInit: ISideBarInfo = {
+  sidebarInfo: {
+    personalBio: '',
+    games: {
+      gameOne: '',
+      userOne: '',
+      gameTwo: '',
+      userTwo: '',
+    },
+    links: {
+      linkOne: '',
+      linkTwo: '',
+      linkDisplayOne: '',
+      linkDisplayTwo: '',
+    },
+  },
+  userInfo: {
+    displayName: '',
+    photoURL: '',
+  }
+};
+
 
 const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
   const { loggedInData } = useContext(UserContext);
+  const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
 
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
@@ -141,9 +164,22 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
     }
   };
 
+  const handleInputs = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputFamily: string, inputName: string, inputSubFamily?: string) => {
+    const newObj = { ...editProfileInputs };
+    if (inputSubFamily) {
+      newObj[inputFamily][inputSubFamily][inputName] = e.currentTarget.value;
+    } else if (!inputSubFamily) {
+      newObj[inputFamily][inputName] = e.currentTarget.value;
+      setEditProfileInputs({ ...newObj });
+    }
+
+    console.log(editProfileInputs);
+  };
+
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     const userDocRef = doc(db, "userData", loggedInData!.uid);
-    console.log(e);
+    e.preventDefault();
+    console.log(e.currentTarget);
     // updateProfileDetails()
     // await updateDoc(userDocRef, {
     //   // sidebar: 
@@ -158,30 +194,52 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
           <h3>Edit Profile</h3>
           <button onClick={(e) => { hidePostModalHandler(e); }}>X</button>
         </div>
-        <form onSubmit={((e) => {
+        <form id="edit-profile-form" onSubmit={((e) => {
           editProfileHandler(e);
         })}>
           <div className="edit-profile top-div">
-            <LPInputDiv hContent="Display Name"></LPInputDiv>
-            <button type="button"><CustomFileInput accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Change Profile Picture</button>            {/* <LPInputDiv hContent="Bio"></LPInputDiv> */}
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "userInfo", "displayName");
+            }} hContent="Display Name"></LPInputDiv>
+            <button type="button"><CustomFileInput accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Change Profile Picture</button>
             <div>
               Bio
-              <textarea></textarea>
+              <textarea onChange={(e) => {
+                handleInputs(e, "sidebarInfo", "personalBio");
+              }}></textarea>
             </div>
           </div>
           <div>
-            <LPInputDiv hContent="Game One" ></LPInputDiv>
-            <LPInputDiv hContent="IGN Game One"></LPInputDiv>
-            <LPInputDiv hContent="Game Two"></LPInputDiv>
-            <LPInputDiv hContent="IGN Game Two"></LPInputDiv>
-            <LPInputDiv hContent="Link One"></LPInputDiv>
-            <LPInputDiv hContent="Link Two"></LPInputDiv>
-            <LPInputDiv hContent="Link Displayed Text One"></LPInputDiv>
-            <LPInputDiv hContent="Link Displayed Text Two"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "gameOne", "games");
+            }} hContent="Game One" ></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "userOne", "games");
+            }} hContent="IGN Game One"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "gameTwo", "games");
+            }} hContent="Game Two"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "userTwo", "games");
+            }} hContent="IGN Game Two"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkOne", "links");
+            }} hContent="Link One"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkTwo", "links");
+            }} hContent="Link Two"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkDisplayOne", "links");
+            }} hContent="Link Displayed Text One"></LPInputDiv>
+            <LPInputDiv inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkDisplayTwo", "links");
+            }} hContent="Link Displayed Text Two"></LPInputDiv>
           </div>
+
+
         </form>
         <div>
-          <button>Submit Changes</button>
+          <button type="submit" form="edit-profile-form">Submit Changes</button>
         </div>
       </Modal>
     </ModalContainer>
