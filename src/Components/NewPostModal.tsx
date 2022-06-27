@@ -170,13 +170,12 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     }
   };
 
-  // A function used to push user data into firestore db;
+  // A function used to add user data into firestore db;
   const storeDataToDb = async (postState: IPostState) => {
     let userPostObjects: IPostState[] = [];
     userPostObjects.push(postState);
 
     if (loggedInData && loggedInData.uid) {
-      // const currentUserDoc = await getUserDoc(loggedInData.uid);
 
       if (currentUserData) {
         const userDocRef = doc(db, "userData", loggedInData.uid);
@@ -202,8 +201,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       return;
     }
     const postStateCopy = { ...postState };
-    // let imgDownloadLink: string;
-    // let videoDownloadLink = 'blank for now';
 
     postStateCopy['postText'] = textAreaRef.current.value;
 
@@ -222,10 +219,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           imageName: imageUploadRef.current.files[0].name
         };
       }
-      // const imgSrc = URL.createObjectURL(imageUploadRef.current.files[0]);
 
-
-      // postStateCopy['postImage'] = imgSrc;
       hidePostModalHandler(e);
     }
 
@@ -240,12 +234,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     };
 
     const testArr = [postStateCopy, ...postArray];
-
-    // const storedPost: IPostState = {
-    //   postText: postStateCopy['postText'],
-    //   postImage: imgDownloadLink,
-    //   postVideo: videoDownloadLink
-    // }
 
     storeDataToDb(postStateCopy);
 
@@ -262,10 +250,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     resetInputs(textAreaRef, imageUploadRef, videoUploadRef);
     hidePostModalHandler(e);
   };
-
-  // Hmm I guess what would happen is a user would create a post etc. and their data would be stored
-  // inside of Firestore db and Firebase storage?? I'm not exactly sure how to pull up their created
-  // data..
 
   return (
     // Will be the PostModal's background (greyed out / a bit blurry)

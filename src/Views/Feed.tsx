@@ -367,15 +367,10 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     fetchTest();
   }, [asyncPostLoad, currentUserData, loggedInData, postArray]);
 
-  // if ((localAuth && !loggedInData)) {
+
+  // if ((postArray.length > 0 && !asyncPostLoad && localAuth)) {
   //   return <div>Loading assets...</div>;
-  // };
-  // console.log(asyncPostLo;ad);
-  // console.log(postArray);
-  // console.log(currentUserData)
-  if (postArray.length > 0 && !asyncPostLoad) {
-    return <div>Loading assets...</div>;
-  }
+  // }
 
   if (artificialLoader < 1 || userPostImages === undefined) {
     return <div>Loading assets...</div>;
