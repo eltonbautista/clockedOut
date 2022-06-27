@@ -1,5 +1,5 @@
 import { doc, updateDoc } from "firebase/firestore";
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import styled from "styled-components";
 import UserContextProvider from "../Contexts/UserContext";
 import { currentUserInfo, db, getUserDoc, updateProfileDetails } from "../firebase-config";
@@ -154,6 +154,34 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
 
+  useEffect(() => {
+    if (loggedInData && currentUserData) {
+      const inputData = {
+        sidebarInfo: {
+          personalBio: currentUserData.sidebar.personalBio,
+          games: {
+            gameOne: currentUserData.sidebar.games.gameOne,
+            userOne: currentUserData.sidebar.games.userOne,
+            gameTwo: currentUserData.sidebar.games.gameTwo,
+            userTwo: currentUserData.sidebar.games.userTwo,
+          },
+          links: {
+            linkOne: currentUserData.sidebar.links.linkOne,
+            linkTwo: currentUserData.sidebar.links.linkTwo,
+            linkDisplayOne: currentUserData.sidebar.links.linkDisplayOne,
+            linkDisplayTwo: currentUserData.sidebar.links.linkDisplayTwo,
+          },
+        },
+        userInfo: {
+          displayName: currentUserData.displayName,
+          photoURL: currentUserData.photoURL,
+        }
+      };
+
+      setEditProfileInputs({ ...inputData });
+    }
+  }, [currentUserData, loggedInData]);
+
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
       stateSetters?.setShowModal({
@@ -168,11 +196,12 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
     const newObj = { ...editProfileInputs };
     if (inputSubFamily) {
       newObj[inputFamily][inputSubFamily][inputName] = e.currentTarget.value;
+      setEditProfileInputs({ ...newObj });
     } else if (!inputSubFamily) {
       newObj[inputFamily][inputName] = e.currentTarget.value;
       setEditProfileInputs({ ...newObj });
     }
-
+    console.log(newObj);
   };
 
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -190,7 +219,12 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
     }
 
   };
-  console.log(loggedInData);
+
+  const { personalBio } = editProfileInputs.sidebarInfo;
+  const { displayName, photoURL } = editProfileInputs.userInfo;
+  const { gameOne, userOne, gameTwo, userTwo } = editProfileInputs.sidebarInfo.games;
+  const { linkDisplayOne, linkOne, linkDisplayTwo, linkTwo } = editProfileInputs.sidebarInfo.links;
+
   return (
     <ModalContainer showModal={showModal} >
       <ModalBackground onClick={(e) => { hidePostModalHandler(e); }} ></ModalBackground>
@@ -203,13 +237,13 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
           editProfileHandler(e);
         })}>
           <div className="edit-profile top-div">
-            <LPInputDiv inputHandler={(e) => {
+            <LPInputDiv inputVal={displayName ? displayName : ''} inputHandler={(e) => {
               handleInputs(e, "userInfo", "displayName");
             }} hContent="Display Name"></LPInputDiv>
             <button type="button"><CustomFileInput accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Change Profile Picture</button>
             <div>
               Bio
-              <textarea onChange={(e) => {
+              <textarea value={personalBio} onChange={(e) => {
                 handleInputs(e, "sidebarInfo", "personalBio");
               }}></textarea>
             </div>
@@ -217,28 +251,30 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
           <div>
             <LPInputDiv inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "gameOne", "games");
-            }} hContent="Game One" ></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
+            }} hContent="Game One" inputVal={gameOne ? gameOne : ''} ></LPInputDiv>
+            <LPInputDiv inputVal={userOne ? userOne : ''} inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "userOne", "games");
             }} hContent="IGN Game One"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
+            <LPInputDiv inputVal={gameTwo ? gameTwo : ''} inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "gameTwo", "games");
             }} hContent="Game Two"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
+            <LPInputDiv inputVal={userTwo ? userTwo : ''} inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "userTwo", "games");
             }} hContent="IGN Game Two"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
+
+
+            <LPInputDiv inputVal={linkOne ? linkOne : ''} inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "linkOne", "links");
-            }} hContent="Link One"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkTwo", "links");
-            }} hContent="Link Two"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkDisplayOne", "links");
             }} hContent="Link Displayed Text One"></LPInputDiv>
-            <LPInputDiv inputHandler={(e) => {
+            <LPInputDiv inputVal={linkTwo ? linkTwo : ''} inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkTwo", "links");
+            }} hContent="Link Displayed Two"></LPInputDiv>
+            <LPInputDiv inputVal={linkDisplayOne ? linkDisplayOne : ''} inputHandler={(e) => {
+              handleInputs(e, "sidebarInfo", "linkDisplayOne", "links");
+            }} hContent="Link One"></LPInputDiv>
+            <LPInputDiv inputVal={linkDisplayTwo ? linkDisplayTwo : ''} inputHandler={(e) => {
               handleInputs(e, "sidebarInfo", "linkDisplayTwo", "links");
-            }} hContent="Link Displayed Text Two"></LPInputDiv>
+            }} hContent="Link Two"></LPInputDiv>
           </div>
 
 
