@@ -336,6 +336,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>();
   const [userPostImages, setUserPostImages] = useState<any>([]);
+  const profilePictureRef = useRef('');
   // HOOKS:
 
   useEffect(() => {
@@ -361,8 +362,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
         const copyCurrData = { ...currentUserData };
         copyCurrData['profilePicture'] = myPFP;
 
+        profilePictureRef.current = myPFP;
         // TODO && BUG::: FOR SOME REASON THIS IS CAUSING AN ASYNC BUG
-        setCurrentUserData({ ...copyCurrData });
+        // setCurrentUserData({ ...copyCurrData });
       }
     };
 
@@ -444,7 +446,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
               }}><a href="#header">Edit</a></StyledSidebarEditBtn>
             </BackgroundCanvas>
 
-            <CircularPicture zIndex="0" marginTop="15%" imgSrc={loggedInData?.photoURL && currentUserData ? currentUserData.profilePicture.src : testpfp2} height="85px" width="85px" />
+            <CircularPicture zIndex="0" marginTop="15%" imgSrc={profilePictureRef.current ? profilePictureRef.current : ''} height="85px" width="85px" />
             <div>
               <a href="asd.com">{loggedInData?.displayName}</a>
               <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
@@ -495,7 +497,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           <StyledSharebox id="feed-sharebox">
 
             <div>
-              <CircularPicture zIndex="0" position="sticky" imgSrc={currentUserData ? currentUserData.profilePicture : cat} height="60px" width="60px" />
+              <CircularPicture zIndex="0" position="sticky" imgSrc={profilePictureRef.current ? profilePictureRef.current : ''} height="60px" width="60px" />
               {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
               <SOButtons onClick={(e) => {
                 setShowModal({
