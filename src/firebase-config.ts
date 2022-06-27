@@ -148,9 +148,6 @@ export async function writeUserData(userData: IDatabaseArgs['userData'], postArr
     }
 
   }
-
-
-
 };
 
 // Function that *gets* ALL user's data. 
@@ -176,7 +173,6 @@ export async function getAllUserData() {
 
 
 export const createUserInformation = async (email: string, password: string, username: string) => {
-
 
   try {
     const profanityList: any = [];

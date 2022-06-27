@@ -2,7 +2,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import React, { useContext, useState } from "react";
 import styled from "styled-components";
 import UserContextProvider from "../Contexts/UserContext";
-import { db, updateProfileDetails } from "../firebase-config";
+import { currentUserInfo, db, getUserDoc, updateProfileDetails } from "../firebase-config";
 import { UserContext } from "../Helpers/contexts";
 import { IHidePostModal, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
 import { palette } from "../Helpers/utils";
@@ -151,7 +151,7 @@ const inputsInit: ISideBarInfo = {
 
 const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
-  const { loggedInData } = useContext(UserContext);
+  const { loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
 
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
@@ -173,19 +173,24 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       setEditProfileInputs({ ...newObj });
     }
 
-    console.log(editProfileInputs);
   };
 
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    const userDocRef = doc(db, "userData", loggedInData!.uid);
     e.preventDefault();
-    console.log(e.currentTarget);
-    // updateProfileDetails()
-    // await updateDoc(userDocRef, {
-    //   // sidebar: 
-    // });
-  };
+    if (loggedInData) {
+      const userDocRef = doc(db, "userData", loggedInData.uid);
+      const { userInfo, sidebarInfo } = editProfileInputs;
+      updateProfileDetails(loggedInData, userInfo.photoURL, userInfo.displayName);
+      await updateDoc(userDocRef, {
+        displayName: editProfileInputs.userInfo.displayName,
+        sidebar: sidebarInfo
+      });
+      const updatedData = await getUserDoc(loggedInData.uid);
+      setCurrentUserData(updatedData);
+    }
 
+  };
+  console.log(loggedInData);
   return (
     <ModalContainer showModal={showModal} >
       <ModalBackground onClick={(e) => { hidePostModalHandler(e); }} ></ModalBackground>

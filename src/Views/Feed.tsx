@@ -165,7 +165,7 @@ const StyledSidebar = styled.div`
   ul > div {
     display: grid;
     grid-auto-flow: column;
-    grid-template-columns: 1fr 1fr;
+    /* grid-template-columns: 1fr 1fr; */
     grid-template-rows: 1fr 1fr;
     justify-content: space-evenly;
     /* width: fit-content; */
@@ -429,21 +429,24 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
               <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
                 return !prevState;
               })} >
-                {sidebarPContent}
+                {currentUserData ? currentUserData.sidebar.personalBio : null}
               </StyledSidebarP>
             </div>
             <ul>
               {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
               {/* allow users to add links and I can add the corresponding icons */}
-              <li>Valorant // waves#6666</li>
-              <li>Bloodhunt // PsychToTech</li>
+              <li>
+                <span>{currentUserData ? currentUserData.sidebar.games.gameOne : null}</span> ||{' '}
+                <span>{currentUserData ? currentUserData.sidebar.games.userOne : null}</span>
+              </li>
+              <li>
+                <span>{currentUserData ? currentUserData.sidebar.games.gameTwo : null}</span> ||{' '}
+                <span>{currentUserData ? currentUserData.sidebar.games.userTwo : null}</span>
+              </li>
               <div>
-                <li><a href="test" >Steam</a></li>
-                <li><a href="test" >Github</a></li>
-                <li><a href="test" >Twitter</a></li>
-                <li><a href="test" >Something</a></li>
+                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.links.linkDisplayOne : null} >{currentUserData ? currentUserData.sidebar.links.linkOne : null}</a></li>
+                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.links.linkDisplayTwo : null} >{currentUserData ? currentUserData.sidebar.links.linkTwo : null}</a></li>
               </div>
-
             </ul>
           </div>
 
