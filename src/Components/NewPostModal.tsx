@@ -157,7 +157,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const { showModal, stateSetters } = props;
   // Function used to hide PostModal, and allow scrolling. 
 
-  const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData } = useContext(UserContext);
+  const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const imageUploadRef = useRef<HTMLInputElement>(null);
@@ -176,19 +176,22 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     userPostObjects.push(postState);
 
     if (loggedInData && loggedInData.uid) {
-      const currentUserDoc = await getUserDoc(loggedInData.uid);
+      // const currentUserDoc = await getUserDoc(loggedInData.uid);
 
-      if (currentUserDoc) {
+      if (currentUserData) {
         const userDocRef = doc(db, "userData", loggedInData.uid);
 
-        userPostObjects = [...userPostObjects, ...currentUserDoc.posts];
+        userPostObjects = [...userPostObjects, ...currentUserData.posts];
 
         await updateDoc(userDocRef, {
           posts: userPostObjects
         });
 
-      } else if (!currentUserDoc) {
+      } else if (!currentUserData) {
+        console.log('no userDocs yet');
         await writeUserData(loggedInData, userPostObjects);
+        const data = await getUserDoc(loggedInData.uid);
+        setCurrentUserData(data);
       }
     }
   };

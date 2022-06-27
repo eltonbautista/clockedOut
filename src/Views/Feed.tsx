@@ -328,8 +328,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     async function fetchTest() {
       const objectArr: IPostState[] = [];
       const imageArray: any = [];
-      console.log(loggedInData);
-      console.log(currentUserData);
+
       try {
         if (postArray.length > 0 && loggedInData && currentUserData && currentUserData.posts.length > 0) {
           for await (const post of postArray) {
@@ -371,7 +370,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   // if ((localAuth && !loggedInData)) {
   //   return <div>Loading assets...</div>;
   // };
-
+  // console.log(asyncPostLo;ad);
+  // console.log(postArray);
+  // console.log(currentUserData)
   if (postArray.length > 0 && !asyncPostLoad) {
     return <div>Loading assets...</div>;
   }
