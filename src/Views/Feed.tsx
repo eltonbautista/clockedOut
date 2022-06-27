@@ -349,11 +349,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     asynCaller();
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
-  // if (loggedInData && currentUserData) {
-  //   console.log(currentUserData.profilePicture);
-  //   console.log(loggedInData.photoURL);
-  // }
-
   useEffect(() => {
     const loadImage = async () => {
       if (loggedInData && loggedInData.photoURL && currentUserData) {
@@ -363,8 +358,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
         copyCurrData['profilePicture'] = myPFP;
 
         profilePictureRef.current = myPFP;
-        // TODO && BUG::: FOR SOME REASON THIS IS CAUSING AN ASYNC BUG
-        // setCurrentUserData({ ...copyCurrData });
       }
     };
 
