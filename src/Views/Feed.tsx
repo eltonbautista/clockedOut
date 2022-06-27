@@ -10,7 +10,7 @@ import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
 import { useCallback } from "react";
-import { downloadImage, getUserDoc, storage, updateProfilePicture } from "../firebase-config";
+import { downloadImage, getUserDoc, storage, updateProfileDetails } from "../firebase-config";
 import { getBlob, ref, listAll } from "firebase/storage";
 import { DocumentData } from "firebase/firestore";
 import EditSidebarModal from "../Components/EditSidebarModal";

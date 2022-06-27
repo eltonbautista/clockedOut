@@ -204,9 +204,10 @@ export const createUserInformation = async (email: string, password: string, use
 
 };
 
-export const updateProfilePicture = (pfp: string | null | undefined, user: User) => {
+export const updateProfileDetails = (user: User, photoURL: string | null | undefined, displayName: string | null | undefined) => {
   updateProfile(user, {
-    photoURL: pfp,
+    photoURL,
+    displayName,
   });
 };
 

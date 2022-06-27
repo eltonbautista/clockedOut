@@ -163,7 +163,8 @@ export interface ISideBarInfo {
     links: {
       linkOne?: string;
       linkTwo?: string;
-      linkThree?: string;
+      linkDisplayOne?: string;
+      linkDisplayTwo?: string;
     };
   };
 }

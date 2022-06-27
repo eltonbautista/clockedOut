@@ -145,7 +145,7 @@ const PostModalContainer = styled.div<INewPostModal>`
 }
 `;
 
-const CustomFileInput = styled.input`
+export const CustomFileInput = styled.input`
   position: absolute;
   width: 100px;
   opacity: 0;
