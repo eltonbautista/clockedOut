@@ -88,7 +88,7 @@ export interface IStyledLPProps {
 }
 
 export interface INewPostModal {
-  showModal?: boolean;
+  showModal?: IModalControl;
   stateSetters?: {
     setOverflowPost: Function,
     setShowModal: Function,
@@ -99,11 +99,16 @@ export interface INewPostModal {
 }
 
 export interface ISidebarModal {
-  showModal?: boolean;
+  showModal?: IModalControl;
   stateSetters?: {
     setOverflowPost: Function,
     setShowModal: Function,
   };
+}
+
+export interface IModalControl {
+  newPostModal: boolean;
+  editSidebarModal: boolean;
 }
 
 export interface IHidePostModal {
@@ -148,6 +153,7 @@ export interface ICurrentUserData {
 
 export interface ISideBarInfo {
   sidebarInfo?: {
+    personalBio: string;
     games: {
       gameOne?: string;
       userOne?: string;

@@ -5,7 +5,7 @@ import { palette } from "../Helpers/utils";
 import LPInputDiv from "./Forms";
 
 const ModalContainer = styled.div<ISidebarModal>`
-  /* visibility: ${props => props.showModal ? "visible" : "hidden"}; */
+  visibility: ${props => props.showModal?.editSidebarModal ? "visible" : "hidden"};
   display: grid;
   position: absolute;
   top: 0;
@@ -75,17 +75,20 @@ const DefaultModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
 
 const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
-
+  console.log(showModal);
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
     if (showModal && e.currentTarget) {
-      stateSetters?.setShowModal(false);
+      stateSetters?.setShowModal({
+        newPostModal: false,
+        editSidebarModal: false
+      });
       stateSetters?.setOverflowPost('auto');
     }
   };
 
   return (
-    <ModalContainer>
-      <ModalBackground></ModalBackground>
+    <ModalContainer showModal={showModal} >
+      <ModalBackground onClick={(e) => { hidePostModalHandler(e); }} ></ModalBackground>
       <Modal>
         <div>Create a Post
           <button onClick={(e) => { hidePostModalHandler(e); }}>X</button>

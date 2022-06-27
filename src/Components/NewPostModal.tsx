@@ -119,7 +119,7 @@ const PostModal = styled.div`
 `;
 
 const PostModalContainer = styled.div<INewPostModal>`
-  visibility: ${props => props.showModal ? "visible" : "hidden"};
+  visibility: ${props => props.showModal?.newPostModal ? "visible" : "hidden"};
   display: grid;
   position: absolute;
   top: 0;
@@ -155,7 +155,7 @@ const CustomFileInput = styled.input`
 
 const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const { showModal, stateSetters } = props;
-  // Function used to hide PostModal, and allow scrolling. 
+
 
   const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
@@ -164,8 +164,12 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const videoUploadRef = useRef<HTMLInputElement>(null);
 
   const hidePostModalHandler = (e: IHidePostModal['event']) => {
+    // Function used to hide PostModal, and allow scrolling. 
     if (showModal && e.currentTarget) {
-      stateSetters?.setShowModal(false);
+      stateSetters?.setShowModal({
+        newPostModal: false,
+        editSidebarModal: false
+      });
       stateSetters?.setOverflowPost('auto');
     }
   };
@@ -220,7 +224,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
         };
       }
 
-      hidePostModalHandler(e);
+      // hidePostModalHandler(e);
     }
 
     if (videoUploadRef.current.files !== null && videoUploadRef.current.files.length > 0) {
