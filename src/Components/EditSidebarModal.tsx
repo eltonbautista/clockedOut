@@ -1,8 +1,9 @@
 import { doc, updateDoc } from "firebase/firestore";
-import React, { useContext, useEffect, useState } from "react";
+import { ref, uploadBytes } from "firebase/storage";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
 import UserContextProvider from "../Contexts/UserContext";
-import { currentUserInfo, db, getUserDoc, updateProfileDetails } from "../firebase-config";
+import { currentUserInfo, db, getUserDoc, storage, updateProfileDetails, writeUserData } from "../firebase-config";
 import { UserContext } from "../Helpers/contexts";
 import { IHidePostModal, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
 import { palette } from "../Helpers/utils";
@@ -153,28 +154,36 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
   const { loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
+  const profilePictureRef = useRef<HTMLInputElement>(null);
 
   useEffect(() => {
+
     if (loggedInData && currentUserData) {
+      const { personalBio } = currentUserData.sidebar;
+      const { displayName, photoURL } = currentUserData;
+      const { gameOne, userOne, gameTwo, userTwo } = currentUserData.sidebar.games;
+      const { linkDisplayOne, linkOne, linkDisplayTwo, linkTwo } = currentUserData.sidebar.links;
+
+
       const inputData = {
         sidebarInfo: {
-          personalBio: currentUserData.sidebar.personalBio,
+          personalBio,
           games: {
-            gameOne: currentUserData.sidebar.games.gameOne,
-            userOne: currentUserData.sidebar.games.userOne,
-            gameTwo: currentUserData.sidebar.games.gameTwo,
-            userTwo: currentUserData.sidebar.games.userTwo,
+            gameOne,
+            userOne,
+            gameTwo,
+            userTwo,
           },
           links: {
-            linkOne: currentUserData.sidebar.links.linkOne,
-            linkTwo: currentUserData.sidebar.links.linkTwo,
-            linkDisplayOne: currentUserData.sidebar.links.linkDisplayOne,
-            linkDisplayTwo: currentUserData.sidebar.links.linkDisplayTwo,
+            linkOne,
+            linkTwo,
+            linkDisplayOne,
+            linkDisplayTwo,
           },
         },
         userInfo: {
-          displayName: currentUserData.displayName,
-          photoURL: currentUserData.photoURL,
+          displayName,
+          photoURL,
         }
       };
 
@@ -201,21 +210,50 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       newObj[inputFamily][inputName] = e.currentTarget.value;
       setEditProfileInputs({ ...newObj });
     }
-    console.log(newObj);
+
+
+
   };
 
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     if (loggedInData) {
+
       const userDocRef = doc(db, "userData", loggedInData.uid);
       const { userInfo, sidebarInfo } = editProfileInputs;
-      updateProfileDetails(loggedInData, userInfo.photoURL, userInfo.displayName);
-      await updateDoc(userDocRef, {
-        displayName: editProfileInputs.userInfo.displayName,
-        sidebar: sidebarInfo
-      });
-      const updatedData = await getUserDoc(loggedInData.uid);
-      setCurrentUserData(updatedData);
+
+      if (!currentUserData) {
+        const sidebarObj = {
+          sidebarInfo,
+          userInfo,
+        };
+
+        await writeUserData(loggedInData, [], sidebarObj);
+      }
+
+      if (profilePictureRef.current && profilePictureRef.current.files !== null) {
+        updateProfileDetails(loggedInData, profilePictureRef.current.files[0].name, userInfo.displayName);
+        const profilePicturePath = loggedInData.uid + "/photoURL/" + profilePictureRef.current.files[0].name;
+        await uploadBytes(ref(storage, profilePicturePath), profilePictureRef.current.files[0]);
+
+        await updateDoc(userDocRef, {
+          displayName: userInfo.displayName,
+          sidebar: sidebarInfo,
+          profilePicture: loggedInData.uid + "/photoURL/" + profilePictureRef.current.files[0].name
+        });
+        const updatedData = await getUserDoc(loggedInData.uid);
+        setCurrentUserData(updatedData);
+      } else if (profilePictureRef.current === undefined || !profilePictureRef) {
+        updateProfileDetails(loggedInData, userInfo.photoURL, userInfo.displayName);
+
+        await updateDoc(userDocRef, {
+          displayName: editProfileInputs.userInfo.displayName,
+          sidebar: sidebarInfo
+        });
+        const updatedData = await getUserDoc(loggedInData.uid);
+        setCurrentUserData(updatedData);
+      }
+
     }
 
   };
@@ -240,7 +278,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
             <LPInputDiv inputVal={displayName ? displayName : ''} inputHandler={(e) => {
               handleInputs(e, "userInfo", "displayName");
             }} hContent="Display Name"></LPInputDiv>
-            <button type="button"><CustomFileInput accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Change Profile Picture</button>
+            <button type="button"><CustomFileInput ref={profilePictureRef} accept=".png, .jpg, .jpeg, .svg" type="file"></CustomFileInput>Change Profile Picture</button>
             <div>
               Bio
               <textarea value={personalBio} onChange={(e) => {

@@ -348,6 +348,27 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     asynCaller();
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
+  // if (loggedInData && currentUserData) {
+  //   console.log(currentUserData.profilePicture);
+  //   console.log(loggedInData.photoURL);
+  // }
+
+  useEffect(() => {
+    const loadImage = async () => {
+      if (loggedInData && loggedInData.photoURL && currentUserData) {
+        const myPFP = URL.createObjectURL(await getBlob(ref(storage, currentUserData.profilePicture)));
+        console.log(myPFP);
+        const copyCurrData = { ...currentUserData };
+        copyCurrData['profilePicture'] = myPFP;
+
+        // TODO && BUG::: FOR SOME REASON THIS IS CAUSING AN ASYNC BUG
+        setCurrentUserData({ ...copyCurrData });
+      }
+    };
+
+    loadImage();
+  }, [currentUserData, loggedInData, setCurrentUserData]);
+
   useEffect(() => {
     async function fetchTest() {
       const objectArr: IPostState[] = [];
@@ -389,7 +410,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     }
 
     fetchTest();
-  }, [asyncPostLoad, currentUserData, loggedInData, postArray]);
+  }, [asyncPostLoad, currentUserData, loggedInData, postArray, setCurrentUserData]);
 
   useEffect(() => {
     document.body.style.overflow = overflowPost;
@@ -423,7 +444,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
               }}><a href="#header">Edit</a></StyledSidebarEditBtn>
             </BackgroundCanvas>
 
-            <CircularPicture zIndex="0" marginTop="15%" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : testpfp2} height="85px" width="85px" />
+            <CircularPicture zIndex="0" marginTop="15%" imgSrc={loggedInData?.photoURL && currentUserData ? currentUserData.profilePicture.src : testpfp2} height="85px" width="85px" />
             <div>
               <a href="asd.com">{loggedInData?.displayName}</a>
               <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
@@ -474,7 +495,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           <StyledSharebox id="feed-sharebox">
 
             <div>
-              <CircularPicture zIndex="0" position="sticky" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : cat} height="60px" width="60px" />
+              <CircularPicture zIndex="0" position="sticky" imgSrc={currentUserData ? currentUserData.profilePicture : cat} height="60px" width="60px" />
               {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
               <SOButtons onClick={(e) => {
                 setShowModal({

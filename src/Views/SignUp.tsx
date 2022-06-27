@@ -66,9 +66,9 @@ export default function SignUp(props: ISignUpProps) {
           <div>
             <h3>Create an account</h3>
             <div>
-              <LPInputDiv inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" inputVal={props.inputFields.email} forIdentifier='email' hContent='Email' />
-              <LPInputDiv inputVal={props.inputFields.username} forIdentifier='username' hContent='Username' />
-              <LPInputDiv inputVal={props.inputFields.password} forIdentifier='password' hContent='Password' />
+              <LPInputDiv inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" forIdentifier='email' hContent='Email' />
+              <LPInputDiv forIdentifier='username' hContent='Username' />
+              <LPInputDiv forIdentifier='password' hContent='Password' />
 
               <SOButtons data-form-submit disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('/login', { replace: true })} noStyle={true} >
