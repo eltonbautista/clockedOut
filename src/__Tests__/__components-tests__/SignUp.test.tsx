@@ -1,4 +1,4 @@
-import { render, screen, cleanup } from "@testing-library/react";
+import { render, screen, cleanup, waitFor } from "@testing-library/react";
 import SignUp from "../../Views/SignUp";
 import Login from "../../Views/Login";
 import App from "../../App";
@@ -138,14 +138,23 @@ describe('Tests for SignUp component', () => {
 
     // console.log(await mockDataRetrieval('123', "123"));
     const promise = await mockDataRetrieval(testEmail, testPassword);
-    if (promise) {
-      act(() => {
-        render(
-          <Feed />
-        );
-      });
-    };
-    expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
+    if (!promise) {
+      return;
+    }
+
+    render(
+      <UserContextProvider>
+        <Feed />
+      </UserContextProvider>
+    );
+
+    await waitFor(async () => {
+      expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
+    });
+
+
+
+
 
   });
 });

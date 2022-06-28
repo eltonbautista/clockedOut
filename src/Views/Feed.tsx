@@ -294,8 +294,6 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   ` : null}
 `;
 
-const sidebarPContent = "Lorem ipsum dolor sit amet consectetur adipisicing elit. Accusamus qui odio mollitia earum deserunt veritatis, necessitatibus saepe delectus sequi iure.";
-
 // To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
 const mapList = (arrayToMap: IPostState[] | undefined) => {
@@ -325,8 +323,6 @@ function testPreload(images: string[]) {
 const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   // VARIABLES, STATES & CONTEXT: 
 
-
-  const { localAuth } = props;
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
   const [overflowPost, setOverflowPost] = useState<'auto' | 'hidden'>('auto');
   const [showModal, setShowModal] = useState<IModalControl>({
@@ -343,6 +339,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     async function asynCaller() {
       if (loggedInData && !currentUserData) {
         const data = await getUserDoc(loggedInData.uid);
+        console.log(data);
         setCurrentUserData(data);
       }
     }
@@ -350,18 +347,13 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
   useEffect(() => {
-    const loadImage = async () => {
+    const loadProfilePicture = async () => {
       if (loggedInData && loggedInData.photoURL && currentUserData) {
         const myPFP = URL.createObjectURL(await getBlob(ref(storage, currentUserData.profilePicture)));
-        console.log(myPFP);
-        const copyCurrData = { ...currentUserData };
-        copyCurrData['profilePicture'] = myPFP;
-
-        profilePictureRef.current = myPFP;
+        profilePictureRef.current = testPreload([myPFP])[0].src;
       }
     };
-
-    loadImage();
+    loadProfilePicture();
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
   useEffect(() => {
@@ -401,24 +393,24 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       catch (error) {
         console.log(error);
       }
-
     }
 
     fetchTest();
   }, [asyncPostLoad, currentUserData, loggedInData, postArray, setCurrentUserData]);
 
+  // Used to change body overflow attribute
   useEffect(() => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
-  // if ((postArray.length > 0 && !asyncPostLoad && localAuth)) {
+  // if ((postArray.length > 0 && !asyncPostLoad)) {
   //   return <div>Loading assets...</div>;
   // }
 
   if (artificialLoader < 1 || userPostImages === undefined) {
     return <div>Loading assets...</div>;
   }
-
+  console.log(currentUserData);
   return (
     <StyledFeed id="feed-container" >
       <NewPostModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>
@@ -445,23 +437,23 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
               <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
                 return !prevState;
               })} >
-                {currentUserData ? currentUserData.sidebar.personalBio : null}
+                {currentUserData ? currentUserData.sidebar.sidebarInfo.personalBio : ''}
               </StyledSidebarP>
             </div>
             <ul>
               {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
               {/* allow users to add links and I can add the corresponding icons */}
               <li>
-                <span>{currentUserData ? currentUserData.sidebar.games.gameOne : null}</span> ||{' '}
-                <span>{currentUserData ? currentUserData.sidebar.games.userOne : null}</span>
+                <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.gameOne : ' '}</span> ||{' '}
+                <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.userOne : ' '}</span>
               </li>
               <li>
-                <span>{currentUserData ? currentUserData.sidebar.games.gameTwo : null}</span> ||{' '}
-                <span>{currentUserData ? currentUserData.sidebar.games.userTwo : null}</span>
+                <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.gameTwo : ' '}</span> ||{' '}
+                <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.userTwo : ' '}</span>
               </li>
               <div>
-                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.links.linkDisplayOne : null} >{currentUserData ? currentUserData.sidebar.links.linkOne : null}</a></li>
-                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.links.linkDisplayTwo : null} >{currentUserData ? currentUserData.sidebar.links.linkTwo : null}</a></li>
+                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.sidebarInfo.links.linkDisplayOne : ' '} >{currentUserData ? currentUserData.sidebar.sidebarInfo.links.linkOne : ' '}</a></li>
+                <li><a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.sidebarInfo.links.linkDisplayTwo : ' '} >{currentUserData ? currentUserData.sidebar.sidebarInfo.links.linkTwo : ' '}</a></li>
               </div>
             </ul>
           </div>

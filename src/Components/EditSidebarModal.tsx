@@ -127,7 +127,7 @@ const DefaultModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   );
 };
 
-const inputsInit: ISideBarInfo = {
+export const inputsInit: ISideBarInfo = {
   sidebarInfo: {
     personalBio: '',
     games: {
@@ -159,11 +159,10 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   useEffect(() => {
 
     if (loggedInData && currentUserData) {
-      const { personalBio } = currentUserData.sidebar;
-      const { displayName, photoURL } = currentUserData;
-      const { gameOne, userOne, gameTwo, userTwo } = currentUserData.sidebar.games;
-      const { linkDisplayOne, linkOne, linkDisplayTwo, linkTwo } = currentUserData.sidebar.links;
-
+      const { personalBio } = currentUserData.sidebar.sidebarInfo;
+      const { displayName, photoURL } = currentUserData.sidebar.userInfo;
+      const { gameOne, userOne, gameTwo, userTwo } = currentUserData.sidebar.sidebarInfo.games;
+      const { linkDisplayOne, linkOne, linkDisplayTwo, linkTwo } = currentUserData.sidebar.sidebarInfo.links;
 
       const inputData = {
         sidebarInfo: {
@@ -211,8 +210,6 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       setEditProfileInputs({ ...newObj });
     }
 
-
-
   };
 
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -221,13 +218,11 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
 
       const userDocRef = doc(db, "userData", loggedInData.uid);
       const { userInfo, sidebarInfo } = editProfileInputs;
-
+      const sidebarObj = {
+        sidebarInfo,
+        userInfo
+      };
       if (!currentUserData) {
-        const sidebarObj = {
-          sidebarInfo,
-          userInfo,
-        };
-
         await writeUserData(loggedInData, [], sidebarObj);
       }
 
@@ -238,7 +233,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
 
         await updateDoc(userDocRef, {
           displayName: userInfo.displayName,
-          sidebar: sidebarInfo,
+          sidebar: sidebarObj,
           profilePicture: loggedInData.uid + "/photoURL/" + profilePictureRef.current.files[0].name
         });
         const updatedData = await getUserDoc(loggedInData.uid);
@@ -248,7 +243,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
 
         await updateDoc(userDocRef, {
           displayName: editProfileInputs.userInfo.displayName,
-          sidebar: sidebarInfo
+          sidebar: sidebarObj
         });
         const updatedData = await getUserDoc(loggedInData.uid);
         setCurrentUserData(updatedData);

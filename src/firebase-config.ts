@@ -107,7 +107,7 @@ export async function downloadImage(imageName: string, userID: string,) {
   return downloadedBlob;
 }
 
-// Function that is used to *get* the *current* user's document - if it exists. 
+// Function that is used to *get* the *current* user's document - if it exists.
 export async function getUserDoc(userID: string) {
   const docSnap = await getDoc(doc(db, "userData", userID));
 
@@ -122,9 +122,6 @@ export async function getUserDoc(userID: string) {
   }
 }
 
-// Function used to write a user's data.
-// TODO: ONLY NON-EXISTING USERS SHOULD BE ABLE TO WRITE USER DATA, EXISTING USER DATA SHOULD JUST MODIFY VALUES
-//  sidebarInfo?: ISideBarInfo['sidebarInfo'] <=== Add as parameter later
 export async function writeUserData(userData: IDatabaseArgs['userData'], postArray?: IDatabaseArgs['postArray'], sidebar?: ISideBarInfo) {
   if (!userData) {
     return;

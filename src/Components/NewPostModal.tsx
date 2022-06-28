@@ -1,6 +1,6 @@
 import React, { useEffect, useState, useContext, useRef, useLayoutEffect, JSXElementConstructor, useCallback } from "react";
 import styled from "styled-components";
-import { IHidePostModal, INewPostModal, IPostState } from "../Helpers/interface";
+import { IHidePostModal, INewPostModal, IPostState, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
 import { palette, resetInputs } from "../Helpers/utils";
 import { CircularPicture } from "../Views/Feed";
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
@@ -9,6 +9,7 @@ import Post from "./Post";
 import { uploadImage, writeUserData, collections, getUserDoc, db, downloadImage } from "../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
 import { getBlob } from "firebase/storage";
+import { inputsInit } from "./EditSidebarModal";
 
 const PostModal = styled.div`
   display: grid;
@@ -192,7 +193,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
       } else if (!currentUserData) {
         console.log('no userDocs yet');
-        await writeUserData(loggedInData, userPostObjects);
+        await writeUserData(loggedInData, userPostObjects, inputsInit);
         const data = await getUserDoc(loggedInData.uid);
         setCurrentUserData(data);
       }
@@ -217,14 +218,11 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
         await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
 
         const imgSrc = URL.createObjectURL(await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid));
-        console.log(imgSrc);
         postStateCopy['postImage'] = {
           imageURL: imgSrc,
           imageName: imageUploadRef.current.files[0].name
         };
       }
-
-      // hidePostModalHandler(e);
     }
 
     if (videoUploadRef.current.files !== null && videoUploadRef.current.files.length > 0) {
