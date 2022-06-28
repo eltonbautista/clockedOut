@@ -178,17 +178,24 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     let userPostObjects: IPostState[] = [];
     userPostObjects.push(postState);
 
+
+
     if (loggedInData && loggedInData.uid) {
 
       if (currentUserData) {
+
         const userDocRef = doc(db, "userData", loggedInData.uid);
+
         if (currentUserData.posts.length === 0) {
+          await updateDoc(userDocRef, {
+            posts: userPostObjects
+          });
+          console.log('update data if post length 0');
           const data = await getUserDoc(loggedInData.uid);
           setCurrentUserData(data);
         }
 
         userPostObjects = [...userPostObjects, ...currentUserData.posts];
-
         await updateDoc(userDocRef, {
           posts: userPostObjects
         });
@@ -201,7 +208,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       }
     }
   };
-
+  // console.log(currentUserData);
   const newPostBtnHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     // TS: cannot call any properties that might be null, so need to make sure they aren't before using them.
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
