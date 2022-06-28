@@ -364,7 +364,11 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
       try {
         if (postArray.length > 0 && loggedInData && currentUserData && currentUserData.posts.length > 0) {
           for await (const post of postArray) {
-            imageArray.push(URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid)));
+            if (post.postImage.imageName && post.postImage.imageName !== '') {
+              imageArray.push(URL.createObjectURL(await downloadImage(post.postImage.imageName, loggedInData?.uid)));
+            } else {
+              imageArray.push('');
+            }
           }
         }
 
@@ -377,7 +381,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
                 postText: postArray[i].postText,
                 postImage: {
                   imageName: postArray[i].postImage.imageName,
-                  imageURL: postArray[i].postImage.imageName ? preloadedImages[i].src : ''
+                  imageURL: postArray[i].postImage.imageName !== '' && postArray[i].postImage.imageName ? preloadedImages[i].src : ''
                 },
                 postVideo: postArray[i].postVideo
               }

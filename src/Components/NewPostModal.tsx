@@ -183,22 +183,18 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     if (loggedInData && loggedInData.uid) {
 
       if (currentUserData) {
-
         const userDocRef = doc(db, "userData", loggedInData.uid);
+        if (currentUserData) {
+          userPostObjects = [...userPostObjects, ...currentUserData.posts];
 
-        if (currentUserData.posts.length === 0) {
           await updateDoc(userDocRef, {
             posts: userPostObjects
           });
-          console.log('update data if post length 0');
-          const data = await getUserDoc(loggedInData.uid);
-          setCurrentUserData(data);
+          const foo = await getUserDoc(loggedInData.uid);
+          console.log(foo);
+          setCurrentUserData(foo);
         }
 
-        userPostObjects = [...userPostObjects, ...currentUserData.posts];
-        await updateDoc(userDocRef, {
-          posts: userPostObjects
-        });
 
       } else if (!currentUserData) {
         console.log('no userDocs yet');

@@ -100,6 +100,7 @@ export async function uploadImage(imageName: string, userID: string, file: File)
 
 // TODO: MIGHT NEED LATER ON
 export async function downloadImage(imageName: string, userID: string,) {
+
   const userImagePath = userID + "/images/" + imageName;
   const postImageRef = ref(storage, userImagePath);
 

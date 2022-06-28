@@ -3,7 +3,7 @@ import { UserContext } from "../Helpers/contexts";
 import { IPostState, IData, IDbUserData } from "../Helpers/interface";
 import { downloadImage, getUserDoc, IUser } from '../firebase-config';
 import { getAllUserData } from "../firebase-config";
-import { DocumentData } from "firebase/firestore";
+import { DocumentData, updateDoc } from "firebase/firestore";
 import Post from "../Components/Post";
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
@@ -53,14 +53,10 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     });
 
   }, [postArray]);
-  console.log(currentUserData);
+
   const setDbPosts = useCallback(async () => {
     if (currentUserData && postArray && loggedInData && currentUserData.userID === loggedInData.uid) {
       if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
-        // console.log(currentUserData);
-        // const data = await getUserDoc(loggedInData.uid);
-        // console.log(data);
-        // setCurrentUserData(data);
         setPostArray([...postArray, ...currentUserData.posts]);
       }
     }
