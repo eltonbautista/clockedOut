@@ -113,12 +113,13 @@ const StyledLCS = styled.div`
 
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
+  const { pfp, video, img } = props;
   const { loggedInData } = useContext(UserContext);
   return (
     <StyledPost className="user-post">
 
       <StyledUserInfo className="user-info">
-        <CircularPicture zIndex="0" position="sticky" imgSrc={loggedInData?.photoURL ? loggedInData.photoURL : cat} height="60px" width="60px" />
+        <CircularPicture zIndex="0" position="sticky" imgSrc={pfp ? pfp : cat} height="60px" width="60px" />
         <div>
           <h3>{loggedInData?.displayName}</h3>
           <div>
@@ -132,11 +133,11 @@ const Post: React.FC<IPostProps> = (props) => {
 
       <StyledUserPost className="user-post">
         <p>{props.text}</p>
-        {props.img && !props.video ? <div><img src={props.img} alt={props.img}></img></div> : null}
-        {!props.img && props.video ?
+        {img && !video ? <div><img src={img} alt={img}></img></div> : null}
+        {!img && video ?
           <div>
             <video controls >
-              <source src={props.video} ></source>
+              <source src={video} ></source>
             </video>
           </div> : null}
       </StyledUserPost>

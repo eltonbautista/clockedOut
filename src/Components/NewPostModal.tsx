@@ -155,9 +155,7 @@ export const CustomFileInput = styled.input`
 `;
 
 const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
-  const { showModal, stateSetters } = props;
-
-
+  const { showModal, stateSetters, profilePicture } = props;
   const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
@@ -184,6 +182,10 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
       if (currentUserData) {
         const userDocRef = doc(db, "userData", loggedInData.uid);
+        if (currentUserData.posts.length === 0) {
+          const data = await getUserDoc(loggedInData.uid);
+          setCurrentUserData(data);
+        }
 
         userPostObjects = [...userPostObjects, ...currentUserData.posts];
 
@@ -199,7 +201,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       }
     }
   };
-  // console.log(postArray);
+
   const newPostBtnHandler = async (e: React.FormEvent<HTMLFormElement>) => {
     // TS: cannot call any properties that might be null, so need to make sure they aren't before using them.
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
@@ -270,8 +272,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           }}>
             <div>
               <div>
-                <CircularPicture zIndex="0" position="sticky" imgSrc={testpfp2} height="50px" width="50px" />
-                <span>Robert Kugler</span>
+                <CircularPicture zIndex="0" position="sticky" imgSrc={profilePicture ? profilePicture.current : ''} height="50px" width="50px" />
+                <span>{currentUserData ? currentUserData.displayName : ''}</span>
               </div>
               <textarea placeholder="What would you like to talk about?" ref={textAreaRef} ></textarea>
               <div>

@@ -296,14 +296,14 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
 
 // To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
 
-const mapList = (arrayToMap: IPostState[] | undefined) => {
+const mapList = (arrayToMap: IPostState[] | undefined, pfp?: string) => {
   if (!arrayToMap) {
     return;
   }
   if (arrayToMap.length > 0) {
     return arrayToMap.map((postObj: IPostState, index) => {
       return (
-        <Post key={index} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
+        <Post key={index} pfp={pfp} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
       );
     });
   }
@@ -339,7 +339,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     async function asynCaller() {
       if (loggedInData && !currentUserData) {
         const data = await getUserDoc(loggedInData.uid);
-        console.log(data);
+
         setCurrentUserData(data);
       }
     }
@@ -385,7 +385,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           }
         }
 
-        const componentList = mapList(objectArr);
+        const componentList = mapList(objectArr, profilePictureRef.current);
         if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
           setAsyncPostLoad(componentList);
         }
@@ -410,10 +410,10 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   if (artificialLoader < 1 || userPostImages === undefined) {
     return <div>Loading assets...</div>;
   }
-  console.log(currentUserData);
+
   return (
     <StyledFeed id="feed-container" >
-      <NewPostModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>
+      <NewPostModal showModal={showModal} profilePicture={profilePictureRef} stateSetters={{ setOverflowPost, setShowModal }}></NewPostModal>
       <EditSidebarModal showModal={showModal} stateSetters={{ setOverflowPost, setShowModal }} />
       <StyledScaffoldContainer>
 

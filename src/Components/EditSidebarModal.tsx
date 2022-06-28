@@ -152,7 +152,7 @@ export const inputsInit: ISideBarInfo = {
 
 const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
-  const { loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
+  const { loggedInData, postArray, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
   const profilePictureRef = useRef<HTMLInputElement>(null);
 

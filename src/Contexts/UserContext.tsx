@@ -53,10 +53,11 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
     });
 
   }, [postArray]);
-
+  console.log(currentUserData);
   const setDbPosts = useCallback(async () => {
     if (currentUserData && postArray && loggedInData && currentUserData.userID === loggedInData.uid) {
       if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
+        console.log(currentUserData);
         setPostArray([...postArray, ...currentUserData.posts]);
       }
     }

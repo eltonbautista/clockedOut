@@ -1,6 +1,6 @@
 import { DocumentData } from 'firebase/firestore';
 import { User } from "firebase/auth";
-import React from "react";
+import React, { MutableRefObject } from "react";
 
 
 export interface IData {
@@ -93,9 +93,7 @@ export interface INewPostModal {
     setOverflowPost: Function,
     setShowModal: Function,
   };
-  newPostText?: string;
-  newPostImage?: string;
-  newPostVideo?: string;
+  profilePicture?: MutableRefObject<string>;
 }
 
 export interface ISidebarModal {
