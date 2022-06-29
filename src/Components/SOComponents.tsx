@@ -1,8 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { SOButtons, } from "./Buttons";
-import stylesModule from '../../Styles/SignedOut.module.css';
-import test from '../Styles/assets/78_generated.jpg';
 import { palette } from "../Helpers/utils";
 import { backgroundImages } from "../Helpers/utils";
 import donda from '../Styles/assets/Donda.mp4';
@@ -26,11 +24,8 @@ interface PropsHero {
 const StyledHeroContainer = styled.div`
   display: grid;
   position: relative;
-  /* background-color: black; */
-  /* Hero container background */
-
   
-  > div[data-sohero-body] {
+  .hero.body {
     display: grid;
     width: 100%;
     grid-template-rows: 0.3fr 0.3fr;
@@ -43,12 +38,12 @@ const StyledHeroContainer = styled.div`
     margin-bottom: max(150px, 7%);
   }
 
-  div[data-sohero-text] {
+  .so.hero.text {
     display: grid;
     grid-template-rows: 0.5fr 1fr;
   }
  
-  div[data-sohero-text] > p {
+  .so.hero.text > p {
     width: min(800px, 60%);
     justify-self: center;
     letter-spacing: 0.2px;
@@ -64,7 +59,7 @@ const StyledHeroContainer = styled.div`
     border-bottom: 1px solid ${palette.black};
   }
 
-  div[data-sohero-button-container] {
+  .hero.button-container {
     display: grid;
     grid-template-columns: repeat(2, 0.4fr);
     width: min(800px, 30vw);
@@ -77,7 +72,7 @@ const StyledHeroContainer = styled.div`
     margin-top: min(20px, 2vh);
   }
 
-  div[data-sohero-button-container] > button {
+  .hero.button-container > button {
     /* border & shadow for 3d look */
     border: 2.4px ${palette.white} inset;
     box-shadow: 3px -3px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 4px 10px #302c2c;
@@ -109,14 +104,14 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
   return (
     <StyledHeroContainer data-signed-out data-sohero-background>
 
-      <div data-signed-out data-sohero-body>
-        <div data-sohero-text>
+      <div className="hero body">
+        <div className="so hero text">
           <StyledHeroHeader>
             CREATE CONNECTIONS..
           </StyledHeroHeader>
           <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis?</p>
         </div>
-        <div data-sohero-button-container>
+        <div className="hero button-container">
           <SOButtons onClick={(() => { nav?.('login'); })} color="white" bgColor="black" >Login</SOButtons>
           <SOButtons onClick={(() => { nav?.('sign-up'); })} fontSize={'24px'} >Sign-Up</SOButtons>
         </div>
@@ -167,14 +162,13 @@ const StyledDescContainer = styled.div<PropsDesc>`
 
   
 
-  > div[data-description-first] {
+  > .data-description.first {
     display: grid;
     ${props => !props.imgRight && !props.last ? "padding: 50px 0 50px 0;" : null}
     grid-template-columns: 1fr 0.5fr;
     grid-template-areas: ${props => props.imgRight ? '"text image"' : '"image text"'};
     align-items: center;
     justify-items: center;
-    /* height: 80%; */
     > div > h2 {
       font-size: clamp(32px, 2.5vh, 36px);
       text-align: ${props => props.imgRight ? "left" : "center"};
@@ -185,12 +179,10 @@ const StyledDescContainer = styled.div<PropsDesc>`
     }
 
   }
-
-  > div > div[data-not-div] {
-    /* background-color: black; */
+  
+  .video-div {
     width: 80%;
     border: 20px solid ${palette.black};
-    /* height: 60%; */
     grid-area: image;
     position: relative;
     :hover {
@@ -207,13 +199,10 @@ const StyledDescContainer = styled.div<PropsDesc>`
   filter: drop-shadow(3px 8px 2px rgb(0 0 0 / 0.4));
 }
 
-  > div[data-description-first] > img {
+  > .data-description.first > img {
     width: ${props => props.imgRight ? '70%' : '60%'};
     height: ${props => props.imgRight ? '70%' : '60%'};
     ${props => !props.imgRight && !props.last ? "grid-area: null;" : "grid-area: image;"}
-    /* grid-area: image; */
-    /* opacity: ${props => props.last ? "0" : null}; */
-    /* opacity: 0; */
     padding: 0;
     margin: 0;
     visibility: visible;
@@ -231,7 +220,7 @@ const StyledDescContainer = styled.div<PropsDesc>`
 
   }
 
-  > div[data-description-first] > div:last-of-type {
+  > .data-description.first > div:last-of-type {
     width: 80%;
     grid-area: text;
     color: ${props => props.imgRight ? `${palette.black}` : "#ffffff"};
@@ -242,7 +231,6 @@ const StyledDescContainer = styled.div<PropsDesc>`
   }
 
 `;
-
 
 
 const SODescriptionContainers: React.FC<PropsDesc> = ({
@@ -257,9 +245,9 @@ const SODescriptionContainers: React.FC<PropsDesc> = ({
           </svg>
         </div> : null}
 
-      <div data-description-first >
+      <div data-description-first className="data-description first" >
         {!last && !imgRight &&
-          <div data-not-div>
+          <div className="video-div">
             <video id="my-video" onMouseLeave={(e) => e.currentTarget.pause()} onMouseOver={(e) => e.currentTarget.play()} controls >
               <source src={donda} type="video/mp4"></source>
             </video>

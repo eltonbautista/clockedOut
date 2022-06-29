@@ -1,21 +1,16 @@
+import React from 'react';
 import { IResetInputs, IDbUserData, IPostState } from './interface';
 import { User } from "firebase/auth";
 import { DocumentData } from 'firebase/firestore';
-import React from 'react';
-
 
 // Background images:
 import viper from '../Styles/assets/valResized.jpg';
 import ken from '../Styles/assets/fighter.svg';
 import animeGirl from '../Styles/assets/animeGirl.jpg';
 import zed from '../Styles/assets/zed.jpg';
-import { text } from 'stream/consumers';
 
 // Test images:
 import testpfp2 from "../Styles/assets/testpfp2.jpg";
-import { downloadImage } from '../firebase-config';
-
-// import { profanities } from 'profanities';
 
 export const createLocalInfo = async (userInfo: User | null | undefined) => {
   const currentLocalInfo = localStorage.getItem('loginInfo');

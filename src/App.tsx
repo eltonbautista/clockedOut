@@ -1,16 +1,13 @@
-import React, { useState, useEffect, useContext, useCallback } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import './Styles/App.css';
 import { Outlet, useNavigate, Routes, Route } from 'react-router-dom';
 import styled from 'styled-components';
 import { UserContext } from './Helpers/contexts';
-import { IData, IDbUserData, ILoginInput, IPostState } from './Helpers/interface';
-import { signingIn, IUser, auth, getAllUserData, getUserDoc } from './firebase-config';
-import { onAuthStateChanged } from 'firebase/auth';
+import { IData, ILoginInput } from './Helpers/interface';
+import { signingIn, getAllUserData } from './firebase-config';
 import Navbar from './Components/Navbar';
-import { createLocalInfo, filterPosts, palette, createFields, toPostStateObjects, } from './Helpers/utils';
+import { createLocalInfo, palette, createFields, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
-import { couldStartTrivia } from 'typescript';
-import { User } from 'firebase/auth';
 import EditSidebarModal from './Components/EditSidebarModal';
 
 const StyledHeader = styled.header`
@@ -37,7 +34,7 @@ const App: React.FC = function App() {
   const [userLoginData, setUserLoginData] = useState(initLoginData);
   const [userSignUpData, setUserSignUpData] = useState(initSignUpData);
   const [localInfo, setLocalInfo] = useState<string | null>(localStorage.getItem('loginInfo'));
-  const { postArray, setPostArray, postState, setPostState, loggedInData, setLoggedInData, allUsersData, setAllUsersData } = useContext(UserContext);
+  const { setPostArray, loggedInData, setLoggedInData, setAllUsersData } = useContext(UserContext);
 
   // HOOKS:
 
@@ -100,7 +97,6 @@ const App: React.FC = function App() {
         <Route path='/' element={<SignedOut localAuth={localInfo} nav={navigate} stateAuth={loggedInData} />}></Route>
         <Route path='/login' element={<Login localAuth={localInfo} inputFields={userLoginData} submitHandler={loginHandler} nav={navigate} stateAuth={loggedInData} />}></Route>
         <Route path='/sign-up' element={<SignUp signUpData={{ userSignUpData, setUserSignUpData }} localAuth={localInfo} inputFields={userSignUpData} nav={navigate} stateAuth={loggedInData} />}></Route>
-        <Route path='/temporary' element={<EditSidebarModal />}></Route>
 
         {/* Private Routes: */}
         <Route path='/feed'

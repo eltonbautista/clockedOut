@@ -3,7 +3,6 @@ import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import { ILoginProps } from "../Helpers/interface";
 import { Navigate } from 'react-router-dom';
-import { palette } from '../Helpers/utils';
 import { backgroundImages } from '../Helpers/utils';
 import { IStyledLPProps } from '../Helpers/interface';
 import { UserContext } from '../Helpers/contexts';
@@ -32,7 +31,7 @@ export const StyledForm = styled.form`
     margin-top: 7.5px;
   }
 
-  button[data-form-submit] {
+  .form-submit-button {
     margin-bottom: 10px;
   };
 `;
@@ -45,7 +44,6 @@ export const StyledFormContainers = styled.div`
 export const StyledLoginPage = styled.div<IStyledLPProps>`
   display: grid;
   justify-content: center;
-  /* background-color: ${palette.pink}; */
   background-image: ${props => props.bgImg === 'login' ? `url(${backgroundImages[2].src})` : `url(${backgroundImages[3].src})`};
   background-size: fill;
   background-attachment: fixed;
@@ -53,7 +51,7 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
   height: 100vh;
 
 
-  div[data-lp-inputs-container] {
+  .inputs-container {
     font-family: jostLight, Arial, Helvetica, sans-serif;
     display: grid;
     gap: 7.5px;
@@ -84,12 +82,12 @@ export default function Login(props: ILoginProps) {
             <h3>Welcome back!</h3>
             <p>Fun times are awaitin' ya!</p>
           </div>
-          <div data-lp-inputs-container>
-            <LPInputDiv data-testid='email-field' forIdentifier='email' hContent="Email" />
-            <LPInputDiv data-testid='password-field' forIdentifier='password' hContent="Password" />
+          <div className='lp inputs-container'>
+            <LPInputDiv required data-testid='email-field' forIdentifier='email' hContent="Email" />
+            <LPInputDiv required data-testid='password-field' forIdentifier='password' hContent="Password" />
           </div>
           <div>
-            <SOButtons data-form-submit type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
+            <SOButtons className='lp form-submit-button' type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
             <SOButtons type='button' noStyle={true} onClick={() => nav?.('sign-up', { replace: true })} >
               <ButtonHeader>Don't have an account?</ButtonHeader>
             </SOButtons>

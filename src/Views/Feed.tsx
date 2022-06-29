@@ -294,8 +294,6 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   ` : null}
 `;
 
-// To create a bigger background canvas w/ pfp I put both elements into one div then style accordingly
-
 const mapList = (arrayToMap: IPostState[] | undefined, pfp?: string) => {
   if (!arrayToMap) {
     return;
@@ -320,7 +318,7 @@ function testPreload(images: string[]) {
 };
 
 
-const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
+const Feed: React.FC<IFeedProps> = () => {
   // VARIABLES, STATES & CONTEXT: 
 
   const [personalBio, setPersonalBio] = useState<boolean | undefined>(false);
@@ -329,7 +327,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     newPostModal: false,
     editSidebarModal: false
   });
-  const { postArray, setPostArray, loggedInData, allUsersData, setAllUsersData, artificialLoader, currentUserData, setCurrentUserData } = useContext(UserContext);
+  const { postArray, loggedInData, artificialLoader, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [asyncPostLoad, setAsyncPostLoad] = useState<ReactNode[] | undefined>();
   const [userPostImages, setUserPostImages] = useState<any>([]);
   const profilePictureRef = useRef('');
@@ -339,7 +337,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     async function asynCaller() {
       if (loggedInData && !currentUserData) {
         const data = await getUserDoc(loggedInData.uid);
-
         setCurrentUserData(data);
       }
     }
@@ -347,6 +344,9 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
   useEffect(() => {
+
+
+
     const loadProfilePicture = async () => {
       if (loggedInData && loggedInData.photoURL && currentUserData) {
         const myPFP = URL.createObjectURL(await getBlob(ref(storage, currentUserData.profilePicture)));
@@ -407,10 +407,6 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
-  // if ((postArray.length > 0 && !asyncPostLoad)) {
-  //   return <div>Loading assets...</div>;
-  // }
-
   if (artificialLoader < 1 || userPostImages === undefined) {
     return <div>Loading assets...</div>;
   }
@@ -426,7 +422,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
           <div className="feed-sidebar-upper">
 
             <BackgroundCanvas sidebar>
-              <StyledSidebarEditBtn onClick={(e) => {
+              <StyledSidebarEditBtn onClick={() => {
                 setShowModal({
                   newPostModal: false,
                   editSidebarModal: true
@@ -438,7 +434,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
             <CircularPicture zIndex="0" marginTop="15%" imgSrc={profilePictureRef.current ? profilePictureRef.current : ''} height="85px" width="85px" />
             <div>
               <a href="asd.com">{loggedInData?.displayName}</a>
-              <StyledSidebarP clicked={personalBio} onClick={(e) => setPersonalBio(prevState => {
+              <StyledSidebarP clicked={personalBio} onClick={() => setPersonalBio(prevState => {
                 return !prevState;
               })} >
                 {currentUserData ? currentUserData.sidebar.sidebarInfo.personalBio : ''}
@@ -488,7 +484,7 @@ const Feed: React.FC<IFeedProps> = (props: IFeedProps) => {
             <div>
               <CircularPicture zIndex="0" position="sticky" imgSrc={profilePictureRef.current ? profilePictureRef.current : ''} height="60px" width="60px" />
               {/* IMPORTANT: When user clicks this button it will create a <Post /> inside of the {children} prop in <StyledFeedContent id="feed-social-content"> */}
-              <SOButtons onClick={(e) => {
+              <SOButtons onClick={() => {
                 setShowModal({
                   newPostModal: true,
                   editSidebarModal: false

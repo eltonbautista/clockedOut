@@ -4,11 +4,9 @@ import { IPrivateRouteProps } from "../Helpers/interface";
 
 const PrivateRoute: React.FC<IPrivateRouteProps> = (props: IPrivateRouteProps) => {
   const { children, stateAuth, localAuth } = props;
-  // LEAVE FOR NOW: 
-  // const routeAuth = auth.currentUser;
 
   if (!stateAuth && localAuth) {
-    return <div>loading assets..</div>;
+    return <div>Loading assets..</div>;
   }
 
   return stateAuth ? children : <Navigate replace to="/login" />;
