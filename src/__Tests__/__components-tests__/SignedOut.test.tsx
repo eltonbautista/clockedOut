@@ -1,10 +1,5 @@
-import { getByText, render, screen } from "@testing-library/react";
-import React from "react";
-import { act } from "react-dom/test-utils";
-import userEvent from "@testing-library/user-event";
-
+import { render, screen } from "@testing-library/react";
 import SignedOut from "../../Views/SignedOut";
-
 import { SODescriptionContainers, } from "../../Components/SOComponents";
 import { SOButtons } from "../../Components/Buttons";
 import { BrowserRouter } from "react-router-dom";

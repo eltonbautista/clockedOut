@@ -334,30 +334,24 @@ const Feed: React.FC<IFeedProps> = () => {
   // HOOKS:
 
   useEffect(() => {
-    async function asynCaller() {
+
+    const asynCaller = async () => {
+      // When user logs in, create a call to Firestore and retrieve user's data
       if (loggedInData && !currentUserData) {
         const data = await getUserDoc(loggedInData.uid);
         setCurrentUserData(data);
       }
-    }
-    asynCaller();
-  }, [currentUserData, loggedInData, setCurrentUserData]);
-
-  useEffect(() => {
-
-
-
-    const loadProfilePicture = async () => {
+      // Call for user's profile picture, process through preload to improve rendering performance
       if (loggedInData && loggedInData.photoURL && currentUserData) {
         const myPFP = URL.createObjectURL(await getBlob(ref(storage, currentUserData.profilePicture)));
         profilePictureRef.current = testPreload([myPFP])[0].src;
       }
     };
-    loadProfilePicture();
+    asynCaller();
   }, [currentUserData, loggedInData, setCurrentUserData]);
 
   useEffect(() => {
-    async function fetchTest() {
+    async function fetchPosts() {
       const objectArr: IPostState[] = [];
       const imageArray: any = [];
 
@@ -373,7 +367,7 @@ const Feed: React.FC<IFeedProps> = () => {
         }
 
         const preloadedImages = testPreload(imageArray);
-
+        // Recreates my post objects so that imageURL is referencing the downloaded db images
         if (loggedInData && preloadedImages?.length > 0) {
           for (let i = 0; i < postArray.length; i++) {
             objectArr.push(
@@ -388,9 +382,10 @@ const Feed: React.FC<IFeedProps> = () => {
             );
           }
         }
-
+        // Create mapped list of components
         const componentList = mapList(objectArr, profilePictureRef.current);
         if ((asyncPostLoad === undefined && postArray) || (postArray && asyncPostLoad!.length < postArray.length)) {
+          // Create posts
           setAsyncPostLoad(componentList);
         }
       }
@@ -399,7 +394,7 @@ const Feed: React.FC<IFeedProps> = () => {
       }
     }
 
-    fetchTest();
+    fetchPosts();
   }, [asyncPostLoad, currentUserData, loggedInData, postArray, setCurrentUserData]);
 
   // Used to change body overflow attribute

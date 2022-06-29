@@ -2,7 +2,6 @@ import { DocumentData } from 'firebase/firestore';
 import { User } from "firebase/auth";
 import React, { MutableRefObject } from "react";
 
-
 export interface IData {
   email: string;
   username: string;
@@ -51,7 +50,6 @@ export interface IPostProps {
 }
 
 export interface IPrivateRouteProps {
-  // path: string;
   children: React.ReactElement;
   stateAuth: User | string | null | undefined;
   localAuth?: string | null;
@@ -72,7 +70,6 @@ export interface ICircularPictureProps {
   marginTop?: string;
   imgSrc?: string;
   position?: string;
-  // imgAlt?: string;
 }
 
 export interface IBackgroundCanvas {

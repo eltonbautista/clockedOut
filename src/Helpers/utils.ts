@@ -62,10 +62,9 @@ export const palette =
 // Preloaded Images Collection:
 // -----------------------------------------------------------------------------
 
-// Lists of images categorized by use case 
+// Lists of preloaded images categorized by use case 
 const backgroundImages: HTMLImageElement[] = [];
 const testpfp: HTMLImageElement[] = [];
-
 
 // Function used to preload images
 export default function preload(images: string[], fillArr: HTMLImageElement[]) {
@@ -148,6 +147,7 @@ export { backgroundImages, testpfp };
 
 
 // !! This callback was in FEED VIEW. It more focuses on grabbing data & posts from all users, but I was using it to grab the current user's data & posts
+// USED FOR ALL USER POSTS 
 
 // const addCurrentUserDbPostsToLocal = useCallback(async () => {
 //   // callback used for adding db posts to local so they can be rendered on load of the Feed view.

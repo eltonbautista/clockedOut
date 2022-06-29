@@ -8,7 +8,6 @@ import { IData, ILoginInput } from "../../Helpers/interface";
 import Feed from "../../Views/Feed";
 import { signingIn } from "../../firebase-config";
 import UserContextProvider from "../../Contexts/UserContext";
-import { act } from "react-dom/test-utils";
 
 
 const mockDataRetrieval = async (email: string, password: string) => {
@@ -16,7 +15,6 @@ const mockDataRetrieval = async (email: string, password: string) => {
   console.log(myData);
   return myData;
 };
-
 
 const signUpObj: IData = {
   email: '',
@@ -53,7 +51,6 @@ describe('SignUp component tests', () => {
         </UserContextProvider>
 
       </BrowserRouter>);
-
 
     const signUpLink = screen.getAllByRole('button')[1];
     userEvent.click(signUpLink);
@@ -112,7 +109,6 @@ describe('Tests for SignUp component', () => {
     };
     const { testEmail, testPassword } = testData;
 
-
     render(
       <UserContextProvider>
         <Login inputFields={loginObj} />
@@ -130,18 +126,11 @@ describe('Tests for SignUp component', () => {
     expect(password).toHaveValue("123123");
     userEvent.click(loginBtn);
 
-    // This condition will only pass if the testData information actually exists in the database.
-    // Thus, if it passes, we can safely and confidently render <Feed /> manually, because Feed is a privateRoute that is only viewable for authenticated users. 
-    // cleanup();
 
-    // TODO: For some reason the async function is failing now. Not sure why..
-
-    // console.log(await mockDataRetrieval('123', "123"));
     const promise = await mockDataRetrieval(testEmail, testPassword);
     if (!promise) {
       return;
     }
-
     render(
       <UserContextProvider>
         <Feed />
@@ -151,10 +140,6 @@ describe('Tests for SignUp component', () => {
     await waitFor(async () => {
       expect(screen.getByText(/fireteam/i)).toBeInTheDocument();
     });
-
-
-
-
 
   });
 });

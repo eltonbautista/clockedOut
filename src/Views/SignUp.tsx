@@ -1,9 +1,8 @@
-import React, { useContext, useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import LPInputDiv from '../Components/Forms';
 import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import { StyledLoginPage, StyledForm } from './Login';
 import styled from 'styled-components';
-import { UserContext } from '../Helpers/contexts';
 import { IData, ISignUpProps } from "../Helpers/interface";
 import { createUserInformation } from "../firebase-config";
 import { Navigate } from "react-router-dom";
@@ -19,7 +18,7 @@ const StyledSUForm = styled(StyledForm)`
     gap: 7.5px;
   }
 
-  button[data-form-submit] {
+  .submit-form-button {
     margin-bottom: 10px;
   }
 
@@ -30,19 +29,18 @@ const StyledSUForm = styled(StyledForm)`
   background-position: -50px -200px;
   }
 `;
-let buttonSwitch: boolean = false;
 
 export default function SignUp(props: ISignUpProps) {
   const { stateAuth, localAuth } = props;
+  const buttonSwitch = useRef(false);
 
   useEffect(() => {
     const inputs = document.querySelectorAll('input');
-    if (buttonSwitch === true) {
+    if (buttonSwitch.current === true) {
       inputs.forEach(i => {
         i.value = '';
       });
     }
-    // buttonSwitch = false;
   }, []);
 
   if (localAuth && !stateAuth) {
@@ -53,7 +51,8 @@ export default function SignUp(props: ISignUpProps) {
     e.preventDefault();
     const formFields = createFields(e, "signUp");
     if (formFields !== undefined) {
-      buttonSwitch = await createUserInformation(formFields.emailValue, formFields.passwordValue, formFields.usernameValue);
+      // If successful resolves to true
+      buttonSwitch.current = await createUserInformation(formFields.emailValue, formFields.passwordValue, formFields.usernameValue);
     }
     ;
   };
@@ -70,7 +69,7 @@ export default function SignUp(props: ISignUpProps) {
               <LPInputDiv forIdentifier='username' hContent='Username' />
               <LPInputDiv forIdentifier='password' hContent='Password' />
 
-              <SOButtons data-form-submit disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
+              <SOButtons className="su form-submit-button" disabled={buttonSwitch ? true : false} type='submit' formCheck={true} >Create Account</SOButtons>
               <SOButtons type='button' onClick={() => props.nav?.('/login', { replace: true })} noStyle={true} >
                 <ButtonHeader>
                   Already have an account?

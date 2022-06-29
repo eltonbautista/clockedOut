@@ -1,14 +1,11 @@
-import React, { useEffect, useState, useContext, useRef, useLayoutEffect, JSXElementConstructor, useCallback } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
-import { IHidePostModal, INewPostModal, IPostState, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
+import { IHidePostModal, INewPostModal, IPostState } from "../Helpers/interface";
 import { palette, resetInputs } from "../Helpers/utils";
 import { CircularPicture } from "../Views/Feed";
-import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { UserContext } from "../Helpers/contexts";
-import Post from "./Post";
-import { uploadImage, writeUserData, collections, getUserDoc, db, downloadImage } from "../firebase-config";
+import { uploadImage, writeUserData, getUserDoc, db, downloadImage } from "../firebase-config";
 import { updateDoc, doc } from "firebase/firestore";
-import { getBlob } from "firebase/storage";
 import { inputsInit } from "./EditSidebarModal";
 
 const PostModal = styled.div`
@@ -79,7 +76,6 @@ const PostModal = styled.div`
         font-size: clamp(16px, 2vh, 22px);
         
         height: 50%;
-        /* padding: 0; */
         padding: 5px 10px 5px 10px;
         position: relative;
         cursor: pointer;
@@ -87,7 +83,6 @@ const PostModal = styled.div`
         :hover {
           background-color: #e6d9d9;
           border-radius: 30px;
-          /* padding: 5px 10px 5px 10px; */
         }
       }
 
@@ -124,14 +119,13 @@ const PostModalContainer = styled.div<INewPostModal>`
   display: grid;
   position: absolute;
   top: 0;
-  /* background-color: blue; */
   justify-self: center;
   width: 100%;
   height: 100vh;
   justify-items: center;
   align-items: center;
   min-height: fit-content;
-  > div[data-modal-background] {
+  > .modal-background {
     width: 100%;
     height: 100%;
     background-color: rgb(0, 0, 0, 0.75);
@@ -156,15 +150,21 @@ export const CustomFileInput = styled.input`
 
 const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   const { showModal, stateSetters, profilePicture } = props;
-  const { setPostState, postArray, setPostArray, loggedInData, setLoggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
+  const { setPostState, postArray, setPostArray, loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const postState: IPostState = useContext(UserContext).postState;
   const textAreaRef = useRef<HTMLTextAreaElement>(null);
   const imageUploadRef = useRef<HTMLInputElement>(null);
   const videoUploadRef = useRef<HTMLInputElement>(null);
 
-  const hidePostModalHandler = (e: IHidePostModal['event']) => {
+  const hidePostModalHandler = (e?: IHidePostModal['event']) => {
     // Function used to hide PostModal, and allow scrolling. 
-    if (showModal && e.currentTarget) {
+    if (showModal && e && e.currentTarget) {
+      stateSetters?.setShowModal({
+        newPostModal: false,
+        editSidebarModal: false
+      });
+      stateSetters?.setOverflowPost('auto');
+    } else if (!e) {
       stateSetters?.setShowModal({
         newPostModal: false,
         editSidebarModal: false
@@ -173,55 +173,50 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     }
   };
 
-  // A function used to add user data into firestore db;
   const storeDataToDb = async (postState: IPostState) => {
+    // A function used to add user data into firestore db;
+
     let userPostObjects: IPostState[] = [];
     userPostObjects.push(postState);
+    try {
+      if (loggedInData && loggedInData.uid) {
 
-
-
-    if (loggedInData && loggedInData.uid) {
-
-      if (currentUserData) {
-        const userDocRef = doc(db, "userData", loggedInData.uid);
         if (currentUserData) {
+          const userDocRef = doc(db, "userData", loggedInData.uid);
           userPostObjects = [...userPostObjects, ...currentUserData.posts];
-
           await updateDoc(userDocRef, {
             posts: userPostObjects
           });
-          const foo = await getUserDoc(loggedInData.uid);
-          console.log(foo);
-          setCurrentUserData(foo);
+          const updatedData = await getUserDoc(loggedInData.uid);
+          setCurrentUserData(updatedData);
+        } else if (!currentUserData) {
+          console.log('no userDocs yet');
+          await writeUserData(loggedInData, userPostObjects, inputsInit);
+          const data = await getUserDoc(loggedInData.uid);
+          setCurrentUserData(data);
         }
-
-
-      } else if (!currentUserData) {
-        console.log('no userDocs yet');
-        await writeUserData(loggedInData, userPostObjects, inputsInit);
-        const data = await getUserDoc(loggedInData.uid);
-        setCurrentUserData(data);
       }
+    } catch (error) {
+      console.log(error);
     }
+    hidePostModalHandler();
   };
-  // console.log(currentUserData);
+
   const newPostBtnHandler = async (e: React.FormEvent<HTMLFormElement>) => {
-    // TS: cannot call any properties that might be null, so need to make sure they aren't before using them.
     if (textAreaRef.current === null || imageUploadRef.current === null || videoUploadRef.current === null) {
       return;
     }
+    // Create copy of postState to make changes to
     const postStateCopy = { ...postState };
-
     postStateCopy['postText'] = textAreaRef.current.value;
 
-    // For the next two if clauses, postImage and postvideo will only update if there are actually files uploaded
+    // For the next two if clauses, postImage and postVideo will only update if there are actually files uploaded
     // This is the case because this is when I will save my files to Firebase db.
 
     if (imageUploadRef.current.files !== null && imageUploadRef.current.files.length > 0 && loggedInData !== undefined) {
 
       if (loggedInData) {
         await uploadImage(imageUploadRef.current.files[0].name, loggedInData?.uid, imageUploadRef.current.files[0]);
-
         const imgSrc = URL.createObjectURL(await downloadImage(imageUploadRef.current.files[0].name, loggedInData?.uid));
         postStateCopy['postImage'] = {
           imageURL: imgSrc,
@@ -237,16 +232,17 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
 
     if (textAreaRef.current.value === '') {
       console.log('no mas');
+      alert('Please add some text before posting');
       return;
     };
 
-    const testArr = [postStateCopy, ...postArray];
+    const postArrayCopy = [postStateCopy, ...postArray];
 
     storeDataToDb(postStateCopy);
 
     // set new states, mainly for creating new posts locally - but this state is integrated into db post collection
     setPostState({ ...postStateCopy });
-    setPostArray([...testArr]);
+    setPostArray([...postArrayCopy]);
 
     // after necessary info is used, reset postState and inputs.
     setPostState({
@@ -259,9 +255,8 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
   };
 
   return (
-    // Will be the PostModal's background (greyed out / a bit blurry)
     <PostModalContainer showModal={showModal} id="post-modal-container" >
-      <div data-modal-background onClick={(e) => { hidePostModalHandler(e); }}></div>
+      <div className="modal-background" onClick={(e) => { hidePostModalHandler(e); }}></div>
       <PostModal >
         <div>
           {/* div on top of form area */}
@@ -271,7 +266,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           <form id="new-post-form" onSubmit={(e) => {
             e.preventDefault();
             newPostBtnHandler(e);
-            // storeDataToDb();
           }}>
             <div>
               <div>

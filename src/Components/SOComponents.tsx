@@ -50,13 +50,21 @@ const StyledHeroContainer = styled.div`
     
     font-size: clamp(14px, 2.5vh, 26px);
     font-family: jostLight, Arial, Helvetica, sans-serif;
-    font-weight: 600;
-    color: ${palette.black};
+    /* font-weight: 600; */
+    color: rgb(43, 43, 43);
 
     margin-top: max(10px, 0.8vh);
     padding-bottom: 10px;
     z-index: 1;
     border-bottom: 1px solid ${palette.black};
+
+    ::after {
+      content: "DISCLAIMER: This project is purely for personal use, and no means monetized in *any* way. Under no circumstances am I affiliated with the IP's in the images used.";
+      font-size: 14px;
+      position: absolute;
+      transform: translate(-82.5%, 130%);
+
+    }
   }
 
   .hero.button-container {
@@ -69,7 +77,7 @@ const StyledHeroContainer = styled.div`
     align-items: center;
     gap: 20px;
     z-index: 1;
-    margin-top: min(20px, 2vh);
+    transform: translateY(min(70px, 7vh));
   }
 
   .hero.button-container > button {
@@ -97,6 +105,7 @@ const StyledHeroContainer = styled.div`
   position: absolute;
   }
 `;
+const heroText = 'clockedOut is a web application dedicated to helping gamers find gamers alike! How often do you find yourself trying to find friends to play a specific video game with? If you find yourself always needing to hop into a new LFG community to find friends to play that new game you are interested in, look no further! clockedOut brings all gamers, no matter your age, or location, under one roof.';
 
 const SOHeroContainer: React.FC<PropsHero> = (props) => {
   const { nav } = props;
@@ -107,9 +116,9 @@ const SOHeroContainer: React.FC<PropsHero> = (props) => {
       <div className="hero body">
         <div className="so hero text">
           <StyledHeroHeader>
-            CREATE CONNECTIONS..
+            CREATE CONNECTIONS...
           </StyledHeroHeader>
-          <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Saepe cum iure sunt amet facilis cumque quos vero adipisci explicabo? Laudantium pariatur sed officia architecto ipsa harum asperiores fugit fugiat officiis?</p>
+          <p>{heroText}</p>
         </div>
         <div className="hero button-container">
           <SOButtons onClick={(() => { nav?.('login'); })} color="white" bgColor="black" >Login</SOButtons>

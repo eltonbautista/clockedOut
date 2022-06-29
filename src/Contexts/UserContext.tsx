@@ -1,10 +1,7 @@
-import React, { useState, useMemo, ReactNode, useEffect, useRef, useCallback } from "react";
+import React, { useState, useMemo, ReactNode, useEffect, useCallback } from "react";
 import { UserContext } from "../Helpers/contexts";
-import { IPostState, IData, IDbUserData } from "../Helpers/interface";
-import { downloadImage, getUserDoc, IUser } from '../firebase-config';
-import { getAllUserData } from "../firebase-config";
-import { DocumentData, updateDoc } from "firebase/firestore";
-import Post from "../Components/Post";
+import { IPostState, IDbUserData } from "../Helpers/interface";
+import { IUser } from '../firebase-config';
 import { onAuthStateChanged } from "firebase/auth";
 import { auth } from "../firebase-config";
 

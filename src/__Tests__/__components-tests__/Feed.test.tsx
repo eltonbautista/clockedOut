@@ -1,3 +1,4 @@
+/* eslint-disable testing-library/no-unnecessary-act */
 import { render, screen, waitFor } from "@testing-library/react";
 import userEvent from "@testing-library/user-event";
 import Feed from "../../Views/Feed";
@@ -37,8 +38,6 @@ describe('Tests for Feed component', () => {
       expect(screen.getByRole('link', { name: 'Write a Post' })).toBeInTheDocument();
     }, { timeout: 1300 });
 
-
-
   });
 
   it('should create a new post', async () => {
@@ -48,9 +47,6 @@ describe('Tests for Feed component', () => {
       </UserContextProvider>);
     const mockPostText = 'This should render onto the page';
 
-
-
-    // eslint-disable-next-line testing-library/no-unnecessary-act
     act(async () => {
 
       await waitFor(() => {
@@ -69,7 +65,5 @@ describe('Tests for Feed component', () => {
     });
 
   });
-
-
 
 });
