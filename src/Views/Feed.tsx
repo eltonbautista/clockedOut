@@ -358,7 +358,7 @@ const mapList = (arrayToMap: IPostState[] | undefined, pfp?: string) => {
   if (arrayToMap.length > 0) {
     return arrayToMap.map((postObj: IPostState, index) => {
       return (
-        <Post key={index} pfp={pfp} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
+        <Post key={index} postPosition={index} pfp={pfp} video={postObj['postVideo']} img={postObj['postImage']?.imageURL} text={postObj['postText']} />
       );
     });
   }
@@ -434,7 +434,9 @@ const Feed: React.FC<IFeedProps> = () => {
                   imageName: postArray[i].postImage.imageName,
                   imageURL: postArray[i].postImage.imageName !== '' && postArray[i].postImage.imageName ? preloadedImages[i].src : ''
                 },
-                postVideo: postArray[i].postVideo
+                postVideo: postArray[i].postVideo,
+                postLikes: postArray[i].postLikes,
+                postComments: postArray[i].postComments
               }
             );
           }

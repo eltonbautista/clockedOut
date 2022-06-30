@@ -9,8 +9,29 @@ interface IUserContextProvider {
   children: ReactNode;
 }
 
+// interface IPostStateWithMethods extends IPostState {
+//   toggleLike: typeof toggleLike;
+// }
+
+// const toggleLike = (obj: IPostState | IPostStateWithMethods, liked: boolean) => {
+//   if (obj['postLikes'] !== undefined) {
+//     console.log(obj['postLikes']);
+
+//     if (liked === true) {
+//       obj['postLikes'] += 1;
+//     } else
+//       if (liked === false) {
+//         obj['postLikes'] -= 1;
+//       }
+
+//     console.log(obj['postLikes']);
+//   }
+//   return obj;
+// };
+
 const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContextProvider) => {
   const { children } = props;
+
 
   const initPostData: IPostState = {
     postText: '',
@@ -19,6 +40,9 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
       imageURL: ''
     },
     postVideo: '',
+
+    postLikes: 0,
+    postComments: [],
   };
 
 
@@ -28,7 +52,6 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
   const [allUsersData, setAllUsersData] = useState<IDbUserData['userDocument']>([]);
   const [artificialLoader, setArtificialLoader] = useState(0);
   const [currentUserData, setCurrentUserData] = useState<any>();
-
 
   useEffect(() => {
     // an effect that checks if a user is authenticated or not. If(auth) then set loggedInData
@@ -51,13 +74,15 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
 
   }, [postArray]);
 
+
+
   const setDbPosts = useCallback(async () => {
+
     if (currentUserData && postArray && loggedInData && currentUserData.userID === loggedInData.uid) {
       if (currentUserData.posts !== undefined && postArray.length < currentUserData.posts.length) {
         setPostArray([...postArray, ...currentUserData.posts]);
       }
     }
-
   }, [currentUserData, loggedInData, postArray]);
 
   useEffect(() => {
