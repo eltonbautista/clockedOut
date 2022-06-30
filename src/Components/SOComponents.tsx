@@ -63,7 +63,11 @@ const StyledHeroContainer = styled.div`
       font-size: 14px;
       position: absolute;
       width: min(800px, 90%);
-      transform: translate(-67.5%, 120%);
+      /* transform: translate(-67.5%, 120%); */
+      top: 105%;
+      right: 10%;
+      /* transform: translate(50%, 100%); */
+      z-index: -1;
     }
   }
 
