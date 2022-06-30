@@ -11,7 +11,7 @@
 
 ![](https://github.com/eltonbautista/clockedOut/blob/main/src/Styles/assets/previewGif.gif)
 
-[Demo](https://ptt-waldo.netlify.app/) **||**
+[Demo](https://clocked-out.vercel.app/) **||**
 [Follow me on Twitter!](https://twitter.com/psychtotech)<img src=https://github.com/eltonbautista/memory-card/blob/main/src/assets/icons8-twitter.gif width="30px" height="30px" />**||**  [Connect with me on LinkedIn!](https://www.linkedin.com/in/elton-bautista-496a011ab/) <img src="https://github.com/eltonbautista/memory-card/blob/main/src/assets/icons8-linkedin.gif" width="30px" height="30px" />
 
 </p>
