@@ -117,6 +117,9 @@ export interface IPostState {
     imageURL?: string;
   };
   postVideo?: string;
+
+  postLikes?: string;
+  postComments?: string;
 }
 
 export interface IResetInputs {

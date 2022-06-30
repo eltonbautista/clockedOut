@@ -29,10 +29,12 @@ const StyledFeed = styled.div`
 const StyledScaffoldContainer = styled.div`
   display: grid;
   grid-template-areas: "sidebar main aside";
-  grid-template-columns: 0.2fr 0.6fr 0.2fr;
-  max-width: 85%;
-  min-width: 80%;
+  grid-template-columns: 0.2fr 0.5fr 0.25fr;
+  max-width: 70.5%;
+  min-width: 50%;
   justify-self: center;
+  justify-items: center;
+  justify-content: center;
   gap: 10px;
   padding-top: 30px;
 
@@ -43,7 +45,7 @@ const StyledMain = styled.main`
   grid-template-rows: 0.1fr auto;
   grid-area: main;
   border-radius: 8px;
-  background-color: ${palette.fpink};
+  background-color: ${palette.fwhite};
   gap: 15px;
   min-height: 100vh;
   
@@ -51,10 +53,10 @@ const StyledMain = styled.main`
 
 const StyledSharebox = styled.div`
   display: grid;
-  border: 1px solid ${palette.red};
+  border: 1px solid rgb(205, 199, 199);
   height: max(130px, 13vh);
   border-radius: 8px;
-
+  background-color: ${palette.fpink};
   > div {
     display: grid;
     grid-template-columns: 0.1fr auto;
@@ -64,7 +66,7 @@ const StyledSharebox = styled.div`
   }
 
   > div:first-of-type {
-    border-bottom: 1px solid ${palette.black};
+    border-bottom: 1px solid ${palette.red};
     margin-bottom: 10px;
   }
 
@@ -86,27 +88,81 @@ const StyledSharebox = styled.div`
 
 const StyledFeedContent = styled.div`
   display: grid;
-  border: 1px solid ${palette.red};
+  background-color: ${palette.fwhite};
+  border: 1px solid ${palette.fwhite};
   border-radius: 8px;
   gap: 10px;
 `;
 
 const StyledAside = styled.aside`
+  display: grid;
+  position: relative;
+  grid-template-rows: 0.2fr 0.5fr;
   grid-area: aside;
   background-color: ${palette.fpink};
   border-radius: 8px;
+  transform: translateX(15px);
+  min-height: min(50%, 800px);
+  gap: 10px;
+  background-color: ${palette.fwhite};
+
+  > div:first-of-type {
+    background-color: ${palette.fpink};
+    height: calc(100%);
+    display: grid;
+    grid-template-rows: 0.2fr auto;
+    padding: 15px;
+    border-radius: 8px;
+    border: 1px solid rgb(205, 199, 199);
+
+    > p {
+      line-height: 160%;
+      align-self: center;
+    }
+  }
+
+  > div:last-of-type {
+    display: grid;
+    position: sticky;
+    height: fit-content;
+    top: 0;
+    justify-content: center;
+    align-content: start;
+    background-color: ${palette.fwhite};
+  }
+
+  .aside-links {
+    display: grid;
+    max-width: 300px;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 5px;
+    grid-template-rows: repeat(3, 1fr);
+    list-style: none;
+    padding: 0;
+    margin: 0;
+
+    > li {
+      color: rgb(169, 159, 159);
+      width: 90px;
+      padding: 0;
+      margin: 0;
+      height: fit-content;
+      align-self: center;
+    }
+  }
 
   button {
     color: ${palette.purple};
     width: 50%;
   }
+
 `;
 
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
+  grid-template-rows: 0.22fr 0.7fr;
   width: 90%;
-  height: 500px;
   gap: 10px;
 
   > div {
@@ -120,7 +176,10 @@ const StyledSidebar = styled.div`
     position: relative;
     grid-template-rows: 0.35fr 0.1fr 0.5fr;
     background-color: ${palette.fpink};
+    border: 1px solid rgb(205, 199, 199);
   }
+
+
 
   > div:first-of-type > div:nth-child(3) {
     position: relative;
@@ -146,12 +205,13 @@ const StyledSidebar = styled.div`
     align-items: center;
     list-style: none;
     justify-items: center;
-    padding: 0;
-    font-size: clamp(16px, 2vh, 26px);
+    padding: 0 5px 0 5px;
+    font-size: clamp(15px, 2.1vh, 17px);
     width: 100%;
-    gap: 20px;
+    gap: 30px;
     grid-template-rows: 0.3fr 0.3fr 0.8fr;
     padding-top: 10px;
+    height: 100%;
   }
 
   ul a {
@@ -164,6 +224,8 @@ const StyledSidebar = styled.div`
     grid-template-rows: 1fr 1fr;
     justify-content: space-evenly;
     align-items: end;
+    gap: 20px;
+    /* transform: translateY(20px); */
   }
 
   ul > div > li > a{
@@ -172,9 +234,12 @@ const StyledSidebar = styled.div`
 
   > div:last-of-type {
     display: grid;
-    height: 100%;
+    height: 10%;
+    position: sticky;
+    top: 15px;
     align-items: center;
     background-color: ${palette.fpink};
+    border: 1px solid rgb(205, 199, 199);
   }
 
   > div:last-of-type > div {
@@ -262,7 +327,7 @@ interface IStyledSidebarP {
 const StyledSidebarP = styled.p<IStyledSidebarP>`
   color: ${palette.black};
   font-weight: 100;
-  font-size: clamp(16px, 2vh, 20px);
+  font-size: clamp(14px, 2vh, 16px);
   overflow: hidden;
   width: 100%;
   white-space: nowrap;
@@ -270,8 +335,6 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   justify-self: center;
 
   :hover {
-    /* color: white; */
-    /* font-weight: 900; */
     cursor: pointer;
   }
 
@@ -500,8 +563,22 @@ const Feed: React.FC<IFeedProps> = () => {
           {/* Some links, news, fake ads, etc. */}
           <div>
             PLACEHOLDER
+            <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias libero, voluptates eveniet corrupti id odio debitis? Velit aspernatur iusto repellendus quasi libero sunt, a nulla voluptatibus deleniti omnis culpa corrupti? Magni voluptates ullam mollitia recusandae repudiandae assumenda quidem ipsum, sapiente, est amet neque, tempora illum blanditiis officia asperiores corrupti ducimus?</p>
           </div>
-          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias libero, voluptates eveniet corrupti id odio debitis? Velit aspernatur iusto repellendus quasi libero sunt, a nulla voluptatibus deleniti omnis culpa corrupti? Magni voluptates ullam mollitia recusandae repudiandae assumenda quidem ipsum, sapiente, est amet neque, tempora illum blanditiis officia asperiores corrupti ducimus?</p>
+
+          <div>
+            <ul className="aside-links">
+              <li>About</li>
+              <li>Accessibility</li>
+              <li>Help Center</li>
+              <li>Privacy & Terms</li>
+              <li>Ad Choices</li>
+              <li>Advertising</li>
+              <li>Business Services</li>
+              <li>Contact Us</li>
+              <li>More</li>
+            </ul>
+          </div>
         </StyledAside>
 
       </StyledScaffoldContainer>
