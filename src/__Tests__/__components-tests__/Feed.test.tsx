@@ -36,7 +36,7 @@ describe('Tests for Feed component', () => {
     await waitFor(() => {
       screen.getByRole('link', { name: 'Write a Post' });
       expect(screen.getByRole('link', { name: 'Write a Post' })).toBeInTheDocument();
-    }, { timeout: 1300 });
+    }, { timeout: 1600 });
 
   });
 

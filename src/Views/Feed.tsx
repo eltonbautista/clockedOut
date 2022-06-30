@@ -1,18 +1,14 @@
-import React, { useEffect, useState, useContext, ReactNode, useRef, useReducer } from "react";
+import React, { useEffect, useState, useContext, ReactNode, useRef } from "react";
 import styled from "styled-components";
-import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, ISidebarModal, IModalControl, } from "../Helpers/interface";
+import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, IModalControl, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
-import testpfp2 from "../Styles/assets/testpfp2.jpg";
 // import testpfp from "../Styles/assets/testpfp.jpeg";
-import cat from "../Styles/assets/cat.png";
-import preload, { filterPosts, palette, toPostStateObjects, testpfp } from "../Helpers/utils";
+import { palette } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
 import Post from "../Components/Post";
-import { useCallback } from "react";
-import { downloadImage, getUserDoc, storage, updateProfileDetails } from "../firebase-config";
-import { getBlob, ref, listAll } from "firebase/storage";
-import { DocumentData } from "firebase/firestore";
+import { downloadImage, getUserDoc, storage } from "../firebase-config";
+import { getBlob, ref } from "firebase/storage";
 import EditSidebarModal from "../Components/EditSidebarModal";
 
 const StyledFeed = styled.div`
@@ -165,10 +161,8 @@ const StyledSidebar = styled.div`
   ul > div {
     display: grid;
     grid-auto-flow: column;
-    /* grid-template-columns: 1fr 1fr; */
     grid-template-rows: 1fr 1fr;
     justify-content: space-evenly;
-    /* width: fit-content; */
     align-items: end;
   }
 
@@ -186,7 +180,6 @@ const StyledSidebar = styled.div`
   > div:last-of-type > div {
     display: grid;
     width: 100%;
-    /* border-bottom: 1px solid black; */
     justify-items: center;
     align-content: center;
     height: 100%;
@@ -197,7 +190,6 @@ const StyledSidebar = styled.div`
   }
 
   > div:last-of-type > div > button > h5 {
-    /* letter-spacing: 1.5px; */
     font-size: clamp(23px, 2vh, 26px);
     font-weight: 900;
     width: 100%;
@@ -278,7 +270,9 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   justify-self: center;
 
   :hover {
-    color: white;
+    /* color: white; */
+    /* font-weight: 900; */
+    cursor: pointer;
   }
 
   ${props => props.clicked ?
@@ -289,8 +283,8 @@ const StyledSidebarP = styled.p<IStyledSidebarP>`
   height: fit-content;
   top: 100%;
   width: 100%;
-  background-color: ${palette.red};
-  font-weight: 600
+  background-color: ${palette.fpink};
+  // font-weight: 600
   ` : null}
 `;
 
@@ -402,6 +396,10 @@ const Feed: React.FC<IFeedProps> = () => {
     document.body.style.overflow = overflowPost;
   }, [overflowPost]);
 
+  if ((postArray.length > 0 && !asyncPostLoad)) {
+    return <div>Loading assets...</div>;
+  }
+
   if (artificialLoader < 1 || userPostImages === undefined) {
     return <div>Loading assets...</div>;
   }
@@ -423,12 +421,12 @@ const Feed: React.FC<IFeedProps> = () => {
                   editSidebarModal: true
                 });
                 setOverflowPost('hidden');
-              }}><a href="#header">Edit</a></StyledSidebarEditBtn>
+              }}><a href="#header">Edit Profile</a></StyledSidebarEditBtn>
             </BackgroundCanvas>
 
             <CircularPicture zIndex="0" marginTop="15%" imgSrc={profilePictureRef.current ? profilePictureRef.current : ''} height="85px" width="85px" />
             <div>
-              <a href="asd.com">{loggedInData?.displayName}</a>
+              <a target="_blank" rel="noreferrer" href={currentUserData ? currentUserData.sidebar.sidebarInfo.links.linkDisplayTwo : ' '}>{loggedInData?.displayName}</a>
               <StyledSidebarP clicked={personalBio} onClick={() => setPersonalBio(prevState => {
                 return !prevState;
               })} >
@@ -490,14 +488,6 @@ const Feed: React.FC<IFeedProps> = () => {
               </SOButtons>
             </div>
             <div>
-              {/* <button>
-                <span>img/svg</span>
-                <span>Photo</span>
-              </button>
-              <button>
-                <span>img/svg</span>
-                <span>Video</span>
-              </button> */}
             </div>
           </StyledSharebox>
 
@@ -511,11 +501,7 @@ const Feed: React.FC<IFeedProps> = () => {
           <div>
             PLACEHOLDER
           </div>
-          {/* <div>
-            <SOButtons>Placeholder</SOButtons>
-            <SOButtons>Placeholder</SOButtons>
-            <SOButtons>Placeholder</SOButtons>
-          </div> */}
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias libero, voluptates eveniet corrupti id odio debitis? Velit aspernatur iusto repellendus quasi libero sunt, a nulla voluptatibus deleniti omnis culpa corrupti? Magni voluptates ullam mollitia recusandae repudiandae assumenda quidem ipsum, sapiente, est amet neque, tempora illum blanditiis officia asperiores corrupti ducimus?</p>
         </StyledAside>
 
       </StyledScaffoldContainer>

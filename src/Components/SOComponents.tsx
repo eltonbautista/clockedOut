@@ -47,10 +47,10 @@ const StyledHeroContainer = styled.div`
     width: min(800px, 60%);
     justify-self: center;
     letter-spacing: 0.2px;
-    
+    position: relative;
+
     font-size: clamp(14px, 2.5vh, 26px);
     font-family: jostLight, Arial, Helvetica, sans-serif;
-    /* font-weight: 600; */
     color: rgb(43, 43, 43);
 
     margin-top: max(10px, 0.8vh);
@@ -62,8 +62,8 @@ const StyledHeroContainer = styled.div`
       content: "DISCLAIMER: This project is purely for personal use, and no means monetized in *any* way. Under no circumstances am I affiliated with the IP's in the images used.";
       font-size: 14px;
       position: absolute;
-      transform: translate(-82.5%, 130%);
-
+      width: min(800px, 90%);
+      transform: translate(-67.5%, 120%);
     }
   }
 

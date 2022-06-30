@@ -18,8 +18,8 @@ describe('Global App testing', () => {
         </BrowserRouter>);
     });
 
-    const text = screen.getByText(/clockedOut/i);
-    expect(text).toBeInTheDocument();
+    const text = screen.getAllByText(/clockedOut/i);
+    expect(text[0]).toBeInTheDocument();
   });
 
   it('should navigate to /login, /sign-up, then back to / in order', () => {

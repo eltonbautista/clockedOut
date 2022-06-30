@@ -8,6 +8,7 @@ import { IStyledLPProps } from '../Helpers/interface';
 import { UserContext } from '../Helpers/contexts';
 import { useContext } from 'react';
 import { useEffect } from 'react';
+import { signingIn } from '../firebase-config';
 
 
 export const StyledForm = styled.form`
@@ -56,11 +57,18 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
     display: grid;
     gap: 7.5px;
   }
+  .demo-button {
+    cursor: crosshair;
+  }
 `;
 
 export default function Login(props: ILoginProps) {
   const { nav, stateAuth, localAuth } = props;
   const { loggedInData, setAllUsersData } = useContext(UserContext);
+
+  const demoAccount = () => {
+    signingIn("a@a.com", "123123");
+  };
 
   useEffect(() => {
     if (!loggedInData) {
@@ -88,6 +96,9 @@ export default function Login(props: ILoginProps) {
           </div>
           <div>
             <SOButtons className='lp form-submit-button' type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
+            <ButtonHeader className='demo-button' onClick={() => {
+              demoAccount();
+            }}>CLICK ME FOR A DEMO!</ButtonHeader>
             <SOButtons type='button' noStyle={true} onClick={() => nav?.('sign-up', { replace: true })} >
               <ButtonHeader>Don't have an account?</ButtonHeader>
             </SOButtons>

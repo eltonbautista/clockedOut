@@ -72,7 +72,7 @@ const UserContextProvider: React.FC<IUserContextProvider> = (props: IUserContext
           return prev + 1;
         });
       }
-    }, 1200);
+    }, 1500);
 
     if (artificialLoader >= 1) {
       clearTimeout(myTimeout);
