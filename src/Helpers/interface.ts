@@ -47,6 +47,8 @@ export interface IPostProps {
 
   displayName?: string | null;
   pfp?: string | null;
+
+  postPosition: number;
 }
 
 export interface IPrivateRouteProps {
@@ -111,6 +113,7 @@ export interface IHidePostModal {
 }
 
 export interface IPostState {
+  [key: string]: any;
   postText?: string | number | readonly string[] | undefined;
   postImage: {
     imageName: string,
@@ -118,8 +121,8 @@ export interface IPostState {
   };
   postVideo?: string;
 
-  postLikes?: string;
-  postComments?: string;
+  postLikes?: number;
+  postComments?: string[] | [];
 }
 
 export interface IResetInputs {

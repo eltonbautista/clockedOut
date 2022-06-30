@@ -21,7 +21,7 @@ describe('Tests for Feed component', () => {
     };
     render(
       <UserContextProvider>
-        <Post text={mockPostText} img={postObj['postImage']['imageName']} />
+        <Post postPosition={0} text={mockPostText} img={postObj['postImage']['imageName']} />
       </UserContextProvider>);
     expect(screen.getByRole('img', { name: testImg })).toBeInTheDocument();
     expect(screen.getByText(mockPostText)).toBeInTheDocument();

@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useMemo, useRef } from "react";
 import styled from "styled-components";
 import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
@@ -7,6 +7,13 @@ import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
 import { UserContext } from "../Helpers/contexts";
 import cat from "../Styles/assets/cat.png";
+import { doc, updateDoc } from "firebase/firestore";
+import { ref } from "firebase/database";
+import { db, getUserDoc } from "../firebase-config";
+
+interface ILikeButton {
+  liked: boolean;
+}
 
 const StyledPost = styled.div`
   display: grid;
@@ -96,21 +103,85 @@ const StyledPostLikesComments = styled.div`
   align-items: center;
   grid-auto-flow: column;
   border-bottom: 1px solid ${palette.red};
+
+  > span, div {
+    width: 100px;
+  }
+
   button {
+    width: 100px;
     background-color: ${palette.fpink};
   }
 `;
-const StyledLCS = styled.div`
+const StyledLCS = styled.div<ILikeButton>`
   grid-auto-flow: column;
+  * {
+    font-size: clamp(13px, 2vh, 16px);
+    text-decoration: none;
+    :hover {
+      text-decoration: none;
+      color: ${palette.black}
+    }
+  }
   > button {
     background-color: ${palette.fpink};
+    width: 100px;
+    :active {
+      box-shadow: none;
+    }
   }
+  .like-button {
+    text-decoration: none;
+    color: ${props => props.liked ? "blue" : `${palette.black}`};
+  }
+  
 `;
 
 // Post is a dynamically generated component that is created when a user creates a new post.
 const Post: React.FC<IPostProps> = (props) => {
-  const { pfp, video, img } = props;
-  const { loggedInData } = useContext(UserContext);
+  const { pfp, video, img, postPosition } = props;
+  const { loggedInData, currentUserData, postArray, setPostArray, setCurrentUserData } = useContext(UserContext);
+  // Used to determine if like button should add a like or deduct a like.
+  const liked = useRef<boolean>(false);
+  // By using a ref value of my async data, which is retrieved when the view loads. I can use its value quickly.
+  const instantLike = useRef(postArray[postPosition].postLikes);
+
+  const likeButtonHandler = async (e: React.MouseEvent<HTMLHeadingElement, MouseEvent>) => {
+    // Create a copy as to not mutate state
+    const copiedPostArray = [...postArray];
+    if (postPosition !== undefined && postPosition >= 0 && loggedInData) {
+      // Reference db to rewrite
+      const userDocRef = doc(db, "userData", loggedInData.uid);
+      const copyPostObj = { ...postArray[postPosition] };
+
+      // Mutate copiedPostObj's postLikes property 
+      if (copyPostObj.postLikes !== undefined) {
+        if (liked.current === false) {
+          copyPostObj.postLikes += 1;
+        } else if (liked.current === true) {
+          copyPostObj.postLikes -= 1;
+        }
+        // update value of instantLike.current
+        instantLike.current = copyPostObj.postLikes;
+        // update liked value, this is to determine if a post component has been liked or not
+        liked.current = !liked.current;
+        // Make sure to replace old index with "new" index to reduce bugs
+        copiedPostArray[postPosition] = copyPostObj;
+        // immutably setPostArray with same data, only change is from the post's like property 
+        setPostArray([...copiedPostArray]);
+
+        // update user documents
+        await updateDoc(userDocRef, {
+          posts: copiedPostArray,
+        });
+        // immediately grab the updated data and setCurrentUserData so that db flow is correct
+        const updatedData = await getUserDoc(loggedInData.uid);
+        setCurrentUserData(updatedData);
+      }
+    }
+
+  };
+
   return (
     <StyledPost className="user-post">
 
@@ -140,7 +211,7 @@ const Post: React.FC<IPostProps> = (props) => {
 
       <StyledPostLikesComments className="post-likes-and-comments">
         {/* Dynamic count of likes */}
-        <span>Likes: 0</span>
+        <span>Likes: {currentUserData && currentUserData.posts ? instantLike.current : 0}</span>
         <span>
           <SOButtons>
             {/* Dynamic count of comments,
@@ -153,15 +224,17 @@ const Post: React.FC<IPostProps> = (props) => {
 
         {/* A CONDITIONALLY RENDERED CONTAINER: */}
         <div className="post-comment-container">
-          <p>paragraph that has overflow: ellipses</p>
+          <p>overflow: ellipses</p>
         </div>
       </StyledPostLikesComments>
 
-      <StyledLCS className="like-comment-share">
+      <StyledLCS liked={liked.current} className="like-comment-share">
 
         <SOButtons>
-          <ButtonHeader>
-            Like
+          <ButtonHeader className="like-button" onClick={(e) => {
+            likeButtonHandler(e);
+          }}>
+            {liked.current ? "Unlike" : "Like"}
           </ButtonHeader>
         </SOButtons>
 
