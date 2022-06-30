@@ -11,8 +11,10 @@ import cat from "../Styles/assets/cat.png";
 const StyledPost = styled.div`
   display: grid;
   grid-template-rows: 0.2fr auto 0.1fr 0.2fr;
-  /* min-height: 500px; */
   max-height: fit-content;
+  background-color: ${palette.fpink};
+  border: 1px solid rgb(205, 199, 199);
+  border-radius: 8px;
 
   > div {
     display: grid;
@@ -56,20 +58,14 @@ const StyledUserInfo = styled.div`
 `;
 
 const StyledUserPost = styled.div`
-  /* background-color: green; */
-  /* width: 100%; */
+
   height: fit-content;
   max-height: 600px;
   display: grid;
-    /* grid-template-rows: 0.1 0.4fr auto; */
 
     > p {
-      /* height: fit-content; */
       justify-self: start;
       padding: 10px 20px;
-      /* margin: 10px; */
-      /* background-color: aliceblue; */
-      /* width: 100%; */
     }
 
   > div {
@@ -78,10 +74,8 @@ const StyledUserPost = styled.div`
     min-height: 100px;
     height: 100%;
     max-height: 550px;
-    /* position: relative; */
     margin: 0;
     padding: 0;
-    /* height: clamp(300px, 50%, 350px); */
   }
 
   img {
@@ -99,16 +93,18 @@ const StyledUserPost = styled.div`
 `;
 const StyledPostLikesComments = styled.div`
   justify-items: center;
-  /* background-color: burlywood; */
+  align-items: center;
   grid-auto-flow: column;
-  /* Hiding for now cuz ugly */
-  visibility: hidden;
+  border-bottom: 1px solid ${palette.red};
+  button {
+    background-color: ${palette.fpink};
+  }
 `;
 const StyledLCS = styled.div`
-  /* background-color: coral; */
   grid-auto-flow: column;
-  /* Hiding for now cuz ugly */
-  visibility: hidden;
+  > button {
+    background-color: ${palette.fpink};
+  }
 `;
 
 // Post is a dynamically generated component that is created when a user creates a new post.
@@ -123,9 +119,9 @@ const Post: React.FC<IPostProps> = (props) => {
         <div>
           <h3>{loggedInData?.displayName}</h3>
           <div>
-            <span>User's @</span> |
-            <span>Most active game and timezone</span> |
-            <span>Time posted</span>
+            <span>TBD</span> |
+            <span>TBD Most played</span> |
+            <span>TBD Time</span>
           </div>
 
         </div>
@@ -144,22 +140,19 @@ const Post: React.FC<IPostProps> = (props) => {
 
       <StyledPostLikesComments className="post-likes-and-comments">
         {/* Dynamic count of likes */}
-        <span>Likes: 1</span>
+        <span>Likes: 0</span>
         <span>
           <SOButtons>
-
             {/* Dynamic count of comments,
               when user clicks this it will create display div that shows comments */}
             <ButtonHeader>
               Comments
             </ButtonHeader>
-
-
           </SOButtons>
         </span>
 
         {/* A CONDITIONALLY RENDERED CONTAINER: */}
-        <div className="post-comment-container">This will be conditionally displayed, it will contain comments
+        <div className="post-comment-container">
           <p>paragraph that has overflow: ellipses</p>
         </div>
       </StyledPostLikesComments>
@@ -168,20 +161,20 @@ const Post: React.FC<IPostProps> = (props) => {
 
         <SOButtons>
           <ButtonHeader>
-            Like, has event that increases like count on post
+            Like
           </ButtonHeader>
         </SOButtons>
 
         <SOButtons>
           <ButtonHeader>
-            Comment, has event that lets user comment on post
+            Comment
             {/* Writing a comment conditionally renders comment container */}
           </ButtonHeader>
         </SOButtons>
 
         <SOButtons>
           <ButtonHeader>
-            Share, has event that lets user share the post
+            Share
           </ButtonHeader>
         </SOButtons>
 
