@@ -38,7 +38,7 @@ const StyledPost = styled.div`
 
 const StyledUserInfo = styled.div`
   grid-template-columns: 0.1fr auto;
-  padding: 15px 15px 5px 15px;
+  padding: 15px 10px 5px;
   justify-items: center;
   align-items: center;
   max-width: 100%;

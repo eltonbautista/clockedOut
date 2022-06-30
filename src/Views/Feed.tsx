@@ -105,7 +105,6 @@ const StyledAside = styled.aside`
   min-height: min(50%, 800px);
   gap: 10px;
   background-color: ${palette.fwhite};
-
   > div:first-of-type {
     background-color: ${palette.fpink};
     height: calc(100%);
@@ -133,7 +132,6 @@ const StyledAside = styled.aside`
 
   .aside-links {
     display: grid;
-    max-width: 300px;
     grid-template-columns: repeat(3, 1fr);
     gap: 5px;
     grid-template-rows: repeat(3, 1fr);
@@ -143,7 +141,6 @@ const StyledAside = styled.aside`
 
     > li {
       color: rgb(169, 159, 159);
-      width: 90px;
       padding: 0;
       margin: 0;
       height: fit-content;
