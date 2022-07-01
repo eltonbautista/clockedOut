@@ -128,6 +128,11 @@ const StyledLCS = styled.div<ILikeButton>`
     width: 100px;
     :active {
       box-shadow: none;
+      border: none;
+    }
+    :focus {
+      border: none;
+      box-shadow: none;
     }
   }
   .like-button {
