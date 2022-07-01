@@ -1,12 +1,21 @@
 # clockedOut
 
-
 ### About:
 - A personal project that replicates the idea and structure/design of the popular business and employment-oriented online service: LinkedIn.
 
 - clockedOut is an application that focuses on the social aspects of gaming. It is a one-stop destination for creating lifetime companions, and remembering the nostalgia of our childhoods.
 
 - If you're tired of joining several different Discord servers, scouring through several game forums, or always playing with different individuals, then clockedOut might be worth checkingOn! (LOL)
+
+<p align=center> 
+
+![](https://github.com/eltonbautista/clockedOut/blob/main/src/Styles/assets/previewGif.gif)
+
+[Demo](https://clocked-out.vercel.app/) **||**
+[Follow me on Twitter!](https://twitter.com/psychtotech)<img src=https://github.com/eltonbautista/memory-card/blob/main/src/assets/icons8-twitter.gif width="30px" height="30px" />**||**  [Connect with me on LinkedIn!](https://www.linkedin.com/in/elton-bautista-496a011ab/) <img src="https://github.com/eltonbautista/memory-card/blob/main/src/assets/icons8-linkedin.gif" width="30px" height="30px" />
+
+</p>
+
 
 ### Current Features:
 - Ability to sign up and login onto the site.
