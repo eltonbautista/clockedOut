@@ -163,7 +163,7 @@ const StyledDescContainer = styled.div<PropsDesc>`
    background-image: url(${backgroundImages[0].src}); 
    background-size: cover;
    background-attachment: fixed;
-   background-position: 0 325px;
+   background-position: 0 300px;
    color: white;
    height: 30%;
    display: grid; 
