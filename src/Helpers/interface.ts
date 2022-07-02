@@ -33,6 +33,8 @@ export interface ILoginProps {
   submitHandler?: (e: React.FormEvent<HTMLFormElement>) => void;
   stateAuth?: User | string | null | undefined;
   localAuth?: string | null;
+
+  errorMessage?: ILoginInput;
 }
 
 export interface IFeedProps {

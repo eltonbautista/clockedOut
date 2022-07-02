@@ -59,7 +59,7 @@ const StyledHeroContainer = styled.div`
     border-bottom: 1px solid ${palette.black};
 
     ::after {
-      content: "DISCLAIMER: This project is purely for personal use, and no means monetized in *any* way. Under no circumstances am I affiliated with the IP's in the images used.";
+      content: "DISCLAIMER: A LinkedIn clone that utilizes some elements of Discord. This project is strictly for personal use, and no means monetized in *any* way. Under no circumstances am I affiliated with the IP's in the images used, or with the schema of LinkedIn/Discord.";
       font-size: 14px;
       position: absolute;
       width: min(800px, 90%);
@@ -91,7 +91,7 @@ const StyledHeroContainer = styled.div`
     height: clamp(24px, 3vw, 50px);
     width: 90%;
     padding-top: 6px;
-
+    transform: translateY(10px);
     :active {
             transform: scale(0.98);
             box-shadow: 0 -2px 3px #302c2c, 0 5px 4px #302c2c, 0 5px 4px #302c2c;

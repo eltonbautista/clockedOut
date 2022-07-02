@@ -13,8 +13,9 @@ import { signingIn } from '../firebase-config';
 
 export const StyledForm = styled.form`
   height: fit-content;
+  width: 30vw;
   padding: 50px;
-  margin-top: 40%;
+  margin-top: 30%;
   background-color: black;
   font-size: clamp(16px, 3vh, 30px);
   color: wheat;
@@ -63,7 +64,7 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
 `;
 
 export default function Login(props: ILoginProps) {
-  const { nav, stateAuth, localAuth } = props;
+  const { nav, stateAuth, localAuth, submitHandler, errorMessage } = props;
   const { loggedInData, setAllUsersData } = useContext(UserContext);
 
   const demoAccount = () => {
@@ -83,7 +84,7 @@ export default function Login(props: ILoginProps) {
   return stateAuth ? <Navigate to="/feed" /> : (
     <StyledLoginPage bgImg='login'>
 
-      <StyledForm onSubmit={props.submitHandler} data-login-page data-lp-form>
+      <StyledForm noValidate onSubmit={submitHandler} data-login-page data-lp-form>
 
         <div data-lp-main-container >
           <div>
@@ -91,8 +92,8 @@ export default function Login(props: ILoginProps) {
             <p>Fun times are awaitin' ya!</p>
           </div>
           <div className='lp inputs-container'>
-            <LPInputDiv required data-testid='email-field' forIdentifier='email' hContent="Email" />
-            <LPInputDiv required data-testid='password-field' forIdentifier='password' hContent="Password" />
+            <LPInputDiv errorMessage={errorMessage?.email} inputPattern="^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$" required data-testid='email-field' forIdentifier='email' hContent="Email" />
+            <LPInputDiv errorMessage={errorMessage?.password} required data-testid='password-field' forIdentifier='password' hContent="Password" />
           </div>
           <div>
             <SOButtons className='lp form-submit-button' type="submit" formCheck={true} bgColor="red" color="wheat" >Login</SOButtons>
