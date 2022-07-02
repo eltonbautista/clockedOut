@@ -264,7 +264,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       <Modal>
         <div className="edit-profile header-div">
           <h3>Edit Profile</h3>
-          <button onClick={(e) => { hidePostModalHandler(e); }}>X</button>
+          <button onClick={(e) => { hidePostModalHandler(e); }} aria-label="Close modal">X</button>
         </div>
         <form id="edit-profile-form" onSubmit={((e) => {
           editProfileHandler(e);

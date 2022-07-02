@@ -261,7 +261,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
         <div>
           {/* div on top of form area */}
           <div>Create a Post
-            <button onClick={(e) => { hidePostModalHandler(e); }}>X</button>
+            <button aria-label="Close modal" onClick={(e) => { hidePostModalHandler(e); }}>X</button>
           </div>
           <form id="new-post-form" onSubmit={(e) => {
             e.preventDefault();
