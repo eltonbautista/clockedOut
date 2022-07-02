@@ -122,16 +122,22 @@ export const toPostStateObjects = async (filteredUsersData: IDbUserData['userDoc
 
 export function createFields(e: React.FormEvent<HTMLFormElement>, target: "signUp" | "login") {
   if (target === "signUp") {
+    const emailField = (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement);
+    const usernameField = (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement);
+    const passwordField = (e.currentTarget.children[0].children[1].children[2].children[1].children[0] as HTMLInputElement);
     return {
-      emailValue: (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement).value,
-      usernameValue: (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement).value,
-      passwordValue: (e.currentTarget.children[0].children[1].children[2].children[1].children[0] as HTMLInputElement).value,
+      emailValue: emailField.value,
+      usernameValue: usernameField.value,
+      passwordValue: passwordField.value,
     };
   }
   if (target === "login") {
+    const emailField = (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement);
+    const passwordField = (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement);
+
     return {
-      emailValue: (e.currentTarget.children[0].children[1].children[0].children[1].children[0] as HTMLInputElement).value,
-      passwordValue: (e.currentTarget.children[0].children[1].children[1].children[1].children[0] as HTMLInputElement).value,
+      emailValue: emailField.value,
+      passwordValue: passwordField.value,
       usernameValue: ""
     };
   }

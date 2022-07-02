@@ -5,8 +5,11 @@ import { UserContext } from '../Helpers/contexts';
 import { IData } from '../Helpers/interface';
 import { palette } from '../Helpers/utils';
 
+interface IHeaderLabelProps {
+  errorMessage?: string;
+}
 
-const StyledH5 = styled.h5`
+const StyledH5 = styled.h5<IHeaderLabelProps>`
   font-family: jostLight, Arial, Helvetica, sans-serif;
   color: ${palette.red};
   letter-spacing: 1px;
@@ -14,6 +17,14 @@ const StyledH5 = styled.h5`
   /* background-color: red; */
   width: 100%;
   font-size: clamp(18px, 2vh, 19px);
+  position: relative;
+  margin-bottom: ${props => props.errorMessage ? "40px" : "0"};
+  > strong {
+    font-size: 12px;
+    display: block;
+    position: absolute;
+    transform: translateX(-0.5%);
+  }
 `;
 
 
@@ -39,18 +50,20 @@ export interface ILPInputDivProps {
   inputHandler?: (e: React.ChangeEvent<HTMLInputElement>, key: keyof IData | undefined) => void;
   inputPattern?: string | undefined;
   required?: boolean;
+
+  errorMessage?: string;
 }
 
 export default function LPInputDiv(props: ILPInputDivProps) {
-  const { hContent, forIdentifier, inputVal, inputHandler, inputPattern, required } = props;
-
+  const { hContent, forIdentifier, inputVal, inputHandler, inputPattern, required, errorMessage } = props;
   // const UserInformation = useContext(UserContext);
 
   // TODO: value={inputVal} into <StyledInput />
   return (
     <TestContainer>
-      <StyledH5>
+      <StyledH5 errorMessage={errorMessage}>
         {hContent}
+        <strong>{errorMessage ? '*' + errorMessage : ''}</strong>
       </StyledH5>
       <FooContainer>
         <StyledInput value={inputVal} pattern={inputPattern} required={required} data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={forIdentifier === 'password' ? 'password' : 'text'}></StyledInput>

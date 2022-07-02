@@ -23,6 +23,7 @@ import {
   signOut,
   updateProfile,
   User,
+  AuthErrorCodes,
 
 } from "firebase/auth";
 
@@ -31,6 +32,8 @@ import { getBlob, getDownloadURL, getStorage, ref, uploadBytes, uploadBytesResum
 
 import { filterBadWords, profanityList } from "./Helpers/utils";
 import { IDatabaseArgs, ISideBarInfo } from './Helpers/interface';
+import { errorPrefix } from '@firebase/util';
+import { getSystemErrorName } from 'util';
 
 // TODO: Add SDKs for Firebase products that you want to use
 // https://firebase.google.com/docs/web/setup#available-libraries
@@ -190,14 +193,15 @@ export const createUserInformation = async (email: string, password: string, use
       displayName: username
     });
     return true;
-  } catch (error) {
-    console.log(error);
-    console.log('an error has occurred');
+  } catch (error: any) {
+
+    if (error.code.match("in-use")) {
+      alert('Email is already in use.');
+    }
     return false;
   };
 
 };
-
 export const updateProfileDetails = (user: User, photoURL: string | null | undefined, displayName: string | null | undefined) => {
   updateProfile(user, {
     photoURL,
@@ -219,6 +223,11 @@ export const signingOut = async (stateAuth?: User | null | undefined, navTo?: Fu
 
 export const signingIn = async (email: string, password: string) => {
   try {
+
+    if (!email || !password) {
+      return;
+    }
+
     await signInWithEmailAndPassword(auth, email, password);
     const currentUser = auth.currentUser?.displayName;
     console.log(currentUser + ' has logged in');
