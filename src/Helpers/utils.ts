@@ -48,7 +48,7 @@ export const filterBadWords = (arr: string[], input: string) => {
 export const palette =
 {
   red: "#FA4753",
-  black: "#17181C",
+  black: "#2c2828",
   white: "#FFFFFF",
   purple: "#9BA5C9",
   pink: "#FC9A9A",

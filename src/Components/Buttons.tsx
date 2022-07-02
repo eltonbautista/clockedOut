@@ -24,7 +24,7 @@ const SOButtons = styled.button<ISOButton>`
   border-radius: 100px;
   padding: min(8px, 1vh);
 
-  background-color: #2c2626;
+  background-color: #2c2828;
   color: ${palette.red};
   font-size: ${props => props.formCheck ? 'clamp(10px, 1.6vw, 30px)' : 'clamp(10px, 1.6vw, 30px)'};
   font-weight: 200;
