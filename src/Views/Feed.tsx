@@ -97,7 +97,7 @@ const StyledFeedContent = styled.div`
 const StyledAside = styled.aside`
   display: grid;
   position: relative;
-  grid-template-rows: 0.2fr 0.5fr;
+  grid-template-rows: 0.1fr 0.5fr;
   grid-area: aside;
   background-color: ${palette.fpink};
   border-radius: 8px;
@@ -107,7 +107,7 @@ const StyledAside = styled.aside`
   background-color: ${palette.fwhite};
   > div:first-of-type {
     background-color: ${palette.fpink};
-    height: calc(100%);
+    height: min(50vh, 600px);
     display: grid;
     grid-template-rows: 0.2fr auto;
     padding: 15px;
@@ -158,10 +158,9 @@ const StyledAside = styled.aside`
 const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
-  grid-template-rows: 0.22fr 0.7fr;
+  grid-template-rows: 0.1fr 0.7fr;
   width: 90%;
   gap: 10px;
-
   > div {
     border-radius: 8px;
   }
@@ -174,6 +173,7 @@ const StyledSidebar = styled.div`
     grid-template-rows: 0.35fr 0.1fr 0.5fr;
     background-color: ${palette.fpink};
     border: 1px solid rgb(205, 199, 199);
+    height: min(50vh, 600px);
   }
 
 

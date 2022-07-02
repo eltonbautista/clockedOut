@@ -79,7 +79,7 @@ const StyledHeroContainer = styled.div`
     align-items: center;
     gap: 20px;
     z-index: 1;
-    transform: translateY(min(70px, 7vh));
+    transform: translateY(min(100px, 10vh));
   }
 
   .hero.button-container > button {
@@ -91,7 +91,6 @@ const StyledHeroContainer = styled.div`
     height: clamp(24px, 3vw, 50px);
     width: 90%;
     padding-top: 6px;
-    transform: translateY(30px);
     :active {
             transform: scale(0.98);
             box-shadow: 0 -2px 3px #302c2c, 0 5px 4px #302c2c, 0 5px 4px #302c2c;
