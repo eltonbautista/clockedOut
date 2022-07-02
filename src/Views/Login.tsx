@@ -3,7 +3,7 @@ import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import { ILoginProps } from "../Helpers/interface";
 import { Navigate } from 'react-router-dom';
-import { backgroundImages } from '../Helpers/utils';
+import { backgroundImages, palette } from '../Helpers/utils';
 import { IStyledLPProps } from '../Helpers/interface';
 import { UserContext } from '../Helpers/contexts';
 import { useContext } from 'react';
@@ -16,10 +16,10 @@ export const StyledForm = styled.form`
   width: 30vw;
   padding: 50px;
   margin-top: 30%;
-  background-color: black;
+  background-color: #1f1c1c;
   font-size: clamp(16px, 3vh, 30px);
   color: wheat;
-  border-radius: 10px;
+  border-radius: 16px;
   display: grid;
   text-align: center;
 
