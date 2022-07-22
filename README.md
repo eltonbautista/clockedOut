@@ -18,6 +18,7 @@
 
 
 ### Current Features:
+- CRUD, but without the U or D yet. ;-;
 - Ability to sign up and login onto the site.
 - The ability to customize your profile and create posts with images.
 
