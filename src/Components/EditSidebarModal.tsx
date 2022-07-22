@@ -2,7 +2,6 @@ import { doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import UserContextProvider from "../Contexts/UserContext";
 import { currentUserInfo, db, getUserDoc, storage, updateProfileDetails, writeUserData } from "../firebase-config";
 import { UserContext } from "../Helpers/contexts";
 import { IHidePostModal, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
@@ -74,7 +73,6 @@ const Modal = styled.div`
 
     
   .top-div {
-    /* background-color: blue; */
     display: grid;
     grid-template-areas: 
     "one two"
@@ -222,10 +220,11 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
         sidebarInfo,
         userInfo
       };
+      // If there's no user data, then write one
       if (!currentUserData) {
         await writeUserData(loggedInData, [], sidebarObj);
       }
-
+      // Logic for adding updating user data
       if (profilePictureRef.current && profilePictureRef.current.files !== null) {
         updateProfileDetails(loggedInData, profilePictureRef.current.files[0].name, userInfo.displayName);
         const profilePicturePath = loggedInData.uid + "/photoURL/" + profilePictureRef.current.files[0].name;

@@ -3,7 +3,7 @@ import { SOButtons, ButtonHeader } from '../Components/Buttons';
 import styled from 'styled-components';
 import { ILoginProps } from "../Helpers/interface";
 import { Navigate } from 'react-router-dom';
-import { backgroundImages, palette } from '../Helpers/utils';
+import { backgroundImages } from '../Helpers/utils';
 import { IStyledLPProps } from '../Helpers/interface';
 import { UserContext } from '../Helpers/contexts';
 import { useContext } from 'react';
@@ -13,7 +13,7 @@ import { signingIn } from '../firebase-config';
 
 export const StyledForm = styled.form`
   height: fit-content;
-  width: 30vw;
+  max-width: fit-content;
   padding: 50px;
   margin-top: 30%;
   background-color: #1f1c1c;
@@ -23,11 +23,21 @@ export const StyledForm = styled.form`
   display: grid;
   text-align: center;
 
+  .main-container {
+    max-width: 30vw;
+  }
+
   > div {
     justify-self: center;
     display: grid;
     justify-items: center;
+    max-width: 30vw;
+    grid-template-rows: 0.2fr 0.3fr 0.2fr;
   };
+
+  .form-header {
+    align-self: center;
+  }
 
   > div > div:last-of-type {
     margin-top: 7.5px;
@@ -50,9 +60,8 @@ export const StyledLoginPage = styled.div<IStyledLPProps>`
   background-size: fill;
   background-attachment: fixed;
   background-position: ${props => props.bgImg === 'login' ? "-50px -200px;" : "center"};
-  height: 100vh;
-
-
+  min-height: 100vh;
+  
   .inputs-container {
     font-family: jostLight, Arial, Helvetica, sans-serif;
     display: grid;
@@ -86,8 +95,8 @@ export default function Login(props: ILoginProps) {
 
       <StyledForm noValidate onSubmit={submitHandler} data-login-page data-lp-form>
 
-        <div data-lp-main-container >
-          <div>
+        <div className='main-container' >
+          <div className='form-header'>
             <h3>Welcome back!</h3>
             <p>Fun times are awaitin' ya!</p>
           </div>

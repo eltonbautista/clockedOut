@@ -54,7 +54,7 @@ export default function SignUp(props: ISignUpProps) {
     e.preventDefault();
     // console.log('hello');
     const formFields = createFields(e, "signUp");
-
+    // Conditionals used for displaying form error messages
     if (formFields) {
       if (formFields.emailValue.match(/^\w+([.-]?\w+)*@\w+([.-]?\w+)*(\.\w{2,3})+$/) === null) {
         setFormErrorMessage({
@@ -88,7 +88,6 @@ export default function SignUp(props: ISignUpProps) {
   };
 
   return !stateAuth ? (
-    // TODO: body used for background? Or can keep the same background image for performance purposes
     <StyledLoginPage id='sign-up-body'>
       <div id='su-form-container'>
         <StyledSUForm noValidate onSubmit={(e) => handleSubmit?.(e)} id='su-form'>

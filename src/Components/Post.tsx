@@ -246,7 +246,6 @@ const Post: React.FC<IPostProps> = (props) => {
         <SOButtons>
           <ButtonHeader>
             Comment
-            {/* Writing a comment conditionally renders comment container */}
           </ButtonHeader>
         </SOButtons>
 

@@ -2,7 +2,6 @@ import React, { useEffect, useState, useContext, ReactNode, useRef } from "react
 import styled from "styled-components";
 import { IFeedProps, ICircularPictureProps, IBackgroundCanvas, IPostState, IModalControl, } from "../Helpers/interface";
 import { SOButtons, ButtonHeader } from "../Components/Buttons";
-// import testpfp from "../Styles/assets/testpfp.jpeg";
 import { palette } from "../Helpers/utils";
 import NewPostModal from "../Components/NewPostModal";
 import { UserContext } from "../Helpers/contexts";
@@ -31,7 +30,6 @@ const StyledScaffoldContainer = styled.div`
   grid-template-areas: "sidebar main aside";
   grid-template-columns: 0.2fr 0.5fr 0.25fr;
   max-width: 70.5%;
-  min-width: 50%;
   justify-self: center;
   justify-items: center;
   justify-content: center;
@@ -47,14 +45,13 @@ const StyledMain = styled.main`
   border-radius: 8px;
   background-color: ${palette.fwhite};
   gap: 15px;
-  min-height: 100vh;
+  min-height: 100%;
   
 `;
 
 const StyledSharebox = styled.div`
   display: grid;
   border: 1px solid rgb(205, 199, 199);
-  height: max(130px, 13vh);
   border-radius: 8px;
   background-color: ${palette.fpink};
   > div {
@@ -66,12 +63,12 @@ const StyledSharebox = styled.div`
   }
 
   > div:first-of-type {
-    border-bottom: 1px solid ${palette.red};
     margin-bottom: 10px;
+    padding: 10px;
   }
 
   > div:first-of-type > button {
-    width: 80%;
+    max-width: 80%;
     justify-self: start;
     margin-left: 10px;
     border: 1px solid ${palette.black};
@@ -102,12 +99,11 @@ const StyledAside = styled.aside`
   background-color: ${palette.fpink};
   border-radius: 8px;
   transform: translateX(15px);
-  min-height: min(50%, 800px);
   gap: 10px;
   background-color: ${palette.fwhite};
+
   > div:first-of-type {
     background-color: ${palette.fpink};
-    height: min(50vh, 600px);
     display: grid;
     grid-template-rows: 0.2fr auto;
     padding: 15px;
@@ -123,7 +119,6 @@ const StyledAside = styled.aside`
   > div:last-of-type {
     display: grid;
     position: sticky;
-    height: fit-content;
     top: 0;
     justify-content: center;
     align-content: start;
@@ -159,7 +154,7 @@ const StyledSidebar = styled.div`
   display: grid;
   grid-area: sidebar;
   grid-template-rows: 0.1fr 0.7fr;
-  width: 90%;
+  max-width: 90%;
   gap: 10px;
   > div {
     border-radius: 8px;
@@ -173,15 +168,13 @@ const StyledSidebar = styled.div`
     grid-template-rows: 0.35fr 0.1fr 0.5fr;
     background-color: ${palette.fpink};
     border: 1px solid rgb(205, 199, 199);
-    height: min(50vh, 600px);
+    padding-bottom: 20px;
   }
-
-
 
   > div:first-of-type > div:nth-child(3) {
     position: relative;
     display: grid;
-    width: 100%;
+    max-width: 100%;
     justify-items: center;
     padding: 0 10px 0 10px;
     border-bottom: 1px solid ${palette.red};
@@ -192,7 +185,7 @@ const StyledSidebar = styled.div`
     color: ${palette.black};
     letter-spacing: 0.3px;
     text-decoration: none;
-    width: min(100%, 125px);
+    max-width: min(100%, 125px);
     justify-self: center;
     font-size: clamp(16px, 2vh, 20px);
   }
@@ -204,7 +197,7 @@ const StyledSidebar = styled.div`
     justify-items: center;
     padding: 0 5px 0 5px;
     font-size: clamp(15px, 2.1vh, 17px);
-    width: 100%;
+    max-width: 100%;
     gap: 30px;
     grid-template-rows: 0.3fr 0.3fr 0.8fr;
     padding-top: 10px;
@@ -222,7 +215,6 @@ const StyledSidebar = styled.div`
     justify-content: space-evenly;
     align-items: end;
     gap: 20px;
-    /* transform: translateY(20px); */
   }
 
   ul > div > li > a{
@@ -231,7 +223,7 @@ const StyledSidebar = styled.div`
 
   > div:last-of-type {
     display: grid;
-    height: 10%;
+    max-height: max(7%, 65px);
     position: sticky;
     top: 15px;
     align-items: center;
@@ -241,20 +233,20 @@ const StyledSidebar = styled.div`
 
   > div:last-of-type > div {
     display: grid;
-    width: 100%;
+    max-width: 100%;
     justify-items: center;
     align-content: center;
-    height: 100%;
+    min-height: 100%;
   }
 
   > div:last-of-type > div > button {
-    width: 100%;
+    min-width: 100%;
   }
 
   > div:last-of-type > div > button > h5 {
     font-size: clamp(23px, 2vh, 26px);
     font-weight: 900;
-    width: 100%;
+    min-width: 100%;
   }
 
   > div:last-of-type > div:first-of-type {
@@ -496,8 +488,6 @@ const Feed: React.FC<IFeedProps> = () => {
               </StyledSidebarP>
             </div>
             <ul>
-              {/* These <li> will be dynamically generated depending on how many users want - up to 3 */}
-              {/* allow users to add links and I can add the corresponding icons */}
               <li>
                 <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.gameOne : ' '}</span> ||{' '}
                 <span>{currentUserData ? currentUserData.sidebar.sidebarInfo.games.userOne : ' '}</span>
@@ -515,7 +505,6 @@ const Feed: React.FC<IFeedProps> = () => {
 
           <div className="feed-sidebar-lower">
             <div>
-              {/* TODO: Links to Fireteam and Discover Pages */}
               <SOButtons type="button" noStyle={true}>
                 <ButtonHeader>
                   Fireteam
@@ -549,8 +538,6 @@ const Feed: React.FC<IFeedProps> = () => {
                 <a href="#header">Write a Post</a>
               </SOButtons>
             </div>
-            <div>
-            </div>
           </StyledSharebox>
 
           <StyledFeedContent id="feed-social-content">
@@ -559,7 +546,6 @@ const Feed: React.FC<IFeedProps> = () => {
         </StyledMain>
 
         <StyledAside id="feed-aside">
-          {/* Some links, news, fake ads, etc. */}
           <div>
             PLACEHOLDER
             <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Molestias libero, voluptates eveniet corrupti id odio debitis? Velit aspernatur iusto repellendus quasi libero sunt, a nulla voluptatibus deleniti omnis culpa corrupti? Magni voluptates ullam mollitia recusandae repudiandae assumenda quidem ipsum, sapiente, est amet neque, tempora illum blanditiis officia asperiores corrupti ducimus?</p>

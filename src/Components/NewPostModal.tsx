@@ -179,8 +179,9 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
     let userPostObjects: IPostState[] = [];
     userPostObjects.push(postState);
     try {
+      // Make sure user is authenticated
       if (loggedInData && loggedInData.uid) {
-
+        // If there exists data for the user, reevaluate userPostObjects then update Firestore
         if (currentUserData) {
           const userDocRef = doc(db, "userData", loggedInData.uid);
           userPostObjects = [...userPostObjects, ...currentUserData.posts];
@@ -189,6 +190,7 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
           });
           const updatedData = await getUserDoc(loggedInData.uid);
           setCurrentUserData(updatedData);
+          // If no user data, then write some
         } else if (!currentUserData) {
           console.log('no userDocs yet');
           await writeUserData(loggedInData, userPostObjects, inputsInit);
@@ -259,7 +261,6 @@ const NewPostModal: React.FC<INewPostModal> = (props: INewPostModal) => {
       <div className="modal-background" onClick={(e) => { hidePostModalHandler(e); }}></div>
       <PostModal >
         <div>
-          {/* div on top of form area */}
           <div>Create a Post
             <button aria-label="Close modal" onClick={(e) => { hidePostModalHandler(e); }}>X</button>
           </div>
