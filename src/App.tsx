@@ -8,7 +8,6 @@ import { signingIn, getAllUserData } from './firebase-config';
 import Navbar from './Components/Navbar';
 import { createLocalInfo, palette, createFields, } from './Helpers/utils';
 import { Feed, SignUp, Login, PrivateRoute, SignedOut } from './Views';
-import EditSidebarModal from './Components/EditSidebarModal';
 
 const StyledHeader = styled.header`
   background-color: ${palette.red};
@@ -70,7 +69,6 @@ const App: React.FC = function App() {
     asynCalls();
 
   }, [localInfo, loggedInData, setAllUsersData, setPostArray]);
-
 
   // Used for handling user's login request. When a user logs in, the currently stored loginInformation is deleted, and a new signedIn call to Firebase is called - and saves the current user's ID token onto localStorage.
   const loginHandler = async (e: React.FormEvent<HTMLFormElement>) => {

@@ -137,7 +137,7 @@ const PostModalContainer = styled.div<INewPostModal>`
     border: none;
     cursor: pointer;
     font-size: 25px;
-}
+    }
 `;
 
 export const CustomFileInput = styled.input`

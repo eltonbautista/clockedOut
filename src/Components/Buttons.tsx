@@ -1,4 +1,3 @@
-import * as React from 'react';
 import styled from 'styled-components';
 import { palette } from '../Helpers/utils';
 
@@ -44,10 +43,6 @@ const SOButtons = styled.button<ISOButton>`
     ` : null}
 `;
 
-interface IButtonHeader {
-
-}
-
 const ButtonHeader = styled.h5`
   margin: 0;
   font-size: clamp(14px, 2vh, 18px);
@@ -57,8 +52,5 @@ const ButtonHeader = styled.h5`
     font-size: clamp(14px, 2vh, 18px);
   }
 `;
-
-
-
 
 export { SOButtons, ButtonHeader }; 

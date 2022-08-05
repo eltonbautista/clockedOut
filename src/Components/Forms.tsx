@@ -1,7 +1,5 @@
-import React, { useContext, useRef } from 'react';
+import React, { } from 'react';
 import styled from 'styled-components';
-import { StyledFormContainers } from '../Views/Login';
-import { UserContext } from '../Helpers/contexts';
 import { IData } from '../Helpers/interface';
 import { palette } from '../Helpers/utils';
 
@@ -27,7 +25,6 @@ const StyledH5 = styled.h5<IHeaderLabelProps>`
     transform: translate(-0.5%, -15%);
   }
 `;
-
 
 const StyledInput = styled.input`
   max-width: 15vw;
@@ -67,7 +64,6 @@ export default function LPInputDiv(props: ILPInputDivProps) {
       <InputContainer>
         <StyledInput value={inputVal} pattern={inputPattern} required={required} data-testid='input' onChange={(e) => inputHandler?.(e, forIdentifier)} type={forIdentifier === 'password' ? 'password' : 'text'}></StyledInput>
       </InputContainer>
-
     </FormContainer>
   );
 }

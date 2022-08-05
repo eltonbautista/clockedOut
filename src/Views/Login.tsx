@@ -76,6 +76,7 @@ export default function Login(props: ILoginProps) {
   const { nav, stateAuth, localAuth, submitHandler, errorMessage } = props;
   const { loggedInData, setAllUsersData } = useContext(UserContext);
 
+  // used to login to a demo account
   const demoAccount = () => {
     signingIn("a@a.com", "123123");
   };

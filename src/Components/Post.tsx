@@ -1,14 +1,12 @@
-import React, { useContext, useEffect, useMemo, useRef } from "react";
+import React, { useContext, useRef } from "react";
 import styled from "styled-components";
 import { IPostProps } from "../Helpers/interface";
 import { ButtonHeader, SOButtons } from "./Buttons";
 import { CircularPicture } from "../Views/Feed";
-import testpfp2 from "../Styles/assets/testpfp2.jpg";
 import { palette } from "../Helpers/utils";
 import { UserContext } from "../Helpers/contexts";
 import cat from "../Styles/assets/cat.png";
 import { doc, updateDoc } from "firebase/firestore";
-import { ref } from "firebase/database";
 import { db, getUserDoc } from "../firebase-config";
 
 interface ILikeButton {
@@ -43,7 +41,6 @@ const StyledUserInfo = styled.div`
   align-items: center;
   max-width: 100%;
   max-height: 100%;
-  /* background-color: aliceblue; */
 
   > div:last-of-type {
     display: grid;
@@ -184,7 +181,6 @@ const Post: React.FC<IPostProps> = (props) => {
         setCurrentUserData(updatedData);
       }
     }
-
   };
 
   return (
@@ -215,11 +211,10 @@ const Post: React.FC<IPostProps> = (props) => {
       </StyledUserPost>
 
       <StyledPostLikesComments className="post-likes-and-comments">
-        {/* Dynamic count of likes */}
         <span>Likes: {currentUserData && currentUserData.posts ? instantLike.current : 0}</span>
         <span>
           <SOButtons>
-            {/* Dynamic count of comments,
+            {/* TODO Dynamic count of comments,
               when user clicks this it will create display div that shows comments */}
             <ButtonHeader>
               Comments

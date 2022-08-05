@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React from "react";
 import { Link } from "react-router-dom";
 import { INavProps } from "../Helpers/interface";
 import { SOButtons } from "./Buttons";
@@ -46,7 +46,6 @@ const NavButtonDropdown = styled.div`
     font-weight: 900;
     font-size: clamp(20px,2vh,28px);
     padding: none;
-    /* margin-right: 100px; */
 
     :hover {
       color: ${palette.red};
@@ -74,6 +73,7 @@ const HomeNav = styled.nav`
     margin-left: max(150px, 15vw);
     width: fit-content;
   }
+
   > div {
     display: grid;
     grid-auto-flow: column;
@@ -82,8 +82,6 @@ const HomeNav = styled.nav`
     font-weight: 600;
     font-size: clamp(20px, 2vh, 28px);
   }
-
-
 `;
 
 const NavLinksContainer = styled.div`
@@ -95,7 +93,7 @@ const NavLinksContainer = styled.div`
 
 
 const Navbar: React.FC<INavProps> = (props: INavProps) => {
-  const { authorized, nav, stateAuth, setLocalInfo, setAuth } = props;
+  const { nav, stateAuth, setLocalInfo, setAuth } = props;
 
   return (!stateAuth ?
     <HomeNav id="navbar">
