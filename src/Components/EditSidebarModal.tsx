@@ -2,7 +2,7 @@ import { doc, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes } from "firebase/storage";
 import React, { useContext, useEffect, useRef, useState } from "react";
 import styled from "styled-components";
-import { currentUserInfo, db, getUserDoc, storage, updateProfileDetails, writeUserData } from "../firebase-config";
+import { db, getUserDoc, storage, updateProfileDetails, writeUserData } from "../firebase-config";
 import { UserContext } from "../Helpers/contexts";
 import { IHidePostModal, ISideBarInfo, ISidebarModal } from "../Helpers/interface";
 import { palette } from "../Helpers/utils";
@@ -111,9 +111,6 @@ const Modal = styled.div`
 `;
 
 const DefaultModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
-  const { showModal, stateSetters } = props;
-
-
   return (
     <ModalContainer>
       <ModalBackground></ModalBackground>
@@ -150,7 +147,7 @@ export const inputsInit: ISideBarInfo = {
 
 const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
   const { showModal, stateSetters } = props;
-  const { loggedInData, postArray, currentUserData, setCurrentUserData } = useContext(UserContext);
+  const { loggedInData, currentUserData, setCurrentUserData } = useContext(UserContext);
   const [editProfileInputs, setEditProfileInputs] = useState<ISideBarInfo>(inputsInit);
   const profilePictureRef = useRef<HTMLInputElement>(null);
 
@@ -197,7 +194,7 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       stateSetters?.setOverflowPost('auto');
     }
   };
-
+  // input handler
   const handleInputs = (e: React.ChangeEvent<HTMLInputElement> | React.ChangeEvent<HTMLTextAreaElement>, inputFamily: string, inputName: string, inputSubFamily?: string) => {
     const newObj = { ...editProfileInputs };
     if (inputSubFamily) {
@@ -207,7 +204,6 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
       newObj[inputFamily][inputName] = e.currentTarget.value;
       setEditProfileInputs({ ...newObj });
     }
-
   };
 
   const editProfileHandler = async (e: React.FormEvent<HTMLFormElement>) => {
@@ -247,15 +243,15 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
         const updatedData = await getUserDoc(loggedInData.uid);
         setCurrentUserData(updatedData);
       }
-
     }
-
   };
 
   const { personalBio } = editProfileInputs.sidebarInfo;
-  const { displayName, photoURL } = editProfileInputs.userInfo;
+  const { displayName } = editProfileInputs.userInfo;
   const { gameOne, userOne, gameTwo, userTwo } = editProfileInputs.sidebarInfo.games;
   const { linkDisplayOne, linkOne, linkDisplayTwo, linkTwo } = editProfileInputs.sidebarInfo.links;
+  const inputs = [gameOne, userOne, gameTwo, userTwo, linkOne, linkTwo, linkDisplayOne, linkDisplayTwo];
+  const inputHContent = ["Game One", "IGN Game One", "Game Two", "IGN Game Two", "Link Displayed Text One", "Link Displayed Text Two", "Link One", "Link Two"];
 
   return (
     <ModalContainer showModal={showModal} >
@@ -281,35 +277,13 @@ const EditSidebarModal: React.FC<ISidebarModal> = (props: ISidebarModal) => {
             </div>
           </div>
           <div>
-            <LPInputDiv inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "gameOne", "games");
-            }} hContent="Game One" inputVal={gameOne ? gameOne : ''} ></LPInputDiv>
-            <LPInputDiv inputVal={userOne ? userOne : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "userOne", "games");
-            }} hContent="IGN Game One"></LPInputDiv>
-            <LPInputDiv inputVal={gameTwo ? gameTwo : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "gameTwo", "games");
-            }} hContent="Game Two"></LPInputDiv>
-            <LPInputDiv inputVal={userTwo ? userTwo : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "userTwo", "games");
-            }} hContent="IGN Game Two"></LPInputDiv>
-
-
-            <LPInputDiv inputVal={linkOne ? linkOne : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkOne", "links");
-            }} hContent="Link Displayed Text One"></LPInputDiv>
-            <LPInputDiv inputVal={linkTwo ? linkTwo : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkTwo", "links");
-            }} hContent="Link Displayed Two"></LPInputDiv>
-            <LPInputDiv inputVal={linkDisplayOne ? linkDisplayOne : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkDisplayOne", "links");
-            }} hContent="Link One"></LPInputDiv>
-            <LPInputDiv inputVal={linkDisplayTwo ? linkDisplayTwo : ''} inputHandler={(e) => {
-              handleInputs(e, "sidebarInfo", "linkDisplayTwo", "links");
-            }} hContent="Link Two"></LPInputDiv>
+            {inputs.map((input, index) => {
+              return <LPInputDiv key={index} inputHandler={(e) => {
+                handleInputs(e, "sidebarInfo", index < 4 ? Object.keys(editProfileInputs.sidebarInfo.games)[index] :
+                  Object.keys(editProfileInputs.sidebarInfo.links)[index], index < 4 ? "games" : "links");
+              }} hContent={inputHContent[index]} inputVal={input ? input : ''} />;
+            })}
           </div>
-
-
         </form>
         <div>
           <button type="submit" form="edit-profile-form">Submit Changes</button>
