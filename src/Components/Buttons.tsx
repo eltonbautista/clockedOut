@@ -18,14 +18,13 @@ const SOButtons = styled.button<ISOButton>`
   height: clamp(24px, 3vw, 50px);
   width: 90%;
   margin-top: ${props => props.formCheck ? '10px' : null};
-  border: 2.4px ${palette.white} inset;
-  box-shadow: ${props => props.noStyle ? null : "3px -3px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 4px 10px #302c2c"};
   border-radius: 100px;
+  border: none;
   padding: min(8px, 1vh);
 
-  background-color: #2c2828;
-  color: ${palette.red};
-  font-size: ${props => props.formCheck ? 'clamp(10px, 1.6vw, 30px)' : 'clamp(10px, 1.6vw, 30px)'};
+  background-color: var(--bg-color-accent);
+  color: var(--color-main);
+  font-size: ${props => props.formCheck ? 'var(--font-size-lg)' : 'var(--font-size-lg)'};
   font-weight: 200;
 
   :active {
@@ -35,7 +34,7 @@ const SOButtons = styled.button<ISOButton>`
   ${props => props.noStyle ?
     `
       background: none;
-      font-size: max(1.5vh, 14px);
+      font-size: var(--font-size-lg);
       border: none;
       width: fit-content;
       height: fit-content;
@@ -45,11 +44,11 @@ const SOButtons = styled.button<ISOButton>`
 
 const ButtonHeader = styled.h5`
   margin: 0;
-  font-size: clamp(14px, 2vh, 18px);
+  font-size: var(--font-size-sm);
   &:hover {
     text-decoration: underline;
     color: red;
-    font-size: clamp(14px, 2vh, 18px);
+    /* font-size: clamp(14px, 2vh, 18px); */
   }
 `;
 

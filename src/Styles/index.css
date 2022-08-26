@@ -17,12 +17,17 @@ html {
   height: 100%;
 }
 
-
 body {
-  line-height: 1.5;
-  -webkit-font-smoothing: antialiased;
   min-height: 100%;
-
+  color: var(--color-text-main);
+  transition: color 0.5s, background-color 0.5s;
+  line-height: 1.6;
+  font-family: var(--common-font-family), Inter, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu,
+    Cantarell, 'Fira Sans', 'Droid Sans', 'Helvetica Neue', sans-serif;
+  font-size: 16px;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
 }
 
 img,
@@ -122,9 +127,35 @@ h6 {
 }
 
 .custom-shape-divider-bottom-1655480482 .shape-fill {
-  fill: #2c2828;
+  fill: var(--bg-color-accent);
 }
 
 .custom-shape-divider-top-1655480231 .shape-fill {
-  fill: #2c2828;
+  fill: var(--bg-color-accent);
+}
+
+:root {
+  --color-main: #FFFFFF;
+  --color-sub: #2C2828;
+
+  --bg-color: #FA4753;
+  --bg-color-pink: #FC9A9A;
+  --bg-color-light: #fc9595; 
+  --bg-color-accent: #313335;
+
+  --font-size-sm: clamp(0.87rem, 0.14vw + 0.67rem, 1rem);
+  --font-size-base: clamp(1rem, 0.34vw + 0.91rem, 1.19rem);
+  --font-size-lg: clamp(1.2rem, 0.7vw + 1.2rem, 1.5rem);
+  --font-size-xl: clamp(2.84rem, 2.68vw + 2.05rem, 3.15rem);
+  --font-size-xxl: clamp(2.84rem, 2.68vw + 2.05rem, 4rem);
+
+
+  /* red: "#FA4753",
+  black: "#2c2828",
+  white: "#FFFFFF",
+  purple: "#9BA5C9",
+  pink: "#FC9A9A",
+
+  fpink: "#ffe0e0",
+  fwhite: "#fff6f6", */
 }

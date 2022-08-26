@@ -6,9 +6,9 @@ import { backgroundImages } from "../Helpers/utils";
 import donda from '../Styles/assets/Donda.mp4';
 
 const StyledHeroHeader = styled.h1`
-color: ${palette.black};
+color: var(--color-sub);
 justify-self: center;
-font-size: clamp(24px, 4vw, 46px);
+font-size: var(--font-size-xl);
 height: fit-content;
 margin: 0;
 z-index: 1;
@@ -49,9 +49,9 @@ const StyledHeroContainer = styled.div`
     letter-spacing: 0.2px;
     position: relative;
 
-    font-size: clamp(14px, 2.5vh, 26px);
+    font-size: var(--font-size-lg);
     font-family: jostLight, Arial, Helvetica, sans-serif;
-    color: rgb(43, 43, 43);
+    color: var(--color-sub);
 
     margin-top: max(10px, 0.8vh);
     padding-bottom: 10px;
@@ -83,9 +83,7 @@ const StyledHeroContainer = styled.div`
   }
 
   .hero.button-container > button {
-    /* border & shadow for 3d look */
-    border: 2.4px ${palette.white} inset;
-    box-shadow: 3px -3px 3px #302c2c, 8px 2.5px 10px #302c2c, -1px 4px 10px #302c2c;
+    border: none;
     border-radius: 100px;
     font-weight: 200;
     height: clamp(24px, 3vw, 50px);
@@ -98,7 +96,7 @@ const StyledHeroContainer = styled.div`
   }
 
   > div:last-of-type {
-  background-color: ${palette.red};
+  background-color: var(--bg-color);
   background-position: center 54%;
   background-size: cover;
   width: 100%;
@@ -153,7 +151,7 @@ interface PropsDesc {
 };
 
 const StyledDescContainer = styled.div<PropsDesc>`
-  background-color: ${props => props.imgRight ? `#fc9a9a` : `${palette.red}`};
+  background-color: ${props => props.imgRight ? `var(--bg-color-pink)` : `var(--bg-color)`};
   border-bottom: ${props => props.imgRight ? `2px solid ${palette.black}` : ` 2px solid ${palette.white}`};
   font-family: jostLight, Arial, Helvetica, sans-serif;
   ${props => props.last ?
@@ -184,7 +182,7 @@ const StyledDescContainer = styled.div<PropsDesc>`
       border-bottom: ${props => props.imgRight ? `2px solid ${palette.white}` : `2px solid ${palette.black}`};
       margin-bottom: 12px;
       padding-bottom: 2px;
-      ${props => props.last ? "color: white;" : null}
+      ${props => props.last ? "color: var(--color-main);" : null}
     }
 
   }
@@ -232,8 +230,8 @@ const StyledDescContainer = styled.div<PropsDesc>`
   > .data-description.first > div:last-of-type {
     width: 80%;
     grid-area: text;
-    color: ${props => props.imgRight ? `${palette.black}` : "#ffffff"};
-    color: ${props => props.last ? "#ffffff" : `${palette.black}`};
+    color: ${props => props.imgRight ? `var(--color-main)` : "#ffffff"};
+    color: ${props => props.last ? "#ffffff" : `var(--color-sub)`};
     font-size: ${props => props.imgRight ? 'min(2vh, 20px)' : 'min(2.2vh, 22px)'};
     letter-spacing: 1px;
     ${props => props.imgRight ? "margin-right: 100px; padding-right: 150px;" : null}

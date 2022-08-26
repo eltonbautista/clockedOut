@@ -13,7 +13,7 @@ const FeedNav = styled.nav`
   padding: 10px max(150px, 8vw) 0 max(150px, 8vw);
   grid-template-columns: repeat(3, 1fr);
   grid-template-rows: 1fr;
-  background-color: ${palette.red};
+  background-color: var(--bg-color);
 
   a {
     text-decoration: none;
@@ -57,7 +57,7 @@ const NavButtonDropdown = styled.div`
 const HomeNav = styled.nav`
   display: grid;
   grid-template-columns: 1fr 1fr;
-  background-color: ${palette.red};
+  background-color: var(--bg-color);
   padding-top: 10px;
   * {
     font-family: jostLight, Arial, Helvetica, sans-serif;
